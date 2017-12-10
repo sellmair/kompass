@@ -10,7 +10,10 @@ import javax.lang.model.type.TypeMirror
  */
 fun TypeMirror.kotlinTypeName(): TypeName {
     return this.asTypeName().let { name ->
-        if (name.toString() == "java.lang.String") ClassName("kotlin", "String")
-        else name
+        when {
+            name.toString() == "java.lang.String" -> ClassName("kotlin", "String")
+            else -> name
+        }
     }
 }
+

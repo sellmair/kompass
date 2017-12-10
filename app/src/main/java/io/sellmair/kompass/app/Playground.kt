@@ -1,5 +1,6 @@
 package io.sellmair.kompass.app
 
+import android.os.Bundle
 import io.sellmair.kompass.annotation.Destination
 
 /**
@@ -17,7 +18,7 @@ data class YoloDestination(val id: Int)
 data class Dog(val name: String)
 
 fun test() {
-
+    val bunlde = Bundle()
 }
 
 

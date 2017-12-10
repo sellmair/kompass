@@ -5,6 +5,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.squareup:kotlinpoet:0.6.0'
+    compile 'com.squareup:javapoet:1.9.0'
     compile project(path: ':annotation')
     compile project(path: ':bundle')
 }

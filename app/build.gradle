@@ -7,6 +7,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 
+kapt {
+    generateStubs = true
+}
+
 
 android {
     compileSdkVersion 26
@@ -25,12 +29,6 @@ android {
         }
     }
 }
-
-kapt {
-    generateStubs = true
-}
-
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
