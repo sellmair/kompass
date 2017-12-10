@@ -1,2 +1,2 @@
 # kompass
-A lightweight router concept for android written in Kotlin
+A powerful router concept for android written in Kotlin: WIP
