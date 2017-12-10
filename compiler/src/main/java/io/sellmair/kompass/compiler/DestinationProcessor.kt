@@ -42,7 +42,6 @@ class DestinationProcessor : AbstractProcessor() {
     private fun generateSerializer(base: TypeElement) {
         val packageName = processingEnv.elementUtils.getPackageOf(base).toString()
         val className = base.serializerClassName()
-        val fileUri = processingEnv.filer.createSourceFile(className, base).toUri()
 
         val serializerMethodBuilder = SerializeMethodBuilder()
         val deserializeMethodBuilder = DeserializeMethodBuilder()
@@ -54,14 +53,14 @@ class DestinationProcessor : AbstractProcessor() {
                 .build()
 
         JavaFile.builder(packageName, type).build()
-                .writeTo(File(fileUri))
+                .writeTo(processingEnv.filer)
 
     }
 
 
     private fun generateExtensions(base: TypeElement) {
         val packageName = "io.sellmair.kompass"
-        val fileName = "${base.simpleName}Extensions"
+        val fileName = "${base.qualifiedName}Extensions"
         val fileUri = processingEnv.filer.createSourceFile(fileName, base).toUri()
         val fileSpec = FileSpec.builder(packageName, fileName)
 

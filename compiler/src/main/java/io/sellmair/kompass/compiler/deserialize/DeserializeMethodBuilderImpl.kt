@@ -42,7 +42,7 @@ internal class DeserializeMethodBuilderImpl(private val logicParts: List<Attribu
                     if (!handled) throw UnsupportedTypeException(attribute)
                 }
 
-        methodBuilder.addCode("\n\n")
+        methodBuilder.addCode("\n")
         val constructorStatement = "return new ${element.asType()}(${
         kompassConstructor.parameters
                 .asSequence()

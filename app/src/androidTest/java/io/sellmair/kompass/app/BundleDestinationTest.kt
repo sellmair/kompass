@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.test.runner.AndroidJUnit4
 import io.sellmair.kompass.app.model.SimpleParcelable
 import io.sellmair.kompass.asSimpleDestination
+import io.sellmair.kompass.asSimpleIntListDestination
 import io.sellmair.kompass.asSimpleParcelDestination
 import org.junit.Assert
 import org.junit.Test
@@ -55,6 +56,14 @@ class BundleDestinationTest {
         val name = "Sandi"
         val source = SimpleIntListDestination(name, ids)
 
+        val bundle = Bundle()
+        SimpleIntListDestinationSerializer.writeToBundle(source, bundle)
+
+        val recreation = bundle.asSimpleIntListDestination()
+        Assert.assertEquals(ids.size, recreation?.ids?.size)
+        ids.forEachIndexed { index, value ->
+            Assert.assertEquals(value, recreation?.ids?.get(index))
+        }
     }
 
 }

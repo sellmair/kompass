@@ -2,9 +2,6 @@ package io.sellmair.kompass.app;
 
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by sebastiansellmair on 10.12.17.
  */
@@ -12,9 +9,10 @@ import java.util.List;
 public class JavaPlayground {
 
     static void play() {
+        ExampleDestination destination = new ExampleDestination(1, 0, "Hallo");
         Bundle bundle = new Bundle();
-        List<Integer> intList = new ArrayList<Integer>();
-        int[] array = new int[2];
+        io.sellmair.kompass.app.ExampleDestinationSerializer.writeToBundle(destination, bundle);
+        io.sellmair.kompass.app.ExampleDestinationSerializer.createFromBundle(bundle);
 
     }
 }
