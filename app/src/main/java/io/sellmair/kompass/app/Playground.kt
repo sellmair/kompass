@@ -2,6 +2,7 @@ package io.sellmair.kompass.app
 
 import android.os.Bundle
 import io.sellmair.kompass.annotation.Destination
+import io.sellmair.kompass.asJuliansDestinatino
 
 /**
  * Created by sebastiansellmair on 09.12.17.
@@ -19,6 +20,7 @@ data class Dog(val name: String)
 
 fun test() {
     val bunlde = Bundle()
+    bunlde.asJuliansDestinatino()
 }
 
 

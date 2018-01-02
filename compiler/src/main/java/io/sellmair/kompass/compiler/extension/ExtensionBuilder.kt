@@ -12,12 +12,12 @@ import javax.lang.model.element.TypeElement
  * Created by sebastiansellmair on 10.12.17.
  */
 interface ExtensionBuilder {
-    fun buildMethods(environment: ProcessingEnvironment, builder: FileSpec.Builder, element: TypeElement)
+    fun buildSerializerFunctions(environment: ProcessingEnvironment, builder: FileSpec.Builder, element: TypeElement)
 }
 
 
 class ExtensionBuilderImpl : ExtensionBuilder {
-    override fun buildMethods(environment: ProcessingEnvironment, builder: FileSpec.Builder, element: TypeElement) {
+    override fun buildSerializerFunctions(environment: ProcessingEnvironment, builder: FileSpec.Builder, element: TypeElement) {
         buildBundleExtension(environment, builder, element)
     }
 

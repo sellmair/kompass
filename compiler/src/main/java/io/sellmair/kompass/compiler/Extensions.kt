@@ -2,6 +2,7 @@ package io.sellmair.kompass.compiler
 
 import io.sellmair.kompass.annotation.KompassConstructor
 import io.sellmair.kompass.compiler.exception.DestinationConstructorException
+import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.util.ElementFilter
@@ -26,3 +27,6 @@ fun Element.serializerClassName(): String {
     return "${this.simpleName}Serializer"
 }
 
+fun Element.serializerPackageName(environment: ProcessingEnvironment): String {
+    return environment.elementUtils.getPackageOf(this).toString()
+}

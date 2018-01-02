@@ -23,3 +23,8 @@ fun KompassRoute(fragment: Fragment): KompassRoute = FragmentKompassRoute(fragme
 fun <T : Activity> KClass<T>.toRoute(): KompassRoute = KompassRoute(this)
 fun Intent.toRoute(): KompassRoute = KompassRoute(this)
 fun Fragment.toRoute(): KompassRoute = KompassRoute(this)
+
+
+internal sealed class Captain
+internal class IntentCaptain(val intent: Intent) : Captain()
+internal class FragmentCaptain(val fragment: Fragment) : Captain()

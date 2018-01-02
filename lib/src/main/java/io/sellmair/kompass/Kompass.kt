@@ -1,24 +1,24 @@
 package io.sellmair.kompass
 
-import android.content.Intent
-import android.os.Bundle
-import kotlin.reflect.KClass
+import android.content.Context
 
 
 /**
  * Created by sebastiansellmair on 06.12.17.
  */
-interface Kompass<in Destination : KompassDestination> {
+interface Kompass<in Destination : Any> {
+    fun getShip(name: String): KompassShip<Destination>
+    operator fun get(name: String): KompassShip<Destination>
 
-    fun setShip(ship: KompassShip)
-    fun <T : Destination> navigateTo(destination: T, replaceCurrent: Boolean = false)
-    fun <T : Destination> getDestination(clazz: KClass<T>, bundle: Bundle): T
-    fun <T : Destination> getDestination(clazz: KClass<T>, intent: Intent): T = getDestination(clazz, intent.extras)
-
-    fun exit()
+    fun popBack(): Unit
+    fun popBackImmediate(): Boolean
+    fun onBack(key: Any? = null, keySingleton: Boolean = true, block: () -> Boolean)
+    fun removeFromBackStack(key: Any)
 
     companion object {
-        fun <Destination : KompassDestination> create(map: KompassMap<Destination>)
-                : Kompass<Destination> = BaseKompass(map)
+        fun <Destination : Any> create(context: Context,
+                                       map: KompassMap<Destination>,
+                                       crane: KompassCrane<Destination>)
+                : Kompass<Destination> = BaseKompass(context, map, crane)
     }
 }

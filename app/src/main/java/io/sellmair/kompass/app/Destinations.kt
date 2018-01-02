@@ -16,3 +16,10 @@ class SimpleParcelDestination(val id: Int, val parcel: SimpleParcelable)
 class SimpleIntListDestination(val name: String, val ids: List<Int>)
 
 class SimpleIntArrayDestination(val name: String, val ids: IntArray)
+
+@Destination
+class MaltesMostWantedDestination(val name: String, val ids: List<Int>, val myParcel: SimpleParcelable)
+
+
+@Destination
+class JuliansDestinatino(val name: String, val ids: List<Int>)

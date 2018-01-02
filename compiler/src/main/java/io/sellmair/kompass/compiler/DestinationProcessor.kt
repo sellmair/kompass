@@ -4,6 +4,7 @@ import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
 import com.squareup.kotlinpoet.FileSpec
 import io.sellmair.kompass.annotation.Destination
+import io.sellmair.kompass.compiler.crane.CraneBuilder
 import io.sellmair.kompass.compiler.deserialize.DeserializeMethodBuilder
 import io.sellmair.kompass.compiler.extension.ExtensionBuilder
 import io.sellmair.kompass.compiler.serialize.SerializeMethodBuilder
@@ -34,13 +35,14 @@ class DestinationProcessor : AbstractProcessor() {
                 .onEach { element -> generateSerializer(element) }
                 .onEach { element -> generateExtensions(element) }
                 .toList()
+                .also { elements -> generateCrane(elements) }
 
         return true
     }
 
 
     private fun generateSerializer(base: TypeElement) {
-        val packageName = processingEnv.elementUtils.getPackageOf(base).toString()
+        val packageName = base.serializerPackageName(processingEnv)
         val className = base.serializerClassName()
 
         val serializerMethodBuilder = SerializeMethodBuilder()
@@ -64,9 +66,18 @@ class DestinationProcessor : AbstractProcessor() {
         val fileUri = processingEnv.filer.createSourceFile(fileName, base).toUri()
         val fileSpec = FileSpec.builder(packageName, fileName)
 
-        ExtensionBuilder().buildMethods(processingEnv, fileSpec, base)
+        ExtensionBuilder().buildSerializerFunctions(processingEnv, fileSpec, base)
         fileSpec.build().writeTo(File(fileUri))
     }
 
+
+    private fun generateCrane(elements: List<TypeElement>) {
+        val packageName = "io.sellmair.kompass"
+        val fileName = "Crane"
+        val fileUri = processingEnv.filer.createSourceFile(fileName, *elements.toTypedArray()).toUri()
+        val fileSpec = FileSpec.builder(packageName, fileName)
+        CraneBuilder().buildCraneType(processingEnv, fileSpec, elements)
+        fileSpec.build().writeTo(File(fileUri))
+    }
 
 }

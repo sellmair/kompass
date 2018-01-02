@@ -15,4 +15,7 @@ public class JavaPlayground {
         io.sellmair.kompass.app.ExampleDestinationSerializer.createFromBundle(bundle);
 
     }
+
+
 }
+
