@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+
 
 android {
     compileSdkVersion 26
@@ -36,4 +39,16 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+
+group = 'io.sellmair'
+version = '0.1'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenLocal().getUrl())
+            pom.artifactId = 'kompass'
+        }
+    }
 }
