@@ -51,7 +51,7 @@ val kompass = Kompass.builder<MyCustomDestinationType>(context)
 #### Set sails to a Ship
 Once your activity has started, you have to provide a sail for the ship which should route to certain 
 destinations. You can do this whenever you want to (even after you routed your ship to a certain
-destination). The following example will show how how the FrameLayout with id 'R.id.lisa_container' will 
+destination). The following example will show how the FrameLayout with id 'R.id.lisa_container' will 
 be used for the ship called Lisa as _Sail_: 
 
 ```kotlin
