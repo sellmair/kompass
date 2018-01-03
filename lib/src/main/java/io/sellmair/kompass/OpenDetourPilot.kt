@@ -28,7 +28,7 @@ open class OpenDetourPilot : KompassDetourPilot {
                        transaction: FragmentTransaction) {
 
         reifiedDetours.asSequence()
-                .first { it.trySetup(destination, currentFragment, nextFragment, transaction) }
+                .firstOrNull { it.trySetup(destination, currentFragment, nextFragment, transaction) }
     }
 
 
