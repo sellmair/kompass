@@ -23,3 +23,12 @@ internal fun mainThread(block: () -> Unit) {
 }
 
 val Any?.unit get() = Unit
+
+
+inline fun <R> tryOrNull(block: () -> R): R? {
+    try {
+        return block()
+    } catch (e: Throwable) {
+        return null
+    }
+}
