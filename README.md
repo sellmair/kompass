@@ -2,6 +2,14 @@
 
 A powerful router concept for android, written in Kotlin
 
+# Why you should use Kompass
+- Powerful router which works great with MVP, MVVM and almost any other architecture
+- Boilerplate free routing: No more bundle.putInt(ARG_SOMETHING, something)
+- Very simple and clean architecture for applying custom transitions
+- Generic fragment transitions
+- Routing with multiple screen (which are called ships)
+- Kotlin
+
 # Setup
 WIP: Coming soon.
 
