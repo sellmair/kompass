@@ -85,6 +85,26 @@ class MainActivity : AppCompatActivity() {
 ```
 
 #### Route to a Destination
+Now it is time to route to a certain destination. The following example will show how the routing
+for a login-screen could look like: 
+
+```kotlin
+    companion object {
+        const val MAIN_SHIP = "main"
+    }
+    
+    @SuppressLint("MissingSuperCall")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val user = getUser()
+
+        sail = kompass[MAIN_SHIP].setSail(this, container.id)
+        kompass[MAIN_SHIP].navigateTo(if(user!=null) HomeDestination(user) else LoginDestination())
+        
+    }
+```
 
 ## Advanced
 #### The Map
