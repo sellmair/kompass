@@ -17,6 +17,12 @@ sails for a certain ship, which then 'sails' to the destination.
 - A _Destination_ represents one certain 'scene' of your app. It also holds all necessary arguments for 
  the fragment/activity. For example: You might have a 
 'LoginDestination', 'HomeDestination', 'SettingsDestination', ...  in your application. 
+- A _Map_ knows how to display a certain _Destination_ (meaning which Fragment or Activity to load for it). 
+A map (_AutoMap_) is automatically created for you
+- A _Cran_ knows how to push a _Destination_ object into a _Bundle_. A Cran (_AutoCran_) is automatically
+created for you
+- A _Detour_ can implement custom transitions for certain routes.
+- A _DetourPilot_ knows about a bunch of _Detours_ and knows when to apply which _Detour_
 
 
 #### Create a Kompass
@@ -62,6 +68,10 @@ Destinations are typically annotated with
 @Destination(target = [MyFragmentOrActivity::class])
 ```
  OR implement the _KompassDestination_ Interface (if you do not want to use the Kompass-Compiler)
+ 
+ 
+ I consider it a good idea implemented a sealed superclass for groups of _Destinations_ and restrict 
+ the Kompass object to this superclass. 
  
 #### Set sails to a Ship
 Once your activity has started, you have to provide a sail for the ship which should route to certain 
