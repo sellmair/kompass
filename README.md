@@ -106,6 +106,36 @@ for a login-screen could look like:
     }
 ```
 
+
+#### Recreate Destination from _Bundle_
+One of the strongest parts of _Kompass_ is the elimination of hassle with bundles and arguments. 
+You can easily recreate the original _Destination_ from an intent or bundle using the automatically
+generated extension functions. 
+
+##### Example: Fragment
+If you routed to a certain fragment you can easily recreate the destination from the arguments _Bundle_
+```kotlin
+class HomeFragment: Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val homeDestination = arguments.asHomeDestination() // Function was automatically generated
+        val user = homeDestination?.user
+        // ... Do something with your user object
+    }
+}
+```
+
+##### Example: Activity
+```kotlin
+class HomeActivity: AppCompatActivity(){
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        val homeDestination = intent?.extras?.asHomeDestination()
+        val user = homeDestination?.user
+        // ... Do something with your user object
+    }
+}
+```
+
 ## Advanced
 #### The Map
 #### The Cran
