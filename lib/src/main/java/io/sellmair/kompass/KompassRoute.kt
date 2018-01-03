@@ -20,8 +20,13 @@ fun KompassRoute(intent: Intent): KompassRoute = IntentKompassRoute(intent)
 fun <T : Activity> KompassRoute(activityClass: KClass<T>): KompassRoute = ActivityKompassRoute(activityClass)
 fun KompassRoute(fragment: Fragment): KompassRoute = FragmentKompassRoute(fragment)
 
-fun <T : Activity> KClass<T>.toRoute(): KompassRoute = KompassRoute(this)
-fun Intent.toRoute(): KompassRoute = KompassRoute(this)
-fun Fragment.toRoute(): KompassRoute = KompassRoute(this)
+@JvmName("asActivityRoute")
+fun <T : Activity> KClass<T>.asRoute(): KompassRoute = KompassRoute(this)
+
+@JvmName("asFragmentRoute")
+fun <T : Fragment> KClass<T>.asRoute(): KompassRoute = KompassRoute(this.java.newInstance())
+
+fun Intent.asRoute(): KompassRoute = KompassRoute(this)
+fun Fragment.asRoute(): KompassRoute = KompassRoute(this)
 
 

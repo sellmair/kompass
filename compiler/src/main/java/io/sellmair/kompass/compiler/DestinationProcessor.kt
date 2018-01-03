@@ -7,6 +7,7 @@ import io.sellmair.kompass.annotation.Destination
 import io.sellmair.kompass.compiler.crane.CraneBuilder
 import io.sellmair.kompass.compiler.deserialize.DeserializeMethodBuilder
 import io.sellmair.kompass.compiler.extension.ExtensionBuilder
+import io.sellmair.kompass.compiler.map.MapBuilder
 import io.sellmair.kompass.compiler.serialize.SerializeMethodBuilder
 import java.io.File
 import javax.annotation.processing.AbstractProcessor
@@ -36,6 +37,7 @@ class DestinationProcessor : AbstractProcessor() {
                 .onEach { element -> generateExtensions(element) }
                 .toList()
                 .also { elements -> generateCrane(elements) }
+                .also { elements -> generateMap(elements) }
 
         return true
     }
@@ -73,10 +75,20 @@ class DestinationProcessor : AbstractProcessor() {
 
     private fun generateCrane(elements: List<TypeElement>) {
         val packageName = "io.sellmair.kompass"
-        val fileName = "Crane"
+        val fileName = "AutoCrane"
         val fileUri = processingEnv.filer.createSourceFile(fileName, *elements.toTypedArray()).toUri()
         val fileSpec = FileSpec.builder(packageName, fileName)
         CraneBuilder().buildCraneType(processingEnv, fileSpec, elements)
+        fileSpec.build().writeTo(File(fileUri))
+    }
+
+
+    private fun generateMap(elements: List<TypeElement>) {
+        val packageName = "io.sellmair.kompass"
+        val fileName = "AutoMap"
+        val fileUri = processingEnv.filer.createSourceFile(fileName, *elements.toTypedArray()).toUri()
+        val fileSpec = FileSpec.builder(packageName, fileName)
+        MapBuilder().buildMapType(processingEnv, fileSpec, elements)
         fileSpec.build().writeTo(File(fileUri))
     }
 

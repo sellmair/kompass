@@ -15,7 +15,7 @@ interface CraneBuilder {
 
 class CraneBuilderImpl : CraneBuilder {
     override fun buildCraneType(environment: ProcessingEnvironment, fileSpec: FileSpec.Builder, elements: List<TypeElement>) {
-        val classBuilder = TypeSpec.classBuilder("Crane")
+        val classBuilder = TypeSpec.classBuilder("AutoCrane")
                 .addTypeVariable(TypeVariableName("Destination: Any"))
                 .addSuperinterface(ClassName("io.sellmair.kompass", "KompassCrane<Destination>"))
 
