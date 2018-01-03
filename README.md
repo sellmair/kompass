@@ -24,11 +24,11 @@ Creating the _Kompass_ is very simple using the provided builder:
 
 ###### Create a Kompass: Trivial
 This example is the most trivial Kompass that can be built. It accepts any object implementing
-_KompassDestination_ as Destination. We will talk about the .addMap() part later. 
+_KompassDestination_ as Destination. We will talk about the .autoMap() part later. 
 It is easy, I promise :bowtie:
 ```kotlin
 val trivialKompass = Kompass.builder<KompassDestination>(context)
-                     .addMap(myKompassMap) // we will talk about this later
+                     .autoMap() // we will talk about this later
                      .build()
 ```
 
@@ -48,6 +48,21 @@ val kompass = Kompass.builder<MyCustomDestinationType>(context)
 ```
 
 
+#### Create your _Destinations_
+Destinations are simple classes or data classes which hold very simple data like 
+- Int
+- String
+- List< Int >
+- Parcelable 
+
+(Everything that can be represented inside android.os.Bundle)
+
+Destinations are typically annotated with 
+```kotlin
+@Destination(target = [MyFragmentOrActivity::class])
+```
+ OR implement the _KompassDestination_ Interface (if you do not want to use the Kompass-Compiler)
+ 
 #### Set sails to a Ship
 Once your activity has started, you have to provide a sail for the ship which should route to certain 
 destinations. You can do this whenever you want to (even after you routed your ship to a certain
