@@ -75,11 +75,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     
-    override fun onBackPressed() {
-        if (!kompass.popBackImmediate())
-            super.onBackPressed()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         
