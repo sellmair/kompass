@@ -51,8 +51,16 @@ class MapBuilderImpl : MapBuilder {
         getFunction.endControlFlow()
 
 
+        val autoMapExtensionFunction = FunSpec.builder("autoMap")
+                .addTypeVariable(TypeVariableName("T: Any"))
+                .receiver(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .returns(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .addStatement("this.addMap(AutoMap())")
+                .addStatement("return this")
+
         classBuilder.addFunction(getFunction.build())
         fileSpec.addType(classBuilder.build())
+        fileSpec.addFunction(autoMapExtensionFunction.build())
     }
 
 

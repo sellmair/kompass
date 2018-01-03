@@ -16,7 +16,7 @@ data class SimpleDestination(val id: Int, val justALong: Long, val name: String)
 @Destination
 class SimpleParcelDestination(val id: Int, val parcel: SimpleParcelable)
 
-@Destination
+@Destination(target = [Fragment::class])
 class SimpleIntListDestination(val name: String, val ids: List<Int>)
 
 class SimpleIntArrayDestination(val name: String, val ids: IntArray)

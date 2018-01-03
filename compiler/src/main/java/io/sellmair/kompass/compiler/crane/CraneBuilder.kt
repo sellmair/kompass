@@ -40,8 +40,18 @@ class CraneBuilderImpl : CraneBuilder {
         bundleFunction.addStatement("throw io.sellmair.kompass.exception.MissingBundleSerializerException(destination)")
 
 
+        val autoCraneExtensionFunction = FunSpec.builder("autoCrane")
+                .addTypeVariable(TypeVariableName("T: Any"))
+                .receiver(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .returns(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .addStatement("this.addCrane(AutoCrane())")
+                .addStatement("return this")
+
+
+
         classBuilder.addFunction(bundleFunction.build())
         fileSpec.addType(classBuilder.build())
+        fileSpec.addFunction(autoCraneExtensionFunction.build())
 
     }
 

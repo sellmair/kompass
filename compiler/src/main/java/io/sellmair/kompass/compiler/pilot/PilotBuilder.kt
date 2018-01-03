@@ -25,8 +25,17 @@ class PilotBuilderImpl : PilotBuilder {
                     )
                 }
 
+
+        val autoPilotExtensionFunction = FunSpec.builder("autoPilot")
+                .addTypeVariable(TypeVariableName("T: Any"))
+                .receiver(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .returns(ClassName("io.sellmair.kompass", "KompassBuilder<T>"))
+                .addStatement("this.addPilot(AutoDetourPilot())")
+                .addStatement("return this")
+
         classBuilder.addInitializerBlock(initBlock.build())
         fileSpec.addType(classBuilder.build())
+        fileSpec.addFunction(autoPilotExtensionFunction.build())
     }
 
 }

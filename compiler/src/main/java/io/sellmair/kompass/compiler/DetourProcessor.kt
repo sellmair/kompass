@@ -19,11 +19,11 @@ class DetourProcessor : AbstractProcessor() {
     override fun process(set: MutableSet<out TypeElement>, environment: RoundEnvironment): Boolean {
         val detours = environment.getElementsAnnotatedWith(Detour::class.java)
         if (detours.isEmpty()) return false
-
         detours.asSequence()
                 .mapNotNull { it as TypeElement }
                 .toList()
                 .also { elements -> generateDetourPilot(elements) }
+
         return true
     }
 
@@ -35,4 +35,5 @@ class DetourProcessor : AbstractProcessor() {
         PilotBuilder().buildPilotType(processingEnv, fileSpec, elements)
         fileSpec.build().writeTo(File(fileUri))
     }
+
 }

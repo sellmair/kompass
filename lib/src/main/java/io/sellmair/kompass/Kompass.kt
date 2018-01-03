@@ -39,16 +39,19 @@ class KompassBuilder<Destination : Any> internal constructor(private val context
     @PublishedApi
     internal val detourPilot = KompassDetourPilot.create()
 
-    fun addMap(vararg maps: KompassMap<Destination>) {
+    fun addMap(vararg maps: KompassMap<Destination>): KompassBuilder<Destination> {
         this.maps.addAll(maps)
+        return this
     }
 
-    fun addCrane(vararg cranes: KompassCrane<Destination>) {
+    fun addCrane(vararg cranes: KompassCrane<Destination>): KompassBuilder<Destination> {
         this.cranes.addAll(cranes)
+        return this
     }
 
-    fun addPilot(vararg pilots: KompassDetourPilot) {
+    fun addPilot(vararg pilots: KompassDetourPilot): KompassBuilder<Destination> {
         this.pilots.addAll(pilots)
+        return this
     }
 
     inline fun <reified Destination : Any,
