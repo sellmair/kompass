@@ -1,5 +1,6 @@
 package io.sellmair.kompass
 
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import io.sellmair.kompass.annotation.RequiresMainThread
@@ -73,6 +74,9 @@ internal class BaseShip<in Destination : Any>
             transaction = transaction.addToBackStack(null)
             kompass.onBack { fragmentManager.popBackStack(); true }
         }
+
+        val currentFragment = fragmentManager.findFragmentById(sail.containerId) ?: Fragment()
+        kompass.pilot.setup(captain.destination, currentFragment, captain.fragment, transaction)
 
         transaction.commit()
     }

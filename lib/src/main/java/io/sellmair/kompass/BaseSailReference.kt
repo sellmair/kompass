@@ -2,6 +2,7 @@ package io.sellmair.kompass
 
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import io.sellmair.kompass.util.SailReference
 import java.lang.ref.WeakReference
 
 /**

@@ -9,7 +9,7 @@ class MissingBundleSerializerException(destination: Class<*>) : Exception("" +
         "\n" +
         "Possible solutions: \n" +
         "- Annotate the class with @Destination if you are using the Kompass-Compiler\n" +
-        "- Implement the interface Destination\n" +
+        "- Implement the interface KompassDestination\n" +
         "- Implement the serializing logic inside your KompassCrane") {
 
     constructor(obj: Any) : this(obj::class.java)

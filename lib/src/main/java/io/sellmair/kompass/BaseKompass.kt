@@ -11,7 +11,8 @@ import io.sellmair.kompass.util.requireMainThread
  */
 internal open class BaseKompass<in Destination : Any>(private val context: Context,
                                                       internal val map: KompassMap<Destination>,
-                                                      internal val crane: KompassCrane<Destination>) : Kompass<Destination> {
+                                                      internal val crane: KompassCrane<Destination>,
+                                                      internal val pilot: KompassDetourPilot) : Kompass<Destination> {
 
     private val harbor: MutableMap<String, KompassShip<Destination>> = mutableMapOf()
     private val backStack = mutableListOf<KompassBack>()
@@ -74,19 +75,19 @@ internal open class BaseKompass<in Destination : Any>(private val context: Conte
 
     internal fun getCaptain(destination: Destination): Captain {
         val route = map[destination]
-        val bundle = if (destination is io.sellmair.kompass.Destination) destination.asBundle()
+        val bundle = if (destination is io.sellmair.kompass.KompassDestination) destination.asBundle()
         else crane.bundle(destination)
 
         return when (route) {
-            is IntentKompassRoute -> IntentCaptain(route.intent)
+            is IntentKompassRoute -> IntentCaptain(route.intent, destination)
             is ActivityKompassRoute<*> -> run {
                 val intent = Intent(context, route.activityClass.java)
                 intent.putExtras(bundle)
-                IntentCaptain(intent)
+                IntentCaptain(intent, destination)
             }
             is FragmentKompassRoute -> run {
                 route.fragment.arguments = bundle
-                FragmentCaptain(route.fragment)
+                FragmentCaptain(route.fragment, destination)
             }
         }
     }

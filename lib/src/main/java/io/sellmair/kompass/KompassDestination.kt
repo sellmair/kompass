@@ -5,6 +5,6 @@ import android.os.Bundle
 /**
  * Created by sebastiansellmair on 03.01.18.
  */
-interface Destination {
+interface KompassDestination {
     fun asBundle(): Bundle
 }

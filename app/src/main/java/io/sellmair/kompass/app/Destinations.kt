@@ -1,7 +1,10 @@
 package io.sellmair.kompass.app
 
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
+import io.sellmair.kompass.KompassDetour
 import io.sellmair.kompass.annotation.Destination
+import io.sellmair.kompass.annotation.Detour
 import io.sellmair.kompass.app.model.SimpleParcelable
 
 /**
@@ -28,3 +31,14 @@ class JuliansDestination(val name: String, val ids: List<Int>)
 
 class SimpleDestinationFragment : Fragment()
 class JuliansDestinationFragment : Fragment()
+
+@Detour
+class TestDetour() : KompassDetour<Any, JuliansDestinationFragment, SimpleDestinationFragment> {
+    override fun setup(destination: Any,
+                       currentFragment: JuliansDestinationFragment,
+                       nextFragment: SimpleDestinationFragment,
+                       transaction: FragmentTransaction) {
+
+    }
+
+}

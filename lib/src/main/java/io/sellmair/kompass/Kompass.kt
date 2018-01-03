@@ -18,7 +18,8 @@ interface Kompass<in Destination : Any> {
     companion object {
         fun <Destination : Any> create(context: Context,
                                        map: KompassMap<Destination>,
-                                       crane: KompassCrane<Destination>)
-                : Kompass<Destination> = BaseKompass(context, map, crane)
+                                       crane: KompassCrane<Destination>,
+                                       pilot: KompassDetourPilot)
+                : Kompass<Destination> = BaseKompass(context, map, crane, pilot)
     }
 }

@@ -1,4 +1,6 @@
-package io.sellmair.kompass
+package io.sellmair.kompass.util
+
+import io.sellmair.kompass.KompassSail
 
 /**
  * Created by sebastiansellmair on 02.01.18.
