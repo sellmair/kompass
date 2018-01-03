@@ -33,7 +33,7 @@ val trivialKompass = Kompass.builder<KompassDestination>(context)
 ```
 
 ___
-<br><br><br><br><br>
+<br><br>
 ###### Create a Kompass: Real World Example
 Here is a real-world example of Kompass, where _MyCustomDestinationType_ is just a basic
 sealed class and 'autoMap', 'autoCrane' and 'autoPilot' are extension functions automatically 
