@@ -73,6 +73,24 @@ Destinations are typically annotated with
  I consider it a good idea implemented a sealed superclass for groups of _Destinations_ and restrict 
  the Kompass object to this superclass. 
  
+ ###### Example: Annotated Destination
+ ```kotlin
+@Destination
+class HomeDestination(val user: User)
+```
+
+###### Example: Implemented KompassDestination
+```kotlin
+class HomeDestination(val user: User): KompassDestination {
+    override fun asBundle(): Bundle {
+        val bundle = Bundle()
+        // store user in bundle
+                ...
+    }
+
+
+```
+ 
 #### Set sails to a Ship
 Once your activity has started, you have to provide a sail for the ship which should route to certain 
 destinations. You can do this whenever you want to (even after you routed your ship to a certain
@@ -163,7 +181,71 @@ class HomeActivity: AppCompatActivity(){
 
 ## Advanced
 #### The Map
+Maps contain informations about how to display a certain _Destination_. This can be done by 
+starting a new Activity or creating a new Fragment. If you want to use a custom Map element, add it to the KompassBuilder
+```kotlin
+Kompass.builder(context)
+       .addMap(myCustomMap)
+       ...
+```
 #### The Cran
+A cran knows how to pack a _Destination_ object into a bundle. If you want to use a custom Cran, 
+add it to the KompassBuilder 
+
+```kotlin
+Kompass.builder(context)
+       .addCran(myCutomCran)
+```
 #### The Detour / The DetourPilot
+It is a very common thing to apply transitions when one fragment is replaced by another fragment. 
+A _Detour_ can very easily implement such a transition genericly. 
+
+Consider we want every fragment to slide in, when entered and slide out, when exited. We just 
+have to write a _Detour_ class like this: 
+
+```kotlin
+    @Detour
+    class FragmentSlide: KompassDetour<Any, Fragment, Fragment>{
+        override fun setup(destination: Any,
+                           currentFragment: Fragment,
+                           nextFragment: Fragment,
+                           transaction: FragmentTransaction) {
+            currentFragment.exitTransition = Slide(Gravity.RIGHT)
+            nextFragment.enterTransition = Slide(Gravity.LEFT)
+        }
+
+    }
+```
+
+Every _Detour_ will automatically be applied if the types of 'destination', 'currentFragment' and 'nextFragment' 
+can be assigned from the current route and 
+
+```kotlin
+Kompass.builder(context)
+       .autoPilot() // <-- will be available if you have some class annotaged with @Detour
+```
+is used!
+
 #### AutoMap, AutoCran, AutoPilot
+The functions 
+```kotlin
+Kompass.builder(context)
+       .autoMap()
+       .autoCran()
+       .autoPilot()
+```
+are automatically generated if possible. 
+
+- .autoMap() will be available after you specified one target for at least one @Destination
+- .autoCran() will be available after you annotated at least one class with @Destination
+- .autoPilot() will be available after you annotated at least one class with @Detour
 #### BackStack
+
+Kompass comes with a powerful back-stack. You should override your Activities 'onBackPressed' like: 
+
+```kotlin
+    override fun onBackPressed() {
+        if (!kompass.popBackImmediate())
+            super.onBackPressed()
+    }
+```
