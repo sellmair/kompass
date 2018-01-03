@@ -8,9 +8,9 @@ WIP: Coming soon.
 
 # Usage
 ## Basic
-Kompass makes extensive use of ship-vocabulary for the API's. Here are the main analogies: 
+Kompass makes extensive use of ship-vocabulary for its API's. Here are the main analogies: 
 - The _Kompass_ is the upper most object and contains ships
-- A _Ship_ is the entity which can be routed to. This might represent a certain area of your 
+- A _Ship_ is the entity which can route to a certain _Destination_. This might represent a certain area of your 
 activity where fragments can be loaded.
 - A _Sail_ is the actual area where fragments can be placed in. Your activity therefore sets the 
 sails for a certain ship, which then 'sails' to the destination. 
