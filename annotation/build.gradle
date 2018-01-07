@@ -95,6 +95,7 @@ publishing {
             version = "$libraryVersion"
             artifactId "$bintrayName"
 
+            artifact ("$buildDir/libs/annotation-${libraryVersion}.jar")
             artifact sourceJar
             artifact javadocJar
         }

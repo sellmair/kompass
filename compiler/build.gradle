@@ -30,6 +30,7 @@ ext {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(path: ':annotation')
+    testImplementation 'junit:junit:4.12'
     api "com.squareup:kotlinpoet:0.6.0"
     api "com.squareup:javapoet:1.9.0"
 }
@@ -99,6 +100,7 @@ publishing {
             version = "$libraryVersion"
             artifactId "$bintrayName"
 
+            artifact ("$buildDir/libs/compiler-${libraryVersion}.jar")
             artifact sourceJar
             artifact javadocJar
         }
