@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
-apply plugin: 'maven'
 
 
 ext {
@@ -113,46 +112,48 @@ install {
 
 
 
-
 apply plugin: 'com.jfrog.bintray'
 
-version = libraryVersion
-
-if (project.hasProperty("android")) { // Android libraries
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.srcDirs
-    }
-
-    task javadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    }
-} else { // Java libraries
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+publishing {
+    publications {
+        aar(MavenPublication) {
 
-artifacts {
- //   archives javadocJar
-    archives sourcesJar
+            // Thanks to https://stackoverflow.com/questions/24743562/gradle-not-including-dependencies-in-published-pom-xml
+            // ###############################################################
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.api.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+                }
+            }
+            // ##############################################################
+
+
+            groupId "$publishedGroupId"
+            version = "$libraryVersion"
+            artifactId "$bintrayName"
+
+            artifact ("$buildDir/outputs/aar/lib-release.aar")
+            artifact sourceJar
+        }
+    }
 }
 
 // Bintray
-
-
 bintray {
     user = "$bintray_user"
     key = "$bintray_apikey"
-
-    configurations = ['archives']
+    publications = ['aar']
     pkg {
         repo = bintrayRepo
         name = bintrayName
@@ -163,7 +164,8 @@ bintray {
         publish = true
         publicDownloadNumbers = true
         version {
-            desc = libraryDescription
+            name = "$libraryVersion"
+            desc = "$libraryVersion"
             gpg {
                 sign = false //Determines whether to GPG sign the files. The default is false
                 passphrase = "$bintray_gpg_password"
