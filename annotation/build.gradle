@@ -2,9 +2,33 @@ apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 
+ext {
+    bintrayRepo = 'sellmair'
+    bintrayName = 'kompass-annotation'
+
+    publishedGroupId = 'io.sellmair'
+    libraryName = 'Kompass Annotation'
+    artifact = 'kompass-annotation'
+
+    libraryDescription = 'A powerful router for Android, written in Kotlin'
+
+    gitUrl = 'https://github.com/sellmair/kompass'
+    siteUrl = 'https://github.com/sellmair/kompass'
+
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'sellmair'
+    developerName = 'Sebastian Sellmair'
+    developerEmail = 'sebastiansellmair@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 sourceCompatibility = "1.7"
@@ -39,6 +63,113 @@ publishing {
             version '0.1'
 
             from components.java
+        }
+    }
+}
+
+
+
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = publishedGroupId                               // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId publishedGroupId
+                artifactId artifact
+
+                // Add your description here
+                name libraryName
+                description libraryDescription
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+apply plugin: 'com.jfrog.bintray'
+
+version = libraryVersion
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    //   archives javadocJar
+    archives sourcesJar
+}
+
+// Bintray
+
+bintray {
+    user = "$bintray_user"
+    key = "$bintray_apikey"
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = false //Determines whether to GPG sign the files. The default is false
+                passphrase = "$bintray_gpg_password"
+                //Optional. The passphrase for GPG signing'
+            }
         }
     }
 }
