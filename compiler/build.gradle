@@ -4,10 +4,10 @@ apply plugin: 'maven-publish'
 
 ext {
     bintrayRepo = 'sellmair'
-    bintrayName = 'kompass-compiler'
+    bintrayName = 'kompass-processor'
 
     publishedGroupId = 'io.sellmair'
-    libraryName = 'Kompass Compiler'
+    libraryName = 'Kompass Annotation Processor'
     artifact = 'kompass-compiler'
 
     libraryDescription = 'A powerful router for Android, written in Kotlin'
