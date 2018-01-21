@@ -22,9 +22,12 @@ abstract class AbstractAttributeSerializeLogic : AttributeSerializeLogic {
     protected fun createBundleGet(builder: MethodSpec.Builder,
                                   attribute: VariableElement,
                                   getMethodName: String,
-                                  valueName: String) {
-
-        val statement = "${attribute.asType()} $valueName = " + SerializeMethodBuilder.PARAM_BUNDLE +
+                                  valueName: String,
+                                  castTo: String? = null) {
+        val statement = "" +
+                "${attribute.asType()} $valueName = " +
+                (if (castTo != null) "($castTo)" else "") +
+                SerializeMethodBuilder.PARAM_BUNDLE +
                 ".$getMethodName(\"${attribute.bundleArgumentName}\")"
         builder.addStatement(statement)
     }

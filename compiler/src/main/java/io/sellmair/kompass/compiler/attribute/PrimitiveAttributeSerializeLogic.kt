@@ -23,6 +23,7 @@ class PrimitiveAttributeSerializeLogic : AbstractAttributeSerializeLogic() {
             TypeKind.BOOLEAN -> "putBoolean"
             TypeKind.BYTE -> "putByte"
             TypeKind.SHORT -> "putShort"
+            TypeKind.CHAR -> "putChar"
             else -> null
         } ?: return false
 
@@ -45,6 +46,7 @@ class PrimitiveAttributeSerializeLogic : AbstractAttributeSerializeLogic() {
             TypeKind.BOOLEAN -> "getBoolean"
             TypeKind.BYTE -> "getByte"
             TypeKind.SHORT -> "getShort"
+            TypeKind.CHAR -> "getChar"
             else -> null
         } ?: return false
 

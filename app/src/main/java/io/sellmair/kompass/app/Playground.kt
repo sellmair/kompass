@@ -6,9 +6,8 @@ import io.sellmair.kompass.Kompass
 import io.sellmair.kompass.annotation.Destination
 import io.sellmair.kompass.autoCrane
 import io.sellmair.kompass.autoMap
-import io.sellmair.kompass.autoPilot
 
-/**
+/*
  * Created by sebastiansellmair on 09.12.17.
  */
 
@@ -26,7 +25,6 @@ fun test() {
     val bunlde = Bundle()
     Kompass.builder<Any>(null as Context)
             .autoCrane()
-            .autoPilot()
             .autoMap()
 
 }

@@ -35,3 +35,4 @@ class ParcelableAttributeSerializeLogic : AbstractAttributeSerializeLogic() {
         return environment.typeUtils.isAssignable(attribute.asType(), parcelableElement.asType())
     }
 }
+
