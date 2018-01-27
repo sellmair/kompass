@@ -27,4 +27,8 @@ class SimpleParcelable(val id: Int, val child: SimpleParcelable?) : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+    private fun test(parcels: List<SimpleParcelable>) {
+        val xxx: List<Parcelable> = parcels;
+    }
 }

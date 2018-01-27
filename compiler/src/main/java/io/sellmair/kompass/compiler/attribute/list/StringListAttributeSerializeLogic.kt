@@ -13,7 +13,9 @@ class StringListAttributeSerializeLogic : ListAttributeSerializeLogic() {
                                             builder: MethodSpec.Builder,
                                             baseElement: TypeElement,
                                             attribute: VariableElement): Boolean {
-        val stringList = getListType(environment, environment.elementUtils.getTypeElement("java.lang.String").asType())
+        val stringList = getListType(environment,
+                environment.elementUtils.getTypeElement("java.lang.String").asType())
+
         if (!environment.typeUtils.isAssignable(attribute.asType(), stringList)) return false
         val accessor = createAccessor(environment, builder, baseElement, attribute)
         val accessorArrayList = accessor + "ArrayList"

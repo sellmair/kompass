@@ -27,6 +27,6 @@ fun attributeSerializers(): List<AttributeSerializeLogic> = listOf(
         ByteArrayAttributeSerializeLogic(),
         ParcelableArrayAttributeSerializeLogic(),
         StringArrayAttributeSerializeLogic(),
-        StringListAttributeSerializeLogic()
-
+        StringListAttributeSerializeLogic(),
+        ParcelableListAttributeSerializeLogic()
 )

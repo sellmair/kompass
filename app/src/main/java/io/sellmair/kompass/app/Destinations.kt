@@ -18,6 +18,10 @@ class SimpleParcelDestination(val id: Int, val parcel: SimpleParcelable)
 @Destination
 class ParcelableArrayDestination(val name: String, val parcels: Array<SimpleParcelable>)
 
+@Destination
+class ParcelableListDestination(val name: String, val parcels: List<SimpleParcelable>)
+
+
 @Destination(target = [Fragment::class])
 class SimpleIntListDestination(val name: String, val ids: List<Int>)
 

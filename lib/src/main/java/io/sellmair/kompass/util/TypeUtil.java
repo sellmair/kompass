@@ -1,5 +1,7 @@
 package io.sellmair.kompass.util;
 
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -155,6 +157,12 @@ public class TypeUtil {
     public static ArrayList<String> toArrayList(String[] array) {
         ArrayList<String> arrayList = new ArrayList<>(array.length);
         Collections.addAll(arrayList, array);
+        return arrayList;
+    }
+
+    public static ArrayList<Parcelable> toParcelableArrayList(List<? extends Parcelable> list) {
+        ArrayList<Parcelable> arrayList = new ArrayList<>(list.size());
+        arrayList.addAll(list);
         return arrayList;
     }
 }

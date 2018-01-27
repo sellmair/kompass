@@ -13,6 +13,7 @@ public class JavaPlayground {
         Bundle bundle = new Bundle();
         io.sellmair.kompass.app.ExampleDestinationSerializer.writeToBundle(destination, bundle);
         io.sellmair.kompass.app.ExampleDestinationSerializer.createFromBundle(bundle);
+
     }
 
 
