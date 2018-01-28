@@ -35,6 +35,16 @@ dependencies {
 
 
 # Usage
+## Example
+I highly recommend having a look at the <a src="https://github.com/sellmair/kompass/tree/develop/example"> example </a>
+ app built with Kompass
+
+<br><br>
+###### Gif
+<img src="https://github.com/sellmair/kompass/blob/develop/assets/example.gif?raw=true" width="250">
+<br><br>
+
+
 ## Basic
 Kompass makes extensive use of ship-vocabulary for its API's. Here are the main analogies: 
 - The _Kompass_ is the upper most object and contains ships
