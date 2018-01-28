@@ -278,11 +278,11 @@ are automatically generated if possible.
 - .autoPilot() will be available after you annotated at least one class with @Detour
 #### BackStack
 
-Kompass comes with a powerful back-stack. You should override your Activities 'onBackPressed' like: 
+Kompass comes with an own back-stack. You should override your Activities 'onBackPressed' like: 
 
 ```kotlin
     override fun onBackPressed() {
         if (!kompass.popBackImmediate())
-            super.onBackPressed()
+            finish()
     }
 ```
