@@ -72,7 +72,11 @@ internal class BaseShip<in Destination : Any>
 
         if (!replaceCurrent) {
             transaction = transaction.addToBackStack(null)
-            kompass.onBack { fragmentManager.popBackStack(); true }
+            kompass.onBack(this) { fragmentManager.popBackStack(); true }
+        }
+
+        if (replaceCurrent) {
+            kompass.removeFromBackStack(this)
         }
 
         val currentFragment = fragmentManager.findFragmentById(sail.containerId) ?: Fragment()
