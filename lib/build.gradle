@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/sellmair/kompass'
 
 
-    libraryVersion = '0.0.4'
+    libraryVersion = '0.0.5'
 
     developerId = 'sellmair'
     developerName = 'Sebastian Sellmair'
@@ -38,7 +38,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
-        versionName "0.0.4"
+        versionName "0.0.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
