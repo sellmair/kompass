@@ -11,7 +11,27 @@ A powerful router concept for android, written in Kotlin
 - Kotlin
 
 # Setup
-WIP: Coming soon.
+##### Step 1: Enable Annotation Processing
+Add this at the top of your build.gradle
+```groovy
+apply plugin: 'kotlin-kapt'
+
+
+kapt {
+    generateStubs = true
+}
+
+```
+
+##### Step2: Add Kompass Dependencies
+```groovy
+dependencies {
+    ...
+    implementation 'io.sellmair:kompass:0.0.5'
+    implementation 'io.sellmair:kompass-annotation:0.0.5'
+    kapt 'io.sellmair:kompass-processor:0.0.5'
+}
+```
 
 
 # Usage
