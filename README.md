@@ -36,8 +36,7 @@ dependencies {
 
 # Usage
 ## Example
-I highly recommend having a look at the <a src="https://github.com/sellmair/kompass/tree/develop/example"> example </a>
- app built with Kompass
+I highly recommend having a look at the [example](https://github.com/sellmair/kompass/tree/develop/example) app built with Kompass
 
 <br><br>
 ###### Gif
