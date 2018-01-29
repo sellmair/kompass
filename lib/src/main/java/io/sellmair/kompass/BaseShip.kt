@@ -32,10 +32,12 @@ internal class BaseShip<in Destination : Any>
     @RequiresMainThread
     override fun setSail(activity: FragmentActivity, containerId: Int, fragmentManager: FragmentManager?): KompassSail {
         requireMainThread()
-        val sail = BaseSail(this,
-                activity,
-                fragmentManager ?: activity.supportFragmentManager,
-                containerId)
+        val sail = BaseSail(
+                baseShip = this,
+                activity = activity,
+                fragmentManager = fragmentManager ?: activity.supportFragmentManager,
+                containerId = containerId)
+
         this.sailReference.set(sail)
 
         pendingCommissions.forEach { commission ->
