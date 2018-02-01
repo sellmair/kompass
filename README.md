@@ -1,11 +1,11 @@
 ![Kompass](https://github.com/sellmair/kompass/blob/develop/assets/Kompass_724.png?raw=true)
 
 A boilerplate free router concept for android, written in Kotlin
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/kompass-android/)
 
 #### Support
-I am happy to help you with any problem on gitter, as fast as I can! 
+I am happy to help you with any problem on gitter, as fast as I can! <br>
 The goal is to investigate any reported issue within 2 days.
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/kompass-android/)
 
 # Why you should use Kompass
 - Powerful router which works great with MVP, MVVM and almost any other architecture
