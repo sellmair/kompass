@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
         val destination = if (!DummyService.isLoggedIn) LoginDestination()
         else ContactListDestination(null, DummyService.contacts)
 
-        kompass.main.navigateTo(destination, replaceCurrent = true)
+        kompass.main.startAt(destination)
     }
 
     init {

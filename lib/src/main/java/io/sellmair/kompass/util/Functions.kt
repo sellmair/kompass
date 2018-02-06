@@ -22,13 +22,19 @@ internal fun mainThread(block: () -> Unit) {
     else handler.post { block() }
 }
 
-val Any?.unit get() = Unit
-
 
 inline fun <R> tryOrNull(block: () -> R): R? {
-    try {
-        return block()
+    return try {
+        block()
     } catch (e: Throwable) {
-        return null
+        null
     }
+}
+
+inline fun <R> R.applyIf(condition: Boolean, body: R.() -> Unit): R {
+    if (condition) {
+        this.body()
+    }
+
+    return this
 }

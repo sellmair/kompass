@@ -9,6 +9,7 @@ import io.sellmair.example.fragment.LoginProcessingFragment
 import io.sellmair.kompass.KompassDetour
 import io.sellmair.kompass.annotation.Detour
 
+
 /**
  * Created by sebastiansellmair on 28.01.18.
  */

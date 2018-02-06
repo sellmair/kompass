@@ -18,13 +18,12 @@ class LoginProcessingViewModel : ViewModel() {
     private lateinit var password: String
 
     private val loggedIn = Runnable {
-        DummyService.isLoggedIn = true
 
-        if (password == "kompass")
-            kompass.main.navigateTo(
-                    ContactListDestination(null, DummyService.contacts),
-                    true)
-        else {
+        if (password == "kompass") {
+            DummyService.isLoggedIn = true
+            kompass.main.startAt(
+                    ContactListDestination(null, DummyService.contacts))
+        } else {
             kompass.popBack()
         }
     }

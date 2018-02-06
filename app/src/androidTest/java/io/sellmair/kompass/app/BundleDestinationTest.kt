@@ -28,8 +28,8 @@ class BundleDestinationTest {
         SimpleDestinationSerializer.writeToBundle(source, bundle)
 
         val recreation = bundle.asSimpleDestination()
-        Assert.assertEquals(id, recreation?.id)
-        Assert.assertEquals(name, recreation?.name)
+        Assert.assertEquals(id, recreation.id)
+        Assert.assertEquals(name, recreation.name)
 
     }
 
@@ -60,9 +60,9 @@ class BundleDestinationTest {
         SimpleIntListDestinationSerializer.writeToBundle(source, bundle)
 
         val recreation = bundle.asSimpleIntListDestination()
-        Assert.assertEquals(ids.size, recreation?.ids?.size)
+        Assert.assertEquals(ids.size, recreation.ids.size)
         ids.forEachIndexed { index, value ->
-            Assert.assertEquals(value, recreation?.ids?.get(index))
+            Assert.assertEquals(value, recreation.ids.get(index))
         }
     }
 

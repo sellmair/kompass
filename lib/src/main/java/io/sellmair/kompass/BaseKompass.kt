@@ -30,14 +30,14 @@ internal open class BaseKompass<in Destination : Any>(private val context: Conte
     }
 
 
-    override fun popBack() {
+    override fun popBack(key: Any?) {
         mainThread {
-            popBackImmediate()
+            popBackImmediate(key)
         }
     }
 
     @RequiresMainThread
-    override fun popBackImmediate(): Boolean {
+    override fun popBackImmediate(key: Any?): Boolean {
         requireMainThread()
         synchronized(this) {
             val lastIndex = backStack.lastIndex
@@ -45,6 +45,7 @@ internal open class BaseKompass<in Destination : Any>(private val context: Conte
             val garbageBin = mutableListOf<KompassBack>()
             val didSomething = (lastIndex..0).asSequence()
                     .map { index -> backStack[index] }
+                    .filter { kompassBack -> key == null || kompassBack.key == key }
                     .map { kompassBack -> kompassBack.back().also { garbageBin.add(kompassBack) } }
                     .filter { it }
                     .firstOrNull() ?: false
