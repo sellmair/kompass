@@ -21,8 +21,21 @@ class LoginToLoginProcessingDetour : KompassDetour<Any, Fragment, LoginProcessin
                        transaction: FragmentTransaction) {
         if (Build.VERSION.SDK_INT > 21) {
             currentFragment.exitTransition = Slide(Gravity.BOTTOM)
-            nextFragment.enterTransition = Slide(Gravity.TOP)
+
+            currentFragment.reenterTransition = Slide(Gravity.BOTTOM).apply {
+                startDelay = ENTER_START_DELAY
+            }
+
+            nextFragment.enterTransition = Slide(Gravity.TOP).apply {
+                startDelay = ENTER_START_DELAY
+            }
+
+            nextFragment.returnTransition = Slide(Gravity.TOP)
         }
+    }
+
+    companion object {
+        const val ENTER_START_DELAY = 500L
     }
 }
 

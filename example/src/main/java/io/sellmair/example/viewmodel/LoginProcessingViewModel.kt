@@ -6,6 +6,7 @@ import android.os.Looper
 import io.sellmair.example.DummyDependencyHolder
 import io.sellmair.example.DummyService
 import io.sellmair.example.destination.ContactListDestination
+import io.sellmair.example.destination.LoginFailedDestination
 import io.sellmair.example.extension.main
 
 /**
@@ -24,7 +25,7 @@ class LoginProcessingViewModel : ViewModel() {
             kompass.main.startAt(
                     ContactListDestination(null, DummyService.contacts))
         } else {
-            kompass.popBack()
+            kompass.main.beamTo(LoginFailedDestination(email))
         }
     }
 

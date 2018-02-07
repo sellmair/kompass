@@ -1,10 +1,7 @@
 package io.sellmair.example.destination
 
 import io.sellmair.example.Contact
-import io.sellmair.example.fragment.ChatFragment
-import io.sellmair.example.fragment.ContactListFragment
-import io.sellmair.example.fragment.LoginFragment
-import io.sellmair.example.fragment.LoginProcessingFragment
+import io.sellmair.example.fragment.*
 import io.sellmair.kompass.annotation.Destination
 
 /**
@@ -39,3 +36,7 @@ data class ChatDestination(
         val contact: Contact
 ) : AppDestination()
 
+
+@Destination(target = [LoginFailedFragment::class])
+data class LoginFailedDestination(val username: String)
+    : AppDestination()
