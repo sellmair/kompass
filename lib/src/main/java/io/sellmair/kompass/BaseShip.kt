@@ -176,6 +176,8 @@ internal class BaseShip<in Destination : Any>
             kompass.popBackImmediate(this)
         }
 
+        val shouldAddToBackStack = instruction == Instruction.ADD
+                || instruction == Instruction.REPLACE
 
         /**
          * If we are just adding something to the backstack,
@@ -184,7 +186,7 @@ internal class BaseShip<in Destination : Any>
          * [FragmentManager.popBackStackImmediate] looks like a good choice,
          * because it respects all [KompassDetour] objects applied to it
          */
-        if (instruction == Instruction.ADD) {
+        if (shouldAddToBackStack) {
             kompass.onBack(key = this) {
                 fragmentManager.popBackStackImmediate();
                 return@onBack true
@@ -203,7 +205,7 @@ internal class BaseShip<in Destination : Any>
                 /**
                  * Add the transaction to the back-stack to make the code above work!
                  */
-                .applyIf(condition = instruction == Instruction.ADD) { addToBackStack(null) }
+                .applyIf(shouldAddToBackStack) { addToBackStack(null) }
 
         transaction.commit()
     }
