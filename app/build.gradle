@@ -19,7 +19,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +38,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     implementation project(path: ':annotation')
     implementation project(path: ':lib')
     kapt project(path: ':compiler')

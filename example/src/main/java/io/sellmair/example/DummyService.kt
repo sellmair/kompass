@@ -22,7 +22,7 @@ class DummyService {
                     ))
 
                     list.add(Contact(
-                            "Stephan K.",
+                            "Stefan K.",
                             "0176/02403344",
                             "stephan@...",
                             "Stephan"
@@ -33,6 +33,13 @@ class DummyService {
                             "0176/12303344",
                             "julian@...",
                             "Julian"
+                    ))
+
+                    list.add(Contact(
+                            "Joan D.",
+                            "0176/43505560",
+                            "joan@...", "" +
+                            "Joan"
                     ))
                 }
     }

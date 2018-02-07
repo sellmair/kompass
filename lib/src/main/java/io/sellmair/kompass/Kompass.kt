@@ -9,8 +9,8 @@ import android.content.Context
 interface Kompass<in Destination : Any> {
     fun getShip(name: String): KompassShip<Destination>
     operator fun get(name: String): KompassShip<Destination>
-    fun popBack()
-    fun popBackImmediate(): Boolean
+    fun popBack(key: Any? = null)
+    fun popBackImmediate(key: Any? = null): Boolean
     fun onBack(key: Any? = null, keySingleton: Boolean = true, block: () -> Boolean)
     fun removeFromBackStack(key: Any)
 

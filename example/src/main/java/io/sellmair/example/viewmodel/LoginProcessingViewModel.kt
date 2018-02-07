@@ -6,6 +6,7 @@ import android.os.Looper
 import io.sellmair.example.DummyDependencyHolder
 import io.sellmair.example.DummyService
 import io.sellmair.example.destination.ContactListDestination
+import io.sellmair.example.destination.LoginFailedDestination
 import io.sellmair.example.extension.main
 
 /**
@@ -18,14 +19,13 @@ class LoginProcessingViewModel : ViewModel() {
     private lateinit var password: String
 
     private val loggedIn = Runnable {
-        DummyService.isLoggedIn = true
 
-        if (password == "kompass")
-            kompass.main.navigateTo(
-                    ContactListDestination(null, DummyService.contacts),
-                    true)
-        else {
-            kompass.popBack()
+        if (password == "kompass") {
+            DummyService.isLoggedIn = true
+            kompass.main.startAt(
+                    ContactListDestination(null, DummyService.contacts))
+        } else {
+            kompass.main.beamTo(LoginFailedDestination(email))
         }
     }
 
