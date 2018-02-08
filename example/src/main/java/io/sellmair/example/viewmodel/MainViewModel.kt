@@ -17,10 +17,14 @@ class MainViewModel : ViewModel() {
         val destination = if (!DummyService.isLoggedIn) LoginDestination()
         else ContactListDestination(null, DummyService.contacts)
 
-        kompass.main.startAt(destination)
+        kompass.main *= destination
     }
 
     init {
         checkIfLoggedIn()
     }
 }
+
+
+
+

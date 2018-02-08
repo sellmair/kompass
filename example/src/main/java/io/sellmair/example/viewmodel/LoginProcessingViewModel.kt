@@ -22,10 +22,9 @@ class LoginProcessingViewModel : ViewModel() {
 
         if (password == "kompass") {
             DummyService.isLoggedIn = true
-            kompass.main.startAt(
-                    ContactListDestination(null, DummyService.contacts))
+            kompass.main *= ContactListDestination(null, DummyService.contacts)
         } else {
-            kompass.main.beamTo(LoginFailedDestination(email))
+            kompass.main %= LoginFailedDestination(email)
         }
     }
 

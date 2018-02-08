@@ -24,7 +24,13 @@ interface KompassShip<in Destination> {
      * @see Kompass.popBackImmediate
      * @see KompassShip.setSail
      */
-    fun <T : Destination> navigateTo(destination: T)
+    infix fun <T : Destination> navigateTo(destination: T)
+
+    /**
+     * Same as
+     * @see navigateTo
+     */
+    operator fun <T : Destination> plusAssign(destination: T)
 
     /**
      * ### beamTo
@@ -41,8 +47,13 @@ interface KompassShip<in Destination> {
      * @see Kompass.popBack
      * @see Kompass.popBackImmediate
      */
-    fun <T : Destination> beamTo(destination: T)
+    infix fun <T : Destination> beamTo(destination: T)
 
+    /**
+     * Same as
+     * @see beamTo
+     */
+    operator fun <T : Destination> remAssign(destination: T)
 
     /**
      * Will route to the given destination, once a sail is set.
@@ -51,7 +62,14 @@ interface KompassShip<in Destination> {
      * [Kompass.popBack] and [Kompass.popBackImmediate] will result in delegating the 'back' command
      * to a different ship, or the activity again.
      */
-    fun <T : Destination> startAt(destination: T)
+    infix fun <T : Destination> startAt(destination: T)
+
+
+    /**
+     * Same as
+     * @see startAt
+     */
+    operator fun <T : Destination> timesAssign(destination: T)
 
 
     /**
