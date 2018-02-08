@@ -40,10 +40,10 @@ interface KompassShip<in Destination> {
      * to be shown again
      *
      * ### Warning
-     * This method is not yet prepared for any [KompassDetour] to be applied.
-     * If you wan't to use animations/transitions, you could manually route back
-     * to the given destination.
-     *
+     * Beaming to a location requires more effort to get animations straight, at this moment.
+     * Currently the current displayed fragment will exit using
+     * its original enter-transition (reversed).
+
      * @see Kompass.popBack
      * @see Kompass.popBackImmediate
      */
