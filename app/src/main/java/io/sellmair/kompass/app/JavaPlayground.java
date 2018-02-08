@@ -11,9 +11,6 @@ public class JavaPlayground {
     static void play() {
         ExampleDestination destination = new ExampleDestination(1, 0, "Hallo");
         Bundle bundle = new Bundle();
-        io.sellmair.kompass.app.ExampleDestinationSerializer.writeToBundle(destination, bundle);
-        io.sellmair.kompass.app.ExampleDestinationSerializer.createFromBundle(bundle);
-
     }
 
 

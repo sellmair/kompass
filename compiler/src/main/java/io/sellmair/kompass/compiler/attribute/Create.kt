@@ -1,6 +1,7 @@
 package io.sellmair.kompass.compiler.attribute
 
 import io.sellmair.kompass.compiler.attribute.array.*
+import io.sellmair.kompass.compiler.attribute.boxed_primitives.*
 import io.sellmair.kompass.compiler.attribute.list.*
 
 /**
@@ -28,5 +29,10 @@ fun attributeSerializers(): List<AttributeSerializeLogic> = listOf(
         ParcelableArrayAttributeSerializeLogic(),
         StringArrayAttributeSerializeLogic(),
         StringListAttributeSerializeLogic(),
-        ParcelableListAttributeSerializeLogic()
+        ParcelableListAttributeSerializeLogic(),
+        BoxedIntegerAttributeSerializeLogic(),
+        BoxedFloatAttributeSerializeLogic(),
+        BoxedDoubleAttributeSerializeLogic(),
+        BoxedShortAttributeSerializeLogic(),
+        BoxedBooleanAttributeSerializeLogic()
 )
