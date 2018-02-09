@@ -38,12 +38,24 @@ internal class BaseShip<in Destination : Any>
         navigateTo(destination, Instruction.ADD)
     }
 
+    override fun <T : Destination> plusAssign(destination: T) {
+        return navigateTo(destination)
+    }
+
     override fun <T : Destination> beamTo(destination: T) {
         navigateTo(destination, Instruction.REPLACE)
     }
 
+    override fun <T : Destination> remAssign(destination: T) {
+        return beamTo(destination)
+    }
+
     override fun <T : Destination> startAt(destination: T) {
         navigateTo(destination, Instruction.START)
+    }
+
+    override fun <T : Destination> timesAssign(destination: T) {
+        return startAt(destination)
     }
 
     override fun popBackImmediate() {
