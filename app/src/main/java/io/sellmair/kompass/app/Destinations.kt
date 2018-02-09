@@ -3,6 +3,7 @@ package io.sellmair.kompass.app
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import io.sellmair.kompass.annotation.Destination
+import io.sellmair.kompass.annotation.KompassConstructor
 import io.sellmair.kompass.app.model.SimpleParcelable
 import io.sellmair.kompass.asMyNewDestination
 
@@ -66,7 +67,8 @@ class SimpleLongListDestination(val name: String, val ids: List<Long>)
 class SimpleShortListDestination(val name: String, val ids: List<Short>)
 
 @Destination(target = [MainActivity::class])
-class MaltesMostWantedDestination(val name: String, val ids: List<Int>, val myParcel: SimpleParcelable)
+class MaltesMostWantedDestination(val name: String, val ids: List<Int>,
+                                  val myParcel: SimpleParcelable)
 
 
 @Destination(target = [JuliansDestinationFragment::class])
@@ -81,6 +83,18 @@ class SimpleDestinationFragment : Fragment()
 class JuliansDestinationFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments.asMyNewDestination()?.name
+        arguments.asMyNewDestination().name
     }
 }
+
+@Destination
+class OptionalIntDestination(val id: Int?, val name: String)
+
+@Destination
+data class OptionalPrimitiveDestination @KompassConstructor constructor(
+        val id: Int?,
+        val someFloat: Float?,
+        val someDouble: Double?,
+        val someShort: Short?,
+        val someBoolean: Boolean?
+)
