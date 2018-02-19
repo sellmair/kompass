@@ -199,7 +199,7 @@ internal class BaseShip<in Destination : Any>
          * because it respects all [KompassDetour] objects applied to it
          */
         if (shouldAddToBackStack) {
-            kompass.onBack(key = this) {
+            kompass.onBack(key = this, keySingleton = false) {
                 fragmentManager.popBackStackImmediate();
                 return@onBack true
             }
