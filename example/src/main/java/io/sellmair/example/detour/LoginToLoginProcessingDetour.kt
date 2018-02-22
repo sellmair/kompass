@@ -1,6 +1,5 @@
 package io.sellmair.example.detour
 
-import android.os.Build
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.transition.Slide
@@ -19,19 +18,18 @@ class LoginToLoginProcessingDetour : KompassDetour<Any, Fragment, LoginProcessin
                        currentFragment: Fragment,
                        nextFragment: LoginProcessingFragment,
                        transaction: FragmentTransaction) {
-        if (Build.VERSION.SDK_INT > 21) {
-            currentFragment.exitTransition = Slide(Gravity.BOTTOM)
+        currentFragment.exitTransition = Slide(Gravity.BOTTOM)
 
-            currentFragment.reenterTransition = Slide(Gravity.BOTTOM).apply {
-                startDelay = ENTER_START_DELAY
-            }
-
-            nextFragment.enterTransition = Slide(Gravity.TOP).apply {
-                startDelay = ENTER_START_DELAY
-            }
-
-            nextFragment.returnTransition = Slide(Gravity.TOP)
+        currentFragment.reenterTransition = Slide(Gravity.BOTTOM).apply {
+            startDelay = ENTER_START_DELAY
         }
+
+        nextFragment.enterTransition = Slide(Gravity.TOP).apply {
+            startDelay = ENTER_START_DELAY
+        }
+
+        nextFragment.returnTransition = Slide(Gravity.TOP)
+
     }
 
     companion object {

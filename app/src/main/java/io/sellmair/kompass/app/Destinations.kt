@@ -98,3 +98,9 @@ data class OptionalPrimitiveDestination @KompassConstructor constructor(
         val someShort: Short?,
         val someBoolean: Boolean?
 )
+
+@Destination
+class DefaultValueDestination(
+    val id: Int? = null,
+    val myFloat: Float? = null
+)

@@ -24,7 +24,7 @@ class LoginViewModel : ViewModel() {
             return
         }
 
-        kompass.main += LoginProcessingDestination(email, password)
+        kompass.main beamTo LoginProcessingDestination(email, password)
     }
 
 }
