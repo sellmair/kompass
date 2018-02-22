@@ -200,7 +200,7 @@ internal class BaseShip<in Destination : Any>
          */
         if (shouldAddToBackStack) {
             kompass.onBack(key = this, keySingleton = false) {
-                fragmentManager.popBackStackImmediate();
+                fragmentManager.popBackStackImmediate()
                 return@onBack true
             }
         }

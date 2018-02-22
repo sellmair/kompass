@@ -51,7 +51,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
-    implementation 'io.sellmair:kompass:0.0.7'
+    //implementation 'io.sellmair:kompass:0.0.8'
     implementation 'io.sellmair:kompass-annotation:0.0.7'
     kapt 'io.sellmair:kompass-processor:0.0.7'
+    compile project(path: ':lib')
 }
