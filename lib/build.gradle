@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/sellmair/kompass'
 
 
-    libraryVersion = "$kompass_version"
+    libraryVersion = kompass_version
 
     developerId = 'sellmair'
     developerName = 'Sebastian Sellmair'
