@@ -1,6 +1,5 @@
 package io.sellmair.example.detour
 
-import android.os.Build
 import android.support.v4.app.FragmentTransaction
 import android.transition.Slide
 import android.view.Gravity
@@ -18,10 +17,8 @@ class ContactListToChatDetour : KompassDetour<Any, ContactListFragment, ChatFrag
                        currentFragment: ContactListFragment,
                        nextFragment: ChatFragment,
                        transaction: FragmentTransaction) {
-        if (Build.VERSION.SDK_INT > 21) {
-            currentFragment.exitTransition = Slide(Gravity.LEFT)
-            nextFragment.enterTransition = Slide(Gravity.RIGHT)
-        }
+        currentFragment.exitTransition = Slide(Gravity.LEFT)
+        nextFragment.enterTransition = Slide(Gravity.RIGHT)
     }
 
 }

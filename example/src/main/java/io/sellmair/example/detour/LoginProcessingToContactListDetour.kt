@@ -1,6 +1,5 @@
 package io.sellmair.example.detour
 
-import android.os.Build
 import android.support.v4.app.FragmentTransaction
 import android.transition.Slide
 import android.view.Gravity
@@ -16,9 +15,8 @@ class LoginProcessingToContactListDetour
                        currentFragment: LoginProcessingFragment,
                        nextFragment: ContactListFragment,
                        transaction: FragmentTransaction) {
-        if (Build.VERSION.SDK_INT > 21) {
-            currentFragment.exitTransition = Slide(Gravity.BOTTOM)
-            nextFragment.enterTransition = Slide(Gravity.TOP)
-        }
+        currentFragment.exitTransition = Slide(Gravity.BOTTOM)
+        nextFragment.enterTransition = Slide(Gravity.TOP)
+
     }
 }
