@@ -19,7 +19,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "0.0.7"
+        versionName "$kompass_version"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -51,8 +51,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
-    //implementation 'io.sellmair:kompass:0.0.8'
-    implementation 'io.sellmair:kompass-annotation:0.0.7'
-    kapt 'io.sellmair:kompass-processor:0.0.7'
-    compile project(path: ':lib')
+    implementation 'io.sellmair:kompass:0.0.9'
+    implementation 'io.sellmair:kompass-annotation:0.0.9'
+    kapt 'io.sellmair:kompass-processor:0.0.9'
 }
