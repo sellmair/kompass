@@ -1,32 +1,31 @@
-@file:Suppress("FunctionName")
-
 package io.sellmair.kompass
 
 import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.view.View
 import kotlin.reflect.KClass
 
-/**
- * Created by sebastiansellmair on 06.12.17.
- */
-sealed class KompassRoute
+sealed class KompassRoute {
+    internal class Intent(val intent: android.content.Intent) : KompassRoute()
+    internal class Activity<T : android.app.Activity>(val clazz: KClass<T>) : KompassRoute()
+    internal class Fragment(val fragment: android.support.v4.app.Fragment) : KompassRoute()
+    internal class View(val view: android.view.View) : KompassRoute()
 
-internal class IntentKompassRoute(val intent: Intent) : KompassRoute()
-internal class ActivityKompassRoute<T : Activity>(val activityClass: KClass<T>) : KompassRoute()
-internal class FragmentKompassRoute(val fragment: Fragment) : KompassRoute()
+    companion object
+}
 
-fun KompassRoute(intent: Intent): KompassRoute = IntentKompassRoute(intent)
-fun <T : Activity> KompassRoute(activityClass: KClass<T>): KompassRoute = ActivityKompassRoute(activityClass)
-fun KompassRoute(fragment: Fragment): KompassRoute = FragmentKompassRoute(fragment)
 
-@JvmName("asActivityRoute")
-fun <T : Activity> KClass<T>.asRoute(): KompassRoute = KompassRoute(this)
+operator fun KompassRoute.Companion.invoke(intent: Intent): KompassRoute =
+    KompassRoute.Intent(intent)
 
-@JvmName("asFragmentRoute")
-fun <T : Fragment> KClass<T>.asRoute(): KompassRoute = KompassRoute(this.java.newInstance())
 
-fun Intent.asRoute(): KompassRoute = KompassRoute(this)
-fun Fragment.asRoute(): KompassRoute = KompassRoute(this)
+operator fun <T : Activity> KompassRoute.invoke(clazz: KClass<T>): KompassRoute =
+    KompassRoute.Activity(clazz)
 
+operator fun KompassRoute.Companion.invoke(fragment: Fragment): KompassRoute =
+    KompassRoute.Fragment(fragment)
+
+operator fun KompassRoute.Companion.invoke(view: View): KompassRoute =
+    KompassRoute.View(view)
 

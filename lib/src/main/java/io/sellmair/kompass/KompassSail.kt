@@ -1,11 +1,12 @@
 package io.sellmair.kompass
 
-import android.support.v4.app.FragmentActivity
+import android.app.Activity
 import android.support.v4.app.FragmentManager
 
 interface KompassSail {
-    val activity: FragmentActivity
-    val fragmentManager: FragmentManager
+    val activity: Activity
+    val manager: FragmentManager
     val containerId: Int
-    fun release()
+
+    companion object
 }

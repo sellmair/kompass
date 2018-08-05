@@ -1,11 +1,9 @@
 package io.sellmair.kompass
 
 import android.os.Bundle
+import android.support.annotation.AnyThread
 
-/**
- * Created by sebastiansellmair on 02.01.18.
- */
-interface KompassCrane<in Destination : Any> {
-    fun bundle(destination: Destination): Bundle
+interface KompassCrane<in Destination> {
+    @AnyThread
+    operator fun get(destination: Destination): Bundle?
 }
-
