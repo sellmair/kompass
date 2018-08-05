@@ -3,7 +3,7 @@ package io.sellmair.kompass.internal
 import io.sellmair.kompass.*
 import io.sellmair.kompass.internal.util.curry
 
-internal class KompassImpl<Destination>(
+internal class KompassImpl<Destination : Any>(
     override val map: KompassMap<Destination>,
     override val crane: KompassCrane<Destination>,
     override val detour: KompassDetour<Destination>) : Kompass<Destination>,

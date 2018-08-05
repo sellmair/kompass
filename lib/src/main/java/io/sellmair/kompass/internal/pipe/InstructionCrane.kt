@@ -14,6 +14,8 @@ internal class InstructionCrane<Destination : Any>(
     override fun invoke(instruction: RoutedSailedInstruction<Destination>) {
         val destination = instruction.instruction.destination
         val bundle = crane[destination] ?: throwNotCraned(destination)
+        handle(BundledRoutedSailedInstruction(
+            bundle, instruction.route, instruction.sail, instruction.instruction))
     }
 
     private fun throwNotCraned(destination: Destination): Nothing {

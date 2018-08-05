@@ -23,7 +23,7 @@ internal class InstructionRouter<Destination : Any>(
 
 
 private class KompassNoRouteException(destination: Any) : Exception(
-    message = """
+    """
         No route registered for destination ${destination.javaClass.simpleName} ($destination).
         Possible Solutions:
 

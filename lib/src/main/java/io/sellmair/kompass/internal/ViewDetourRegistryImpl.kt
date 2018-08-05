@@ -17,8 +17,8 @@ class ViewDetourRegistryImpl : ViewDetourRegistry {
 
     override fun <Destination : Any, Current : Any, Next : Any> findViewDetour(
         destinationClass: KClass<Destination>,
-        currentClass: KClass<Destination>,
-        nextClass: KClass<Destination>): KompassViewDetour<Destination, Current, Next>? {
+        currentClass: KClass<Current>,
+        nextClass: KClass<Next>): KompassViewDetour<Destination, Current, Next>? {
         val detour = registry.find(arrayOf(destinationClass, currentClass, nextClass))
         @Suppress("UNCHECKED_CAST")
         return detour as? KompassViewDetour<Destination, Current, Next>
