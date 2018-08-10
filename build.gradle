@@ -29,9 +29,13 @@ task clean(type: Delete) {
 
 
 if (!project.hasProperty("bintray_user")) {
-    ext.bintray_user = ""
+    ext.bintray_user = "stub"
 }
 
 if (!project.hasProperty("bintray_apikey")) {
-    ext.bintray_apikey = ""
+    ext.bintray_apikey = "stub"
+}
+
+if (!project.hasProperty("bintray_gpg_password")) {
+    ext.bintray_gpg_password = "stub"
 }
