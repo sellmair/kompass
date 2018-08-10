@@ -1,7 +1,7 @@
 package io.sellmair.kompass
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
+import android.test.UiThreadTest
 import io.sellmair.kompass.internal.BackStackImpl
 import org.junit.Assert
 import org.junit.Assert.fail

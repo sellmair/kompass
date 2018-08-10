@@ -21,5 +21,9 @@ internal class KeyLessBackStackAdapter(
             keySingle = false,
             action = action)
     }
+
+    override fun clear() {
+        backStack.remove(key)
+    }
 }
 

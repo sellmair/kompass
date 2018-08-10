@@ -1,6 +1,7 @@
 package io.sellmair.kompass
 
-import android.app.FragmentTransaction
+import android.support.v4.app.FragmentTransaction
+
 
 sealed class KompassDetour<in Destination>
 

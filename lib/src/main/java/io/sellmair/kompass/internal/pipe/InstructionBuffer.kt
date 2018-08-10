@@ -8,7 +8,7 @@ import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
 
 
-internal class InstructionBuffer<Destination> :
+internal class InstructionBuffer<Destination : Any> :
     InstructionPipe<Instruction<Destination>, SailedInstruction<Destination>>,
     Handleable<SailedInstruction<Destination>> by Handleable.delegate() {
 

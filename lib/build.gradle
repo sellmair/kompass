@@ -56,8 +56,8 @@ android {
 dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
@@ -67,8 +67,6 @@ repositories {
 
 
 apply plugin: 'com.github.dcendents.android-maven'
-
-group = publishedGroupId                               // Maven Group ID for the artifact
 
 
 apply plugin: 'com.jfrog.bintray'
@@ -102,7 +100,7 @@ publishing {
             version = "$libraryVersion"
             artifactId "$bintrayName"
 
-            artifact ("$buildDir/outputs/aar/lib-release.aar")
+            artifact("$buildDir/outputs/aar/lib-release.aar")
             artifact sourceJar
         }
     }

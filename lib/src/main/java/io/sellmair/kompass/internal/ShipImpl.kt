@@ -4,9 +4,7 @@ import android.support.annotation.AnyThread
 import android.support.annotation.UiThread
 import io.sellmair.kompass.*
 import io.sellmair.kompass.extension.withKey
-import io.sellmair.kompass.internal.pipe.InstructionBuffer
-import io.sellmair.kompass.internal.pipe.InstructionCrane
-import io.sellmair.kompass.internal.pipe.InstructionRouter
+import io.sellmair.kompass.internal.pipe.*
 import io.sellmair.kompass.internal.pipe.instruction.Instruction
 import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
@@ -14,17 +12,19 @@ import io.sellmair.kompass.internal.util.mainThread
 
 internal class ShipImpl<Destination : Any>(
     private val name: String,
-    private val backStack: BackStack,
-    private val map: KompassMap<Destination>,
-    private val crane: KompassCrane<Destination>,
-    private val detour: KompassDetour<Destination>) :
+    backStack: BackStack,
+    map: KompassMap<Destination>,
+    crane: KompassCrane<Destination>,
+    registry: DetourRegistry) :
 
     KompassShip<Destination>,
     KeyLessBackStack by backStack withKey name {
 
     private val instructionBuffer = InstructionBuffer<Destination>()
     private val instructionRouter = InstructionRouter(map)
-    private var instructionCrane = InstructionCrane(crane)
+    private val instructionCrane = InstructionCrane(crane)
+    private val fragmentEndpoint = FragmentEndpoint<Destination>(this, registry)
+    private val activityEndpoint = ActivityEndpoint<Destination>(this)
 
     @UiThread
     override fun setSail(sail: KompassSail): KompassReleasable {
@@ -56,6 +56,11 @@ internal class ShipImpl<Destination : Any>(
         instructionBuffer(instruction)
     }
 
+
+    init {
+        instructionBuffer + instructionRouter + instructionCrane +
+            (fragmentEndpoint / activityEndpoint)
+    }
 
 }
 

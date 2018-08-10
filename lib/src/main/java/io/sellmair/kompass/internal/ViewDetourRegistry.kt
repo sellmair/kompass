@@ -1,5 +1,6 @@
 package io.sellmair.kompass.internal
 
+import io.sellmair.kompass.KompassViewAnimation
 import io.sellmair.kompass.KompassViewDetour
 import kotlin.reflect.KClass
 
@@ -11,10 +12,23 @@ internal interface ViewDetourRegistry {
         nextClass: KClass<Next>)
 
     fun <Destination : Any, Current : Any, Next : Any> findViewDetour(
-        destinationClass: KClass<Destination>,
-        currentClass: KClass<Current>,
-        nextClass: KClass<Next>):
+        destinationClass: KClass<out Destination>,
+        currentClass: KClass<out Current>,
+        nextClass: KClass<out Next>):
         KompassViewDetour<Destination, Current, Next>?
+
+    fun <Destination : Any, Current : Any, Next : Any>
+        setupViewDetour(
+        destination: Destination,
+        current: Current,
+        next: Next): KompassViewAnimation? {
+        val detour = findViewDetour(
+            destinationClass = destination::class,
+            currentClass = current::class,
+            nextClass = next::class)
+
+        return detour?.setup(destination, current, next)
+    }
 }
 
 internal inline fun <reified Destination : Any, reified Current : Any, reified Next : Any>

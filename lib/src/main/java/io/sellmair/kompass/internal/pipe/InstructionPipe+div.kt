@@ -6,16 +6,9 @@ import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
 import io.sellmair.kompass.internal.util.mainThread
 
-
-/*
-################################################################################################
-INTERNAL API
-################################################################################################
-*/
-
-internal operator fun <In, Intermediate, Out> InstructionPipe<In, Intermediate>.plus(
-    other: InstructionPipe<Intermediate, Out>): InstructionPipe<In, Out> {
-    return InstructionPipePlusConnector(this, other)
+internal operator fun <In, Out>
+    InstructionPipe<In, Out>.div(other: InstructionPipe<In, Out>): InstructionPipe<In, Out> {
+    return InstructionPipeDivConnector(this, other)
 }
 
 
@@ -25,9 +18,9 @@ PRIVATE IMPLEMENTATION
 ################################################################################################
 */
 
-private class InstructionPipePlusConnector<In, Intermediate, Out>(
-    private val first: InstructionPipe<In, Intermediate>,
-    second: InstructionPipe<Intermediate, Out>) :
+private class InstructionPipeDivConnector<In, Out>(
+    private val first: InstructionPipe<In, Out>,
+    private val second: InstructionPipe<In, Out>) :
     InstructionPipe<In, Out> {
 
     private var handler: ((Out) -> Unit)? = null
@@ -36,6 +29,7 @@ private class InstructionPipePlusConnector<In, Intermediate, Out>(
     override fun invoke(instruction: In) {
         Precondition.requireMainThread()
         first(instruction)
+        second(instruction)
     }
 
     @UiThread
@@ -51,7 +45,7 @@ private class InstructionPipePlusConnector<In, Intermediate, Out>(
 
 
     init {
-        first.handle(second::invoke)
+        first.handle(this::handle)
         second.handle(this::handle)
     }
 }

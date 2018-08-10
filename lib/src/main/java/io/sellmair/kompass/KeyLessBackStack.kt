@@ -12,4 +12,7 @@ interface KeyLessBackStack {
 
     @AnyThread
     fun onBack(action: () -> Unit)
+
+    @AnyThread
+    fun clear()
 }
