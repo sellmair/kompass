@@ -26,3 +26,12 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+if (!project.hasProperty("bintray_user")) {
+    ext.bintray_user = ""
+}
+
+if (!project.hasProperty("bintray_apikey")) {
+    ext.bintray_apikey = ""
+}
