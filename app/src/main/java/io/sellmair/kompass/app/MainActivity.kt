@@ -1,14 +1,26 @@
 package io.sellmair.kompass.app
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import io.sellmair.kompass.*
+import io.sellmair.kompass.extension.sail
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        KompassHolder.main.startAt(Destination.One(1))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        KompassHolder.main.setSail(sail(R.id.container)).releasedBy(this)
+    }
+
+    override fun onBackPressed() {
+        if (!KompassHolder.kompass.backImmediate()) {
+            super.onBackPressed()
+        }
     }
 }
 
@@ -22,12 +34,21 @@ class Map : KompassMap<Destination> {
             is Destination.One -> KompassRoute(FragmentOne())
         }
     }
+}
 
+class Crane : KompassCrane<Destination> {
+    override fun get(destination: Destination) = when (destination) {
+        is Destination.One -> Bundle().apply {
+            putInt("id", destination.id)
+        }
+    }
 }
 
 object KompassHolder {
     val kompass: Kompass<Destination> by lazy {
         Kompass.builder<Destination>()
+            .addCrane(Crane())
+            .addMap(Map())
             .build()
     }
 

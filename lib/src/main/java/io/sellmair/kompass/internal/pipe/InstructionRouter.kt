@@ -4,10 +4,10 @@ import io.sellmair.kompass.KompassMap
 
 internal class InstructionRouter<Destination : Any>(
     private val map: KompassMap<Destination>) :
-    InstructionPipe<Payload<Destination, Stage.Craned>, Payload<Destination, Stage.Routed>>,
+    InstructionPipe<Payload<Destination, Stage.Sailed>, Payload<Destination, Stage.Routed>>,
     Handleable<Payload<Destination, Stage.Routed>> by Handleable.delegate() {
 
-    override fun invoke(payload: Payload<Destination, Stage.Craned>) {
+    override fun invoke(payload: Payload<Destination, Stage.Sailed>) {
         val destination = payload.instruction.destination
         val route = map[destination] ?: throwNoRouteFound(destination)
         handle(payload.routed(route))

@@ -8,7 +8,7 @@ import org.junit.Test
 
 class DetourRegistryImplTest {
 
-    private lateinit var registry: DetourRegistry
+    private lateinit var registry: ExecutableDetourRegistry
     private lateinit var detour: KompassViewDetour<Any, PseudoSuper, PseudoImpl>
     private lateinit var noise: KompassViewDetour<String, String, String>
 
@@ -90,6 +90,13 @@ class DetourRegistryImplTest {
     }
 
 }
+
+
+/*
+################################################################################################
+MOCKS / PSEUDOS
+################################################################################################
+*/
 
 private interface PseudoDestination {
     companion object {

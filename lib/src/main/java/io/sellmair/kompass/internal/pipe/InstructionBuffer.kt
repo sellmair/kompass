@@ -7,7 +7,7 @@ import io.sellmair.kompass.internal.precondition.requireMainThread
 
 
 internal class InstructionBuffer<Destination : Any> :
-    InstructionPipe<Payload<Destination, Stage.Pending>, Payload<Destination, Stage.Sailed>>,
+    InstructionPipe<Payload<Destination, Stage.Craned>, Payload<Destination, Stage.Sailed>>,
     Handleable<Payload<Destination, Stage.Sailed>> by Handleable.delegate() {
 
 
@@ -27,7 +27,7 @@ internal class InstructionBuffer<Destination : Any> :
         }
 
     @UiThread
-    override operator fun invoke(payload: Payload<Destination, Stage.Pending>) {
+    override operator fun invoke(payload: Payload<Destination, Stage.Craned>) {
         Precondition.requireMainThread()
         onQueue(payload)
     }
@@ -39,10 +39,10 @@ internal class InstructionBuffer<Destination : Any> :
     ################################################################################################
     */
 
-    private val queue = mutableListOf<Payload<Destination, Stage.Pending>>()
+    private val queue = mutableListOf<Payload<Destination, Stage.Craned>>()
 
     @UiThread
-    private fun buffer(payload: Payload<Destination, Stage.Pending>) {
+    private fun buffer(payload: Payload<Destination, Stage.Craned>) {
         queue.add(payload)
     }
 
@@ -63,7 +63,7 @@ internal class InstructionBuffer<Destination : Any> :
     }
 
     @UiThread
-    private fun onQueue(payload: Payload<Destination, Stage.Pending>) {
+    private fun onQueue(payload: Payload<Destination, Stage.Craned>) {
         val sail = this.sail
         when (sail) {
             null -> buffer(payload)
@@ -74,7 +74,7 @@ internal class InstructionBuffer<Destination : Any> :
 
     @UiThread
     private fun handle(sail: KompassSail,
-                       payload: Payload<Destination, Stage.Pending>) {
+                       payload: Payload<Destination, Stage.Craned>) {
         handle(payload.sailed(sail))
     }
 

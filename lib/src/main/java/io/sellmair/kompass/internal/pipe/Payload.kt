@@ -13,8 +13,8 @@ internal class Payload<Destination, Stage> private constructor(
 
     enum class Member(val key: String) {
         INSTRUCTION("instruction"),
-        BUNDLE("bundle"),
         SAIL("sail"),
+        BUNDLE("bundle"),
         ROUTE("route")
     }
 
@@ -183,9 +183,9 @@ internal interface Stage {
 
     interface Pending : Stage, ReadInstruction
 
-    interface Sailed : Stage, ReadInstruction, ReadSail
+    interface Craned : Stage, ReadInstruction, ReadBundle
 
-    interface Craned : Stage, ReadInstruction, ReadSail, ReadBundle
+    interface Sailed : Stage, ReadInstruction, ReadBundle, ReadSail
 
     interface Routed : Stage, ReadInstruction, ReadSail, ReadBundle, ReadRoute
 
@@ -212,17 +212,19 @@ internal fun <Destination : Any>
     return this.set(Payload.Member.INSTRUCTION, instruction)
 }
 
-internal fun <Destination : Any> Payload<Destination, Stage.Pending>.sailed(sail: KompassSail):
+internal fun <Destination : Any> Payload<Destination, Stage.Pending>.craned(bundle: Bundle):
+    Payload<Destination, Stage.Craned> {
+    return this.set(Payload.Member.BUNDLE, bundle)
+}
+
+
+internal fun <Destination : Any> Payload<Destination, Stage.Craned>.sailed(sail: KompassSail):
     Payload<Destination, Stage.Sailed> {
     return this.set(Payload.Member.SAIL, sail)
 }
 
-internal fun <Destination : Any> Payload<Destination, Stage.Sailed>.craned(bundle: Bundle):
-    Payload<Destination, Stage.Craned> {
-    return this.set(Payload.Member.SAIL, bundle)
-}
 
-internal fun <Destination : Any> Payload<Destination, Stage.Craned>.routed(route: KompassRoute):
+internal fun <Destination : Any> Payload<Destination, Stage.Sailed>.routed(route: KompassRoute):
     Payload<Destination, Stage.Routed> {
     return this.set(Payload.Member.ROUTE, route)
 }

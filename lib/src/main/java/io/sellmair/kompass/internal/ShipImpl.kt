@@ -41,26 +41,26 @@ internal class ShipImpl<Destination : Any>(
     override fun startAt(destination: Destination) = mainThread {
         val instruction = Instruction.StartAt(destination)
         val payload = Payload(instruction)
-        instructionBuffer(payload)
+        instructionCrane(payload)
     }
 
     @AnyThread
     override fun navigateTo(destination: Destination) = mainThread {
         val instruction = Instruction.NavigateTo(destination)
         val payload = Payload(instruction)
-        instructionBuffer(payload)
+        instructionCrane(payload)
     }
 
     @AnyThread
     override fun beamTo(destination: Destination) = mainThread {
         val instruction = Instruction.BeamTo(destination)
         val payload = Payload(instruction)
-        instructionBuffer(payload)
+        instructionCrane(payload)
     }
 
 
     init {
-        instructionBuffer + instructionCrane + instructionRouter +
+        instructionCrane + instructionBuffer + instructionRouter +
             (fragmentEndpoint / activityEndpoint)
     }
 
