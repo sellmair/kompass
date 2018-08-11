@@ -6,7 +6,7 @@ import io.sellmair.kompass.internal.util.curry
 internal class KompassImpl<Destination : Any>(
     override val map: KompassMap<Destination>,
     override val crane: KompassCrane<Destination>,
-    override val registry: DetourRegistry) : Kompass<Destination>,
+    override val registry: ExecutableDetourRegistry) : Kompass<Destination>,
     KompassContext<Destination>,
     BackStack by BackStackImpl() {
 

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import io.sellmair.kompass.KeyLessBackStack
 import io.sellmair.kompass.KompassSail
-import io.sellmair.kompass.internal.DetourRegistry
+import io.sellmair.kompass.internal.ExecutableDetourRegistry
 
 
 private typealias FEndpoint<Destination> = Payload<Destination, Stage.Endpoint.Fragment>
@@ -12,11 +12,11 @@ private typealias FEndpoint<Destination> = Payload<Destination, Stage.Endpoint.F
 
 internal class FragmentEndpoint<Destination : Any>(
     backStack: KeyLessBackStack,
-    detourRegistry: DetourRegistry) :
+    detourRegistry: ExecutableDetourRegistry) :
     InstructionEndpoint<Destination>,
     Handleable<Unit> by Handleable.delegate(),
     KeyLessBackStack by backStack,
-    DetourRegistry by detourRegistry {
+    ExecutableDetourRegistry by detourRegistry {
 
 
     override fun invoke(payload: Payload<Destination, Stage.Routed>) {

@@ -3,7 +3,7 @@ package io.sellmair.kompass.internal
 import io.sellmair.kompass.KompassViewDetour
 import kotlin.reflect.KClass
 
-class ViewDetourRegistryImpl : ViewDetourRegistry {
+internal class ViewDetourRegistryImpl : ExecutableViewDetourRegistry {
 
     private val registry = UnsafeRegistry()
 

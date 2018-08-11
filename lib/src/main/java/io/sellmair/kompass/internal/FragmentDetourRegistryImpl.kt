@@ -3,7 +3,7 @@ package io.sellmair.kompass.internal
 import io.sellmair.kompass.KompassFragmentDetour
 import kotlin.reflect.KClass
 
-class FragmentDetourRegistryImpl : FragmentDetourRegistry {
+class FragmentDetourRegistryImpl : ExecutableFragmentDetourRegistry {
     private val registry = UnsafeRegistry()
 
     override fun <Destination : Any, Current : Any, Next : Any> add(

@@ -14,7 +14,7 @@ internal class ShipImpl<Destination : Any>(
     backStack: BackStack,
     map: KompassMap<Destination>,
     crane: KompassCrane<Destination>,
-    registry: DetourRegistry) :
+    registry: ExecutableDetourRegistry) :
 
     KompassShip<Destination>,
     KeyLessBackStack by backStack withKey name {
