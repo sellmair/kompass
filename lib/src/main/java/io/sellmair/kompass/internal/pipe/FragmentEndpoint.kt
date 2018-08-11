@@ -1,15 +1,14 @@
 package io.sellmair.kompass.internal.pipe
 
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import io.sellmair.kompass.KeyLessBackStack
-import io.sellmair.kompass.KompassRoute
 import io.sellmair.kompass.KompassSail
 import io.sellmair.kompass.internal.DetourRegistry
-import io.sellmair.kompass.internal.pipe.instruction.BundledRoutedSailedInstruction
-import io.sellmair.kompass.internal.pipe.instruction.Instruction
-import io.sellmair.kompass.internal.pipe.instruction.InstructionEndpoint
+
+
+private typealias FEndpoint<Destination> = Payload<Destination, Stage.Endpoint.Fragment>
+
 
 internal class FragmentEndpoint<Destination : Any>(
     backStack: KeyLessBackStack,
@@ -19,24 +18,16 @@ internal class FragmentEndpoint<Destination : Any>(
     KeyLessBackStack by backStack,
     DetourRegistry by detourRegistry {
 
-    override fun invoke(instruction: BundledRoutedSailedInstruction<Destination>) {
-        val route = instruction.route
-        if (route is KompassRoute.Fragment) {
-            this.route(Endpoint(
-                bundle = instruction.bundle,
-                route = route,
-                sail = instruction.sail,
-                instruction = instruction.instruction))
+
+    override fun invoke(payload: Payload<Destination, Stage.Routed>) {
+        val endpoint = payload.fragmentEndpoint()
+        if (endpoint != null) {
+            route(endpoint)
         }
     }
 
-    private inner class Endpoint(
-        val bundle: Bundle,
-        val route: KompassRoute.Fragment,
-        val sail: KompassSail,
-        val instruction: Instruction<Destination>)
 
-    private fun route(endpoint: Endpoint) {
+    private fun route(endpoint: Payload<Destination, Stage.Endpoint.Fragment>) {
         applyFragmentArguments(endpoint)
 
         when (endpoint.instruction) {
@@ -46,7 +37,7 @@ internal class FragmentEndpoint<Destination : Any>(
         }
     }
 
-    private fun startAt(endpoint: Endpoint) {
+    private fun startAt(endpoint: FEndpoint<Destination>) {
         (this as KeyLessBackStack).clear()
 
         val manager = endpoint.sail.manager
@@ -62,7 +53,7 @@ internal class FragmentEndpoint<Destination : Any>(
 
     }
 
-    private fun navigateTo(endpoint: Endpoint) {
+    private fun navigateTo(endpoint: FEndpoint<Destination>) {
         val manager = endpoint.sail.manager
         val containerId = endpoint.sail.containerId
         val fragment = endpoint.route.fragment
@@ -78,7 +69,7 @@ internal class FragmentEndpoint<Destination : Any>(
 
     }
 
-    private fun beamTo(endpoint: Endpoint) {
+    private fun beamTo(endpoint: FEndpoint<Destination>) {
         backImmediate()
 
         val manager = endpoint.sail.manager
@@ -95,13 +86,13 @@ internal class FragmentEndpoint<Destination : Any>(
     }
 
 
-    private fun applyFragmentArguments(endpoint: Endpoint) {
+    private fun applyFragmentArguments(endpoint: FEndpoint<Destination>) {
         val fragment = endpoint.route.fragment
         fragment.arguments = endpoint.bundle
     }
 
 
-    private fun applyDetour(endpoint: Endpoint, transaction: FragmentTransaction) {
+    private fun applyDetour(endpoint: FEndpoint<Destination>, transaction: FragmentTransaction) {
         val destination = endpoint.instruction.destination
         val currentFragment = findCurrentFragment(endpoint.sail)
         val nextFragment = endpoint.route.fragment

@@ -1,21 +1,16 @@
 package io.sellmair.kompass.internal.pipe
 
 import io.sellmair.kompass.KompassCrane
-import io.sellmair.kompass.internal.pipe.instruction.BundledRoutedSailedInstruction
-import io.sellmair.kompass.internal.pipe.instruction.RoutedSailedInstruction
 
 internal class InstructionCrane<Destination : Any>(
     private val crane: KompassCrane<Destination>) :
-    InstructionPipe<
-        RoutedSailedInstruction<Destination>,
-        BundledRoutedSailedInstruction<Destination>>,
-    Handleable<BundledRoutedSailedInstruction<Destination>> by Handleable.delegate() {
+    InstructionPipe<Payload<Destination, Stage.Sailed>, Payload<Destination, Stage.Craned>>,
+    Handleable<Payload<Destination, Stage.Craned>> by Handleable.delegate() {
 
-    override fun invoke(instruction: RoutedSailedInstruction<Destination>) {
-        val destination = instruction.instruction.destination
+    override fun invoke(payload: Payload<Destination, Stage.Sailed>) {
+        val destination = payload.instruction.destination
         val bundle = crane[destination] ?: throwNotCraned(destination)
-        handle(BundledRoutedSailedInstruction(
-            bundle, instruction.route, instruction.sail, instruction.instruction))
+        handle(payload.craned(bundle))
     }
 
     private fun throwNotCraned(destination: Destination): Nothing {

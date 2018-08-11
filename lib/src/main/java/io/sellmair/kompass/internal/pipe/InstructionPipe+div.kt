@@ -26,10 +26,10 @@ private class InstructionPipeDivConnector<In, Out>(
     private var handler: ((Out) -> Unit)? = null
 
     @UiThread
-    override fun invoke(instruction: In) {
+    override fun invoke(payload: In) {
         Precondition.requireMainThread()
-        first(instruction)
-        second(instruction)
+        first(payload)
+        second(payload)
     }
 
     @UiThread

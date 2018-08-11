@@ -2,15 +2,13 @@ package io.sellmair.kompass.internal.pipe
 
 import android.support.annotation.UiThread
 import io.sellmair.kompass.KompassSail
-import io.sellmair.kompass.internal.pipe.instruction.Instruction
-import io.sellmair.kompass.internal.pipe.instruction.SailedInstruction
 import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
 
 
 internal class InstructionBuffer<Destination : Any> :
-    InstructionPipe<Instruction<Destination>, SailedInstruction<Destination>>,
-    Handleable<SailedInstruction<Destination>> by Handleable.delegate() {
+    InstructionPipe<Payload<Destination, Stage.Pending>, Payload<Destination, Stage.Sailed>>,
+    Handleable<Payload<Destination, Stage.Sailed>> by Handleable.delegate() {
 
 
     /*
@@ -29,9 +27,9 @@ internal class InstructionBuffer<Destination : Any> :
         }
 
     @UiThread
-    override operator fun invoke(instruction: Instruction<Destination>) {
+    override operator fun invoke(payload: Payload<Destination, Stage.Pending>) {
         Precondition.requireMainThread()
-        onQueue(instruction)
+        onQueue(payload)
     }
 
 
@@ -41,17 +39,17 @@ internal class InstructionBuffer<Destination : Any> :
     ################################################################################################
     */
 
-    private val queue = mutableListOf<Instruction<Destination>>()
+    private val queue = mutableListOf<Payload<Destination, Stage.Pending>>()
 
     @UiThread
-    private fun buffer(instruction: Instruction<Destination>) {
-        queue.add(instruction)
+    private fun buffer(payload: Payload<Destination, Stage.Pending>) {
+        queue.add(payload)
     }
 
     @UiThread
     private fun executeBuffer(sail: KompassSail) {
-        for (instruction in queue) {
-            handle(sail, instruction)
+        for (payload in queue) {
+            handle(sail, payload)
         }
 
         queue.clear()
@@ -65,19 +63,19 @@ internal class InstructionBuffer<Destination : Any> :
     }
 
     @UiThread
-    private fun onQueue(instruction: Instruction<Destination>) {
+    private fun onQueue(payload: Payload<Destination, Stage.Pending>) {
         val sail = this.sail
         when (sail) {
-            null -> buffer(instruction)
-            else -> handle(sail, instruction)
+            null -> buffer(payload)
+            else -> handle(sail, payload)
         }
     }
 
 
     @UiThread
     private fun handle(sail: KompassSail,
-                       instruction: Instruction<Destination>) {
-        handle(SailedInstruction(sail, instruction))
+                       payload: Payload<Destination, Stage.Pending>) {
+        handle(payload.sailed(sail))
     }
 
 }

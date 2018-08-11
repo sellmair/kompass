@@ -33,9 +33,9 @@ private class InstructionPipePlusConnector<In, Intermediate, Out>(
     private var handler: ((Out) -> Unit)? = null
 
     @UiThread
-    override fun invoke(instruction: In) {
+    override fun invoke(payload: In) {
         Precondition.requireMainThread()
-        first(instruction)
+        first(payload)
     }
 
     @UiThread

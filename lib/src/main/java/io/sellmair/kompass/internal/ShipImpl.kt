@@ -5,7 +5,6 @@ import android.support.annotation.UiThread
 import io.sellmair.kompass.*
 import io.sellmair.kompass.extension.withKey
 import io.sellmair.kompass.internal.pipe.*
-import io.sellmair.kompass.internal.pipe.instruction.Instruction
 import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
 import io.sellmair.kompass.internal.util.mainThread
@@ -41,24 +40,27 @@ internal class ShipImpl<Destination : Any>(
     @AnyThread
     override fun startAt(destination: Destination) = mainThread {
         val instruction = Instruction.StartAt(destination)
-        instructionBuffer(instruction)
+        val payload = Payload(instruction)
+        instructionBuffer(payload)
     }
 
     @AnyThread
     override fun navigateTo(destination: Destination) = mainThread {
         val instruction = Instruction.NavigateTo(destination)
-        instructionBuffer(instruction)
+        val payload = Payload(instruction)
+        instructionBuffer(payload)
     }
 
     @AnyThread
     override fun beamTo(destination: Destination) = mainThread {
         val instruction = Instruction.BeamTo(destination)
-        instructionBuffer(instruction)
+        val payload = Payload(instruction)
+        instructionBuffer(payload)
     }
 
 
     init {
-        instructionBuffer + instructionRouter + instructionCrane +
+        instructionBuffer + instructionCrane + instructionRouter +
             (fragmentEndpoint / activityEndpoint)
     }
 

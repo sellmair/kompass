@@ -1,4 +1,4 @@
-package io.sellmair.kompass.internal.pipe.instruction
+package io.sellmair.kompass.internal.pipe
 
 internal sealed class Instruction<Destination : Any>(val destination: Destination) {
     class StartAt<Destination : Any>(destination: Destination) :
