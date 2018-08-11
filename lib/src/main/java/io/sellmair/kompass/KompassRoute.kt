@@ -5,7 +5,13 @@ import android.content.Intent
 import android.view.View
 import kotlin.reflect.KClass
 
-typealias AndroidFragment = android.support.v4.app.Fragment
+internal typealias AndroidFragment = android.support.v4.app.Fragment
+
+/*
+################################################################################################
+PUBLIC API
+################################################################################################
+*/
 
 sealed class KompassRoute {
     internal class Intent(val intent: android.content.Intent) : KompassRoute()
@@ -16,6 +22,11 @@ sealed class KompassRoute {
     companion object
 }
 
+/*
+################################################################################################
+PUBLIC PSEUDO CONSTRUCTORS
+################################################################################################
+*/
 
 operator fun KompassRoute.Companion.invoke(intent: Intent): KompassRoute =
     KompassRoute.Intent(intent)
@@ -30,3 +41,17 @@ operator fun KompassRoute.Companion.invoke(fragment: AndroidFragment): KompassRo
 operator fun KompassRoute.Companion.invoke(view: View): KompassRoute =
     KompassRoute.View(view)
 
+
+/*
+################################################################################################
+PUBLIC CONVENIENCE EXTENSIONS
+################################################################################################
+*/
+
+fun AndroidFragment.asRoute() = KompassRoute(this)
+
+fun <T : Activity> KClass<T>.asRoute(): KompassRoute = KompassRoute.Activity(this)
+
+fun View.asRoute(): KompassRoute = KompassRoute(this)
+
+fun Intent.asRoute(): KompassRoute = KompassRoute(this)
