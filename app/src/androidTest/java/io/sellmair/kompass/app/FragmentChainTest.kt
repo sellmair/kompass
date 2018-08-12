@@ -125,4 +125,61 @@ class FragmentChainTest {
         Holder.main.back()
         shows(FragmentFive)
     }
+
+    @Test
+    fun startAtOne_beamToTwo_back() {
+        Holder.main.startAt(Destination.One("one"))
+        shows(Target.FragmentOne)
+
+        Holder.main.beamTo(Destination.Two("two"))
+        shows(Target.FragmentTwo)
+
+        Holder.main.back()
+        shows(Target.FragmentTwo)
+    }
+
+    @Test
+    fun startAtOne_beamToTwo_beamToThree_beamToFour_back() {
+        Holder.main.startAt(Destination.One("one"))
+        shows(Target.FragmentOne)
+
+        Holder.main.beamTo(Destination.Two("two"))
+        shows(Target.FragmentTwo)
+
+        Holder.main.beamTo(Destination.Three("three"))
+        shows(Target.FragmentThree)
+
+        Holder.main.beamTo(Destination.Four("four"))
+        shows(Target.FragmentFour)
+
+        /*
+        We expect FragmentFour instead of FragmentOne, because
+        beamTo replaced current screen (which is FragmentOne)
+         */
+        Holder.main.back()
+        shows(Target.FragmentFour)
+    }
+
+
+    @Test
+    fun startAtOne_navigateFive__beamToTwo_beamToThree_beamToFour_back() {
+        Holder.main.startAt(Destination.One("one"))
+        shows(Target.FragmentOne)
+
+        Holder.main.navigateTo(Destination.Five("five"))
+        shows(Target.FragmentFive)
+
+        Holder.main.beamTo(Destination.Two("two"))
+        shows(Target.FragmentTwo)
+
+        Holder.main.beamTo(Destination.Three("three"))
+        shows(Target.FragmentThree)
+
+        Holder.main.beamTo(Destination.Four("four"))
+        shows(Target.FragmentFour)
+
+        Holder.main.back()
+        shows(Target.FragmentOne)
+    }
+
 }

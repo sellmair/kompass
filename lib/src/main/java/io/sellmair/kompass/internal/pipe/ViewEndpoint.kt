@@ -63,11 +63,7 @@ internal class ViewEndpoint<Destination : Any>(
         val sail = endpoint.sail
         val container = sail.activity.findViewById<ViewGroup>(sail.containerId)
 
-        val oldView = container.getChildAt(0)
-        if (oldView != null) {
-            container.removeView(oldView)
-        }
-
+        container.removeViewAt(0)
         container.addView(view, 0)
     }
 
