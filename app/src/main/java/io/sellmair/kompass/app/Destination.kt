@@ -11,6 +11,11 @@ sealed class Destination(val key: String) : TargetIdentifiable {
     class Eight(key: String) : Destination(key)
     class Nine(key: String) : Destination(key)
     class Ten(key: String) : Destination(key)
+    class VOne(key: String) : Destination(key)
+    class VTwo(key: String) : Destination(key)
+    class VThree(key: String) : Destination(key)
+    class VFour(key: String) : Destination(key)
+    class VFive(key: String) : Destination(key)
 
 
     override val id: Target
@@ -25,5 +30,10 @@ sealed class Destination(val key: String) : TargetIdentifiable {
             is Destination.Eight -> Target.FragmentEight
             is Destination.Nine -> Target.FragmentNine
             is Destination.Ten -> Target.FragmentTen
+            is Destination.VOne -> Target.ViewOne
+            is Destination.VTwo -> Target.ViewTwo
+            is Destination.VThree -> Target.ViewThree
+            is Destination.VFour -> Target.ViewFour
+            is Destination.VFive -> Target.ViewFive
         }
 }

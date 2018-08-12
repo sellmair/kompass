@@ -88,7 +88,7 @@ internal class ViewEndpoint<Destination : Any>(
 
         val constructors = viewClass.java.constructors
 
-        fun Constructor<*>.hasTwoParams() = parameterTypes.size == 1
+        fun Constructor<*>.hasTwoParams() = parameterTypes.size == 2
 
         fun Constructor<*>.firstParamIsContext() =
             parameterTypes[0].isAssignableFrom(Context::class.java)

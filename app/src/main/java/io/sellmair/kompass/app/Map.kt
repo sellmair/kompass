@@ -17,6 +17,11 @@ class Map : KompassMap<Destination> {
             Target.FragmentEight -> FragmentEight().asRoute()
             Target.FragmentNine -> FragmentNine().asRoute()
             Target.FragmentTen -> FragmentTen().asRoute()
+            Target.ViewOne -> ViewOne::class.asRoute()
+            Target.ViewTwo -> ViewTwo::class.asRoute()
+            Target.ViewThree -> ViewThree::class.asRoute()
+            Target.ViewFour -> ViewFour::class.asRoute()
+            Target.ViewFive -> ViewFive::class.asRoute()
         }
     }
 }
