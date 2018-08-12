@@ -97,8 +97,8 @@ internal class Payload<Destination, Stage> private constructor(
 
 
         fun viewRouteOf(payload: Payload<*, out ReadViewRoute>):
-            KompassRoute.View {
-            return payload[Member.ROUTE] as? KompassRoute.View
+            KompassRoute.View<*> {
+            return payload[Member.ROUTE] as? KompassRoute.View<*>
                 ?: throwAccessException(payload, Member.ROUTE)
         }
 
@@ -169,7 +169,7 @@ internal val Payload<*, out ReadActivityRoute>.route: KompassRoute.Activity<*>
     get() = Payload.activityRouteOf(this)
 
 @get:JvmName("viewRoute")
-internal val Payload<*, out ReadViewRoute>.route: KompassRoute.View
+internal val Payload<*, out ReadViewRoute>.route: KompassRoute.View<*>
     get() = Payload.viewRouteOf(this)
 
 
@@ -252,7 +252,7 @@ internal fun <Destination> Payload<Destination, Stage.Routed>.activityEndpoint()
 
 internal fun <Destination> Payload<Destination, Stage.Routed>.viewEndpoint():
     Payload<Destination, Stage.Endpoint.View>? {
-    return if (this.route is KompassRoute.View) {
+    return if (this.route is KompassRoute.View<*>) {
         this.set(Payload.Member.ROUTE, route)
     } else null
 }

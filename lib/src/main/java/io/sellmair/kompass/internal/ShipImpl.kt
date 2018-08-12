@@ -24,6 +24,7 @@ internal class ShipImpl<Destination : Any>(
     private val instructionCrane = InstructionCrane(crane)
     private val fragmentEndpoint = FragmentEndpoint<Destination>(this, registry)
     private val activityEndpoint = ActivityEndpoint<Destination>(this)
+    private val viewEndpoint = ViewEndpoint<Destination>(this)
 
     @UiThread
     override fun setSail(sail: KompassSail): KompassReleasable {
@@ -61,7 +62,7 @@ internal class ShipImpl<Destination : Any>(
 
     init {
         instructionCrane + instructionBuffer + instructionRouter +
-            (fragmentEndpoint / activityEndpoint)
+            (fragmentEndpoint / activityEndpoint / viewEndpoint)
     }
 
 }
