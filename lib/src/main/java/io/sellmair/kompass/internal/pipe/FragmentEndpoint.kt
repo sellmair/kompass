@@ -27,7 +27,7 @@ internal class FragmentEndpoint<Destination : Any>(
     }
 
 
-    private fun route(endpoint: Payload<Destination, Stage.Endpoint.Fragment>) {
+    private fun route(endpoint: FEndpoint<Destination>) {
         applyFragmentArguments(endpoint)
 
         when (endpoint.instruction) {
