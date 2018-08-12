@@ -70,19 +70,22 @@ internal class FragmentEndpoint<Destination : Any>(
     }
 
     private fun beamTo(endpoint: FEndpoint<Destination>) {
-        backImmediate()
-
         val manager = endpoint.sail.manager
         val containerId = endpoint.sail.containerId
         val fragment = endpoint.route.fragment
+
 
         val transaction = manager.beginTransaction()
         applyDetour(endpoint, transaction)
 
         transaction.replace(containerId, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
 
-        onBack { manager.popBackStackImmediate() }
+        onBack {
+            manager.popBackStackImmediate()
+            backImmediate()
+        }
     }
 
 
