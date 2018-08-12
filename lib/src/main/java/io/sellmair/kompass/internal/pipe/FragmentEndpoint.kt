@@ -74,6 +74,7 @@ internal class FragmentEndpoint<Destination : Any>(
         val containerId = endpoint.sail.containerId
         val fragment = endpoint.route.fragment
 
+        manager.popBackStackImmediate()
 
         val transaction = manager.beginTransaction()
         applyDetour(endpoint, transaction)
@@ -82,10 +83,6 @@ internal class FragmentEndpoint<Destination : Any>(
         transaction.addToBackStack(null)
         transaction.commit()
 
-        onBack {
-            manager.popBackStackImmediate()
-            backImmediate()
-        }
     }
 
 
