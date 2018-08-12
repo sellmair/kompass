@@ -24,7 +24,7 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-26
     - sys-img-armeabi-v7a-android-17
-    - sys-img-armeabi-v7a-addon-google_apis-google-21
+    - sys-img-armeabi-v7a-addon-google_apis-google-22
 
 
 # Emulator Management: Create, Start and Wait
