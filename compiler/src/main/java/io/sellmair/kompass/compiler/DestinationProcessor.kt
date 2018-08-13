@@ -49,7 +49,7 @@ class DestinationProcessor : AbstractProcessor() {
             DestinationAsBundleImplementationDestinationVisitor() +
             BundleAsDestinationImplementationDestinationVisitor() +
             KompassCompanionDestinationAsBundleImplementationDestinationVisitor() +
-            KompassCompanionBundleAsDestinationImplementationDestinationVisitor()
+            KompassCompanionBundleAsDestinationImplementationDestinationVisitor(context)
 
         visitor.visit(renderTree)
 

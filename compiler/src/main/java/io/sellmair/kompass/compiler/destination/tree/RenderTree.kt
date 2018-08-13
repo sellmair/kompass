@@ -3,9 +3,9 @@ package io.sellmair.kompass.compiler.destination.tree
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
-import io.sellmair.kompass.compiler.destination.ContextSensitive
 import io.sellmair.kompass.compiler.destination.DestinationConstructorElement
 import io.sellmair.kompass.compiler.destination.DestinationElement
+import io.sellmair.kompass.compiler.destination.RenderContextSensitive
 
 /*
 Example thoughts on a element called LoginDestination
@@ -33,7 +33,7 @@ KompassBuilder.autoCrane() !!! needs to know AutoCrane !!!
  */
 
 
-interface RenderTree : ContextSensitive {
+interface RenderTree : RenderContextSensitive {
     companion object
 }
 

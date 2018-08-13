@@ -1,17 +1,26 @@
 package io.sellmair.kompass.compiler.destination.visitor
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.asTypeName
+import io.sellmair.kompass.compiler.ClassNames
+import io.sellmair.kompass.compiler.KompassUnsupportedDestinationTypeException
 import io.sellmair.kompass.compiler.destination.RenderContext
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
-import io.sellmair.kompass.compiler.isNullable
-import javax.lang.model.element.Element
-import javax.lang.model.element.TypeElement
+import io.sellmair.kompass.compiler.extension.RenderContextUse
+import io.sellmair.kompass.compiler.extension.invoke
+import io.sellmair.kompass.compiler.extension.isOptional
+import io.sellmair.kompass.compiler.types
 import javax.lang.model.element.VariableElement
+import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
-import javax.lang.model.type.TypeMirror
+import javax.tools.Diagnostic
 
-class KompassCompanionBundleAsDestinationImplementationDestinationVisitor : DestinationVisitor {
+class KompassCompanionBundleAsDestinationImplementationDestinationVisitor(
+    override val context: RenderContext) :
+    DestinationVisitor,
+    RenderContextUse {
     override fun visit(target: DestinationsRenderTree) {
         for (destination in target.destinations) {
             destination
@@ -30,60 +39,125 @@ class KompassCompanionBundleAsDestinationImplementationDestinationVisitor : Dest
         addCode(")")
     }
 
-    private fun FunSpec.Builder.visit(tree: DestinationRenderTree, parameter: VariableElement) {
-        val getFun = getFunFor(tree.context, parameter)
+    private fun FunSpec.Builder.visit(
+        tree: DestinationRenderTree,
+        parameter: VariableElement) = (tree.context) {
+
+        val getFunction = getGetFunctionFor(parameter)
         val simpleName = parameter.simpleName
-        val missingKeyAppendix = if (parameter.isNullable()) "" else """ ?: throw Exception("Missing key $simpleName")"""
+
+        val missingKeyAppendix = if (parameter.isOptional()) "" else
+            """ ?: throw Exception("Missing key $simpleName")"""
+
+        val castAppendix = getCastAppendixFor(tree, parameter)
+
         addStatement(
             """
-                $simpleName = bundle.$getFun("$simpleName") $missingKeyAppendix
-            """.trimIndent()
+
+            $simpleName = (bundle.$getFunction("$simpleName") $missingKeyAppendix) $castAppendix
+            """.trimMargin()
         )
     }
 
+    private fun getCastAppendixFor(tree: DestinationRenderTree,
+                                   parameter: VariableElement): String = context {
 
-    private fun getFunFor(context: RenderContext, parameter: VariableElement): String {
+        if (!parameter.asType().isAssignable(ClassNames.serializable.asType())) return@context ""
+        if (parameter.asType().kind != TypeKind.DECLARED) return@context ""
+
+        val className = parameter.asType().asTypeName() as ClassName
+        if (className.packageName.startsWith("java")) return@context ""
+
+
+        val isOptional = parameter.isOptional()
+        context.messager.printMessage(Diagnostic.Kind.MANDATORY_WARNING, parameter.asType().asTypeName().toString())
+        tree.extensions.file.addImport(className.packageName, className.simpleName)
+
+        """as${if (isOptional) "?" else ""} ${className.simpleName} """
+
+    }
+
+    private fun getGetFunctionFor(parameter: VariableElement): String {
         val type = parameter.asType()
-        val typeUtils = context.typeUtils
-        val elementUtils = context.elementUtils
-
-        fun String.asElement(): TypeElement {
-            return elementUtils.getTypeElement(this)
-        }
-
-        fun TypeMirror.isSameType(name: String): Boolean {
-            return typeUtils.isSameType(this, name.asElement().asType())
-        }
-
-        fun TypeMirror.isAssignable(name: String, vararg generics: String): Boolean {
-            val genericTypes = generics.map(String::asElement).map(Element::asType).toTypedArray()
-            val probeType = typeUtils.getDeclaredType(name.asElement(), *genericTypes)
-            return typeUtils.isAssignable(this, probeType)
-        }
-
         return when {
-            type.isSameType("java.lang.Integer") -> "getInt"
+
+            type.kind == TypeKind.ARRAY -> getGetFunctionForArray(parameter)
+
+            type.isSameType(ClassNames.boolean.asType()) -> "getBooleanOrNull"
+            type.kind == TypeKind.BOOLEAN -> "getBooleanOrNull"
+
+            type.isSameType(ClassNames.byte.asType()) -> "getByteOrNull"
+            type.kind == TypeKind.BYTE -> "getByteOrNull"
+
+            type.isSameType(ClassNames.char.asType()) -> "getCharOrNull"
+            type.kind == TypeKind.CHAR -> "getCharOrNull"
+
+            type.isSameType(ClassNames.short.asType()) -> "getShortOrNull"
+            type.kind == TypeKind.SHORT -> "getShortOrNull"
+
+            type.isSameType(ClassNames.integer.asType()) -> "getIntOrNull"
             type.kind == TypeKind.INT -> "getIntOrNull"
 
-            type.isSameType("java.lang.Float") -> "getFloat"
+            type.isSameType(ClassNames.long.asType()) -> "getLongOrNull"
+            type.kind == TypeKind.LONG -> "getLongOrNull"
+
+            type.isSameType(ClassNames.float.asType()) -> "getFloatOrNull"
             type.kind == TypeKind.FLOAT -> "getFloatOrNull"
 
-            type.isSameType("java.lang.Double") -> "getDouble"
-            type.kind == TypeKind.DOUBLE -> "getDouble"
+            type.isSameType(ClassNames.double.asType()) -> "getDoubleOrNull"
+            type.kind == TypeKind.DOUBLE -> "getDoubleOrNull"
 
-            type.isSameType("java.lang.String") -> "getString"
+            type.isSameType(ClassNames.string.asType()) -> "getString"
 
-            type.isAssignable("android.os.Parcelable") -> "getParcelable"
+            type.isAssignable(ClassNames.parcelable.asType()) -> "getParcelable"
 
-            type.isAssignable("java.io.Serializable") -> "getSerializable"
+            type.isAssignable(ClassNames.serializable.asType()) -> "getSerializable"
 
-            type.isAssignable("java.util.List", "java.lang.String") -> "getStringList"
+            type.isAssignable(types.listOfBoolean) -> "getBooleanList"
 
-            type.isAssignable("java.util.List", "android.os.Parcelable") -> "getParcelableList"
+            type.isAssignable(types.listOfChar) -> "getCharList"
 
-            else -> throw Exception("Unsupported type $type")
+            type.isAssignable(types.listOfByte) -> "getByteList"
 
+            type.isAssignable(types.listOfShort) -> "getShortList"
+
+            type.isAssignable(types.listOfInt) -> "getIntList"
+
+            type.isAssignable(types.listOfLong) -> "getLongList"
+
+            type.isAssignable(types.listOfFloat) -> "getFloatList"
+
+            type.isAssignable(types.listOfDouble) -> "getDoubleList"
+
+            type.isAssignable(types.listOfString) -> "getStringList"
+
+            type.isAssignable(types.listOutParcelable) -> "getParcelableList"
+
+            else -> throw KompassUnsupportedDestinationTypeException(type)
+        }
+
+
+    }
+
+    private fun getGetFunctionForArray(parameter: VariableElement): String {
+        val type = parameter.asType() as ArrayType
+        val componentType = type.componentType
+        return when {
+            componentType.kind == TypeKind.BOOLEAN -> "getBooleanArray"
+            componentType.kind == TypeKind.CHAR -> "getCharArray"
+            componentType.kind == TypeKind.BYTE -> "getByteArray"
+            componentType.kind == TypeKind.SHORT -> "getShortArray"
+            componentType.kind == TypeKind.INT -> "getIntArray"
+            componentType.kind == TypeKind.LONG -> "getLongArray"
+            componentType.kind == TypeKind.FLOAT -> "getFloatArray"
+            componentType.kind == TypeKind.DOUBLE -> "getDoubleArray"
+
+            componentType.isAssignable(ClassNames.string.asType()) ->
+                "getStringArray"
+
+            else -> throw KompassUnsupportedDestinationTypeException(type)
         }
     }
 
 }
+

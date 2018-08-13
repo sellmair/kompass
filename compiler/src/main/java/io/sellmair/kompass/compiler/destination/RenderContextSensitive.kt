@@ -1,5 +1,5 @@
 package io.sellmair.kompass.compiler.destination
 
-interface ContextSensitive {
+interface RenderContextSensitive {
     val context: RenderContext
 }

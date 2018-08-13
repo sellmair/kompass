@@ -1,8 +1,8 @@
-package io.sellmair.kompass.compiler
+package io.sellmair.kompass.compiler.extension
 
 import org.jetbrains.annotations.Nullable
 import javax.lang.model.element.Element
 
-fun Element.isNullable(): Boolean {
+fun Element.isOptional(): Boolean {
     return this.getAnnotation(Nullable::class.java) != null
 }
