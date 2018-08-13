@@ -10,7 +10,6 @@ import io.sellmair.kompass.invoke
 import io.sellmair.kompass.stub
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class PayloadTest {
 
@@ -130,6 +129,6 @@ class PayloadTest {
 
     private val pseudoBundle = Bundle()
 
-    private val pseudoRoute: KompassRoute = KompassRoute(mock(View::class.java))
+    private val pseudoRoute: KompassRoute = KompassRoute(View::class)
 
 }
