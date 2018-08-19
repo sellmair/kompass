@@ -1,10 +1,12 @@
 package io.sellmair.kompass.compiler.destination.visitor
 
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.asClassName
+import io.sellmair.kompass.compiler.ClassNames
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
-class DestinationAsBundleImplementationDestinationVisitor : DestinationVisitor {
+class DestinationAsBundleVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
         for (destination in target.destinations) {
             destination.extensions.destinationExtensions.asBundle.visit(destination)
@@ -12,6 +14,9 @@ class DestinationAsBundleImplementationDestinationVisitor : DestinationVisitor {
     }
 
     private fun FunSpec.Builder.visit(tree: DestinationRenderTree) {
+        receiver(tree.element.asClassName())
+        returns(ClassNames.bundle)
+
         val kompassFun = tree.extensions.kompassCompanionExtensions.destinationAsBundle.build()
 
         addCode(

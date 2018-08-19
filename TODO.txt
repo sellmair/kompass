@@ -10,7 +10,7 @@ SAVE STATE
 
 19.08.2018:
 - RenderTree as object instead of convoluted interfaces
-- Implement tryAsDestination method
+- Implement tryAsDestination method [ DONE ]
 - Implement AutoMap
 - Implement AutoMap extension
 - Implement AutoCrane

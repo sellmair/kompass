@@ -83,6 +83,7 @@ private class DestinationsTreeRendererImpl(
     fun renderDestinationExtensions(target: ExtensionRenderTree) {
         val fileSpec = target.file
             .addFunction(target.bundleExtensions.asDestination.build())
+            .addFunction(target.bundleExtensions.tryAsDestination.build())
             .addFunction(target.destinationExtensions.asBundle.build())
             .addFunction(target.kompassCompanionExtensions.bundleAsDestination.build())
             .addFunction(target.kompassCompanionExtensions.destinationAsBundle.build())

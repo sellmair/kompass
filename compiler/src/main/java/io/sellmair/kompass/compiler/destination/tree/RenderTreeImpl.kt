@@ -94,6 +94,9 @@ class BundleExtensionsRenderTreeImpl(
     override val asDestination: FunSpec.Builder =
         FunSpec.builder("as${element.simpleName}")
 
+    override val tryAsDestination: FunSpec.Builder =
+        FunSpec.builder("tryAs${element.simpleName}")
+
 }
 
 class DestinationExtensionsRenderTreeImpl(

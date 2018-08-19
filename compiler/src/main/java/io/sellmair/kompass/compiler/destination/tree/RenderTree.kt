@@ -73,6 +73,7 @@ interface KompassCompanionExtensionRenderTree : RenderTree {
 
 interface BundleExtensionsRenderTree : RenderTree {
     val asDestination: FunSpec.Builder
+    val tryAsDestination: FunSpec.Builder
 }
 
 interface DestinationExtensionsRenderTree : RenderTree {

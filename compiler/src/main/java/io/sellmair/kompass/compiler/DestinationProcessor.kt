@@ -42,10 +42,9 @@ class DestinationProcessor : AbstractProcessor() {
         /*
         Create visitors and visit the tree
          */
-        val visitor = DestinationAsBundleHeaderDestinationVisitor() +
-            BundleAsDestinationHeaderDestinationVisitor() +
-            DestinationAsBundleImplementationDestinationVisitor() +
-            BundleAsDestinationImplementationDestinationVisitor() +
+        val visitor = DestinationAsBundleVisitor() +
+            BundleAsDestinationVisitor() +
+            BundleTryAsDestinationVisitor() +
             KompassCompanionDestinationAsBundleVisitor(context) +
             KompassCompanionBundleAsDestinationVisitor(context)
 
