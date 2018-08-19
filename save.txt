@@ -1,8 +1,0 @@
-
-SAVE STATE
-- Implemented this first draft of bundle -> destination
-- Next steps:
-    1. Merge Implementation visitors with header visitors [ DONE ]
-    2. This visitor is not 100% nice written (maybe make this cooler) [ DONE ]
-    3. Maybe create sub-visitors for this visitor (cast appendix, etc) [ REJECTED ]
-    4. Implement destination -> bundle part
