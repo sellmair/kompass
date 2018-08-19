@@ -91,8 +91,10 @@ class KompassCompanionBundleAsDestinationVisitor(
     private fun createCastAppendixFor(tree: DestinationRenderTree,
                                       parameter: VariableElement): String = context {
 
-        if (!parameter.asType().isAssignable(ClassNames.serializable.asType())) return@context ""
-        if (parameter.asType().kind != TypeKind.DECLARED) return@context ""
+        val type = parameter.asType()
+        if (!type.isAssignable(ClassNames.serializable.asType())) return@context ""
+        if (type.isAssignable(ClassNames.parcelable.asType())) return@context ""
+        if (type.kind != TypeKind.DECLARED) return@context ""
 
         val className = parameter.asType().asTypeName() as ClassName
         if (className.packageName.startsWith("java")) return@context ""
