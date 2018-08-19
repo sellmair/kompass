@@ -40,6 +40,7 @@ internal class ShipImpl<Destination : Any>(
 
     @AnyThread
     override fun startAt(destination: Destination) = mainThread {
+        clear()
         val instruction = Instruction.StartAt(destination)
         val payload = Payload(instruction)
         instructionCrane(payload)
