@@ -228,3 +228,11 @@ class ParcelableListDestination(val list: List<MyParcelable>)
 @Destination
 class OptionalParcelableListDestination(val list: List<MyParcelable>)
 
+@Destination(target = [MyFragment::class])
+class MyFragmentTargetDestination
+
+@Destination(target = [MainActivity::class])
+class MainActivityTargetDestination
+
+@Destination(target = [MyView::class])
+class MyViewTargetDestination

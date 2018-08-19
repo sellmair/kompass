@@ -37,6 +37,7 @@ private class DestinationsTreeRendererImpl(
     override fun render(target: DestinationsRenderTree) {
         context.messager.printMessage(Diagnostic.Kind.MANDATORY_WARNING, "Rendering...")
         renderAutoCrane(target)
+        renderAutoMap(target)
         renderDestinations(target)
         renderKompassBuilderExtensions(target)
     }
@@ -53,6 +54,25 @@ private class DestinationsTreeRendererImpl(
         val fileSpec = autoCrane.file
             .addType(autoCrane.type
                 .addFunction(autoCrane.get.build())
+                .build())
+            .build()
+
+        val associatedFile = fileSpec.associatedBy(target.context.elements)
+        fileRenderer.render(associatedFile)
+    }
+
+
+    /*
+    ################################################################################################
+    RENDER AUTO MAP
+    ################################################################################################
+    */
+
+    fun renderAutoMap(target: DestinationsRenderTree) {
+        val autoMap = target.autoMap
+        val fileSpec = autoMap.file
+            .addType(autoMap.type
+                .addFunction(autoMap.get.build())
                 .build())
             .build()
 
@@ -107,6 +127,7 @@ private class DestinationsTreeRendererImpl(
     fun renderKompassBuilderExtensions(target: KompassBuilderExtensionsRenderTree) {
         val fileSpec = target.file
             .addFunction(target.autoCrane.build())
+            .addFunction(target.autoMap.build())
             .build()
 
         val associatedFile = fileSpec.associatedBy(target.context.elements)

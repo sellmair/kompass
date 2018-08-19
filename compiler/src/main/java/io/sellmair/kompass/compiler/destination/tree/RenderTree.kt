@@ -40,12 +40,19 @@ interface RenderTree : RenderContextSensitive {
 interface DestinationsRenderTree : RenderTree {
     val destinations: List<DestinationRenderTree>
     val autoCrane: AutoCraneRenderTree
+    val autoMap: AutoMapRenderTree
     val kompassBuilderExtensions: KompassBuilderExtensionsRenderTree
 
     companion object
 }
 
 interface AutoCraneRenderTree : RenderTree {
+    val file: FileSpec.Builder
+    val type: TypeSpec.Builder
+    val get: FunSpec.Builder
+}
+
+interface AutoMapRenderTree : RenderTree {
     val file: FileSpec.Builder
     val type: TypeSpec.Builder
     val get: FunSpec.Builder
@@ -83,4 +90,5 @@ interface DestinationExtensionsRenderTree : RenderTree {
 interface KompassBuilderExtensionsRenderTree : RenderTree {
     val file: FileSpec.Builder
     val autoCrane: FunSpec.Builder
+    val autoMap: FunSpec.Builder
 }

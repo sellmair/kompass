@@ -21,6 +21,8 @@ class DestinationsRenderTreeImpl(
 
     override val autoCrane = AutoCraneRenderTreeImpl(context)
 
+    override val autoMap = AutoMapRenderTreeImpl(context)
+
     override val kompassBuilderExtensions = KompassBuilderExtensionsRenderTreeImpl(context)
 
 }
@@ -45,14 +47,25 @@ class AutoCraneRenderTreeImpl(override val context: RenderContext) : AutoCraneRe
     override val get: FunSpec.Builder = FunSpec.builder("get")
 }
 
+class AutoMapRenderTreeImpl(override val context: RenderContext) : AutoMapRenderTree {
+
+    override val file: FileSpec.Builder = FileSpec.builder("io.sellmair.kompass", "AutoMap")
+
+    override val type: TypeSpec.Builder = TypeSpec.classBuilder("AutoMap")
+
+    override val get: FunSpec.Builder = FunSpec.builder("get")
+}
+
 
 class KompassBuilderExtensionsRenderTreeImpl(
     override val context: RenderContext) : KompassBuilderExtensionsRenderTree {
 
     override val file: FileSpec.Builder =
-        FileSpec.builder("io.sellmair.kompass", "KompassBuilder_autoCrane")
+        FileSpec.builder("io.sellmair.kompass", "KompassBuilder_auto")
 
     override val autoCrane: FunSpec.Builder = FunSpec.builder("autoCrane")
+
+    override val autoMap: FunSpec.Builder = FunSpec.builder("autoMap")
 
 }
 

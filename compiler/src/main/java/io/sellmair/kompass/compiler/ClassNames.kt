@@ -3,7 +3,12 @@ package io.sellmair.kompass.compiler
 import com.squareup.kotlinpoet.ClassName
 
 object ClassNames {
+    val activity = ClassName("android.app", "Activity")
+    val fragment = ClassName("android.support.v4.app", "Fragment")
+    val view = ClassName("android.view", "View")
+
     val kompassCompanion = ClassName("io.sellmair.kompass", "Kompass.Companion")
+    val kompassRoute = ClassName("io.sellmair.kompass", "KompassRoute")
     fun kompassBuilder(type: String) = ClassName("io.sellmair.kompass", "KompassBuilder<$type>")
     fun kompassMap(type: String) = ClassName("io.sellmair.kompass", "KompassMap<$type>")
     fun kompassCrane(type: String) = ClassName("io.sellmair.kompass", "KompassCrane<$type>")

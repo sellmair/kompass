@@ -48,7 +48,9 @@ class DestinationProcessor : AbstractProcessor() {
             KompassCompanionDestinationAsBundleVisitor(context) +
             KompassCompanionBundleAsDestinationVisitor(context) +
             AutoCraneVisitor() +
-            KompassBuilderAutoCraneVisitor()
+            KompassBuilderAutoCraneVisitor() +
+            AutoMapVisitor(context) +
+            KompassBuilderAutoMapVisitor()
 
         visitor.visit(renderTree)
 
