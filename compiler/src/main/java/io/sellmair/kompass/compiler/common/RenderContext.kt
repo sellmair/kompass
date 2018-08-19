@@ -1,4 +1,4 @@
-package io.sellmair.kompass.compiler.destination
+package io.sellmair.kompass.compiler.common
 
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element

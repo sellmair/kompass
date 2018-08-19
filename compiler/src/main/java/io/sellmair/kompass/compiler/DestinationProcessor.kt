@@ -1,15 +1,13 @@
 package io.sellmair.kompass.compiler
 
 import io.sellmair.kompass.annotation.Destination
+import io.sellmair.kompass.compiler.common.*
 import io.sellmair.kompass.compiler.destination.DestinationElement
-import io.sellmair.kompass.compiler.destination.RenderContext
 import io.sellmair.kompass.compiler.destination.renderer.DestinationsTreeRenderer
-import io.sellmair.kompass.compiler.destination.renderer.FileRenderer
 import io.sellmair.kompass.compiler.destination.renderer.invoke
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.destination.tree.from
 import io.sellmair.kompass.compiler.destination.visitor.*
-import io.sellmair.kompass.compiler.destination.wrap
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion

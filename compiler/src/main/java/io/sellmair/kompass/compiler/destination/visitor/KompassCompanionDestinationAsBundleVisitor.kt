@@ -2,14 +2,14 @@ package io.sellmair.kompass.compiler.destination.visitor
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.asClassName
-import io.sellmair.kompass.compiler.ClassNames
-import io.sellmair.kompass.compiler.KompassUnsupportedDestinationTypeException
-import io.sellmair.kompass.compiler.destination.RenderContext
+import io.sellmair.kompass.compiler.common.ClassNames
+import io.sellmair.kompass.compiler.common.KompassUnsupportedDestinationTypeException
+import io.sellmair.kompass.compiler.common.RenderContext
+import io.sellmair.kompass.compiler.common.types
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.extension.RenderContextUse
 import io.sellmair.kompass.compiler.extension.isOptional
-import io.sellmair.kompass.compiler.types
 import javax.lang.model.element.VariableElement
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind

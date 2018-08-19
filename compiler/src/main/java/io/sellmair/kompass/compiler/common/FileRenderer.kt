@@ -1,7 +1,5 @@
-package io.sellmair.kompass.compiler.destination.renderer
+package io.sellmair.kompass.compiler.common
 
-import io.sellmair.kompass.compiler.destination.RenderContext
-import io.sellmair.kompass.compiler.destination.Renderable
 import java.io.File
 import javax.tools.Diagnostic
 

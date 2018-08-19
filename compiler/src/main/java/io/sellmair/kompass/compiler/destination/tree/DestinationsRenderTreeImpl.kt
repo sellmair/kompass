@@ -3,9 +3,9 @@ package io.sellmair.kompass.compiler.destination.tree
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
+import io.sellmair.kompass.compiler.common.RenderContext
 import io.sellmair.kompass.compiler.destination.DestinationConstructorElement
 import io.sellmair.kompass.compiler.destination.DestinationElement
-import io.sellmair.kompass.compiler.destination.RenderContext
 import io.sellmair.kompass.compiler.destination.from
 
 

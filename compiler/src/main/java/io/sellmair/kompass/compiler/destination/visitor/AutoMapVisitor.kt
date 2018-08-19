@@ -2,8 +2,8 @@ package io.sellmair.kompass.compiler.destination.visitor
 
 
 import com.squareup.kotlinpoet.*
-import io.sellmair.kompass.compiler.ClassNames
-import io.sellmair.kompass.compiler.destination.RenderContext
+import io.sellmair.kompass.compiler.common.ClassNames
+import io.sellmair.kompass.compiler.common.RenderContext
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.extension.RenderContextUse

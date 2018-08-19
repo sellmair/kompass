@@ -2,7 +2,7 @@ package io.sellmair.kompass.compiler.destination.visitor
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeVariableName
-import io.sellmair.kompass.compiler.ClassNames
+import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
 class KompassBuilderAutoCraneVisitor : DestinationVisitor {

@@ -1,4 +1,4 @@
-package io.sellmair.kompass.compiler
+package io.sellmair.kompass.compiler.common
 
 import com.squareup.kotlinpoet.asTypeName
 import javax.lang.model.type.TypeMirror

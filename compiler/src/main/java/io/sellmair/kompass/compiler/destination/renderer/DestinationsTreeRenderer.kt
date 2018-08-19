@@ -1,7 +1,9 @@
 package io.sellmair.kompass.compiler.destination.renderer
 
-import io.sellmair.kompass.compiler.destination.RenderContext
-import io.sellmair.kompass.compiler.destination.Renderable
+import io.sellmair.kompass.compiler.common.FileRenderer
+import io.sellmair.kompass.compiler.common.RenderContext
+import io.sellmair.kompass.compiler.common.Renderable
+import io.sellmair.kompass.compiler.common.associatedBy
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.destination.tree.ExtensionRenderTree

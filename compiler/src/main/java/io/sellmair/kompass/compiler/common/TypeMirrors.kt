@@ -1,8 +1,6 @@
-package io.sellmair.kompass.compiler
+package io.sellmair.kompass.compiler.common
 
 import com.squareup.kotlinpoet.ClassName
-import io.sellmair.kompass.compiler.destination.RenderContext
-import io.sellmair.kompass.compiler.destination.RenderContextSensitive
 import io.sellmair.kompass.compiler.extension.RenderContextUse
 import io.sellmair.kompass.compiler.extension.invoke
 import javax.lang.model.type.DeclaredType

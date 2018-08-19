@@ -1,4 +1,4 @@
-package io.sellmair.kompass.compiler.destination.renderer
+package io.sellmair.kompass.compiler.common
 
 import com.squareup.kotlinpoet.FileSpec
 import javax.lang.model.element.Element
