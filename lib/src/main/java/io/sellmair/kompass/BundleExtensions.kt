@@ -3,24 +3,6 @@ package io.sellmair.kompass
 import android.os.Bundle
 import android.os.Parcelable
 
-fun Bundle.putStringList(key: String, list: List<String>?) {
-    if (list == null) {
-        this.putStringArrayList(key, null)
-        return
-    }
-
-    this.putStringArrayList(key, list.toArrayList())
-}
-
-fun Bundle.putParcelableList(key: String, list: List<Parcelable>?) {
-    if (list == null) {
-        this.putParcelableArrayList(key, list)
-        return
-    }
-
-    this.putParcelableArrayList(key, list.toArrayList())
-}
-
 
 fun Bundle.getBooleanOrNull(key: String): Boolean? {
     if (this.containsKey(key)) return null
@@ -103,6 +85,96 @@ fun <T : Parcelable> Bundle.getParcelableList(key: String): List<T>? {
     return this.getParcelableArrayList(key)
 }
 
+fun Bundle.putBooleanList(key: String, value: List<Boolean>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putBooleanArray(key, value.toBooleanArray())
+}
+
+fun Bundle.putByteList(key: String, value: List<Byte>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putByteArray(key, value.toByteArray())
+}
+
+fun Bundle.putCharList(key: String, value: List<Char>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putCharArray(key, value.toCharArray())
+}
+
+fun Bundle.putShortList(key: String, value: List<Short>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putShortArray(key, value.toShortArray())
+}
+
+fun Bundle.putIntList(key: String, value: List<Int>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putIntegerArrayList(key, value.toArrayList())
+}
+
+fun Bundle.putLongList(key: String, value: List<Long>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putLongArray(key, value.toLongArray())
+}
+
+fun Bundle.putFloatList(key: String, value: List<Float>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putFloatArray(key, value.toFloatArray())
+}
+
+
+fun Bundle.putDoubleList(key: String, value: List<Double>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putDoubleArray(key, value.toDoubleArray())
+}
+
+fun Bundle.putStringList(key: String, value: List<String>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putStringArrayList(key, value.toArrayList())
+}
+
+fun <T : Parcelable> Bundle.putParcelableList(key: String, value: List<T>?) {
+    if (value == null) {
+        this.remove(key)
+        return
+    }
+
+    this.putParcelableArrayList(key, value.toArrayList())
+}
 
 private fun <T> List<T>.toArrayList(): ArrayList<T> {
     val arrayList = ArrayList<T>(this.size)
