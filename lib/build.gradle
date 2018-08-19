@@ -68,11 +68,7 @@ repositories {
 }
 
 
-
-
 apply plugin: 'com.github.dcendents.android-maven'
-
-
 apply plugin: 'com.jfrog.bintray'
 
 task sourceJar(type: Jar) {
