@@ -18,7 +18,7 @@ class DetourRegistryImplTest {
         registry = DetourRegistryImpl()
 
 
-        detour = object : KompassViewDetour<Any, PseudoSuper, PseudoImpl>() {
+        detour = object : KompassViewDetour<Any, PseudoSuper, PseudoImpl> {
             override fun setup(
                 destination: Any,
                 currentView: PseudoSuper,
@@ -29,7 +29,7 @@ class DetourRegistryImplTest {
             }
         }
 
-        noise = object : KompassViewDetour<String, String, String>() {
+        noise = object : KompassViewDetour<String, String, String> {
             override fun setup(
                 destination: String,
                 currentView: String,

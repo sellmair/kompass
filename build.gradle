@@ -40,3 +40,5 @@ if (!project.hasProperty("bintray_apikey")) {
 if (!project.hasProperty("bintray_gpg_password")) {
     ext.bintray_gpg_password = "stub"
 }
+
+
