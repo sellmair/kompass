@@ -14,7 +14,7 @@ import io.sellmair.kompass.annotation.Detour
  */
 @Detour
 class LoginToLoginProcessingDetour :
-    KompassFragmentDetour<Any, Fragment, LoginProcessingFragment>() {
+    KompassFragmentDetour<Any, Fragment, LoginProcessingFragment> {
     override fun setup(destination: Any,
                        currentFragment: Fragment,
                        nextFragment: LoginProcessingFragment,

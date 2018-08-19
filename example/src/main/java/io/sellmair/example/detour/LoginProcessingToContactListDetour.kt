@@ -10,7 +10,7 @@ import io.sellmair.kompass.annotation.Detour
 
 @Detour
 class LoginProcessingToContactListDetour
-    : KompassFragmentDetour<Any, LoginProcessingFragment, ContactListFragment>() {
+    : KompassFragmentDetour<Any, LoginProcessingFragment, ContactListFragment> {
     override fun setup(destination: Any,
                        currentFragment: LoginProcessingFragment,
                        nextFragment: ContactListFragment,

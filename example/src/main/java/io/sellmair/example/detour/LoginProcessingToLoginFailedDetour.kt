@@ -14,7 +14,7 @@ import io.sellmair.kompass.annotation.Detour
  */
 @Detour
 class LoginProcessingToLoginFailedDetour
-    : KompassFragmentDetour<LoginFailedDestination, Fragment, Fragment>() {
+    : KompassFragmentDetour<LoginFailedDestination, Fragment, Fragment> {
     @SuppressLint("RtlHardcoded")
     override fun setup(destination: LoginFailedDestination,
                        currentFragment: Fragment,

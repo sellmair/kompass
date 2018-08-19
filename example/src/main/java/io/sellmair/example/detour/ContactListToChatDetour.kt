@@ -13,7 +13,7 @@ import io.sellmair.kompass.annotation.Detour
  * Created by sebastiansellmair on 28.01.18.
  */
 @Detour
-class ContactListToChatDetour : KompassFragmentDetour<Any, ContactListFragment, ChatFragment>() {
+class ContactListToChatDetour : KompassFragmentDetour<Any, ContactListFragment, ChatFragment> {
     @SuppressLint("RtlHardcoded")
     override fun setup(destination: Any,
                        currentFragment: ContactListFragment,

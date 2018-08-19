@@ -2,12 +2,11 @@ package io.sellmair.kompass
 
 import android.support.v4.app.FragmentTransaction
 
+@Deprecated("Use KompassFragmentDetour instead")
+typealias KompassDetour<Destination, CurrentFragment, NextFragment> =
+    KompassFragmentDetour<Destination, CurrentFragment, NextFragment>
 
-sealed class KompassDetour<in Destination>
-
-abstract class KompassFragmentDetour<in Destination, in CurrentFragment, in NextFragment> :
-    KompassDetour<Destination>() {
-
+interface KompassFragmentDetour<in Destination, in CurrentFragment, in NextFragment> {
     abstract fun setup(
         destination: Destination,
         currentFragment: CurrentFragment,
@@ -16,8 +15,7 @@ abstract class KompassFragmentDetour<in Destination, in CurrentFragment, in Next
 
 }
 
-abstract class KompassViewDetour<in Destination, in CurrentView, in NextView> :
-    KompassDetour<Destination>() {
+interface KompassViewDetour<in Destination, in CurrentView, in NextView> {
     abstract fun setup(
         destination: Destination,
         currentView: CurrentView,
