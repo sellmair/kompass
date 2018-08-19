@@ -228,6 +228,9 @@ class ParcelableListDestination(val list: List<MyParcelable>)
 @Destination
 class OptionalParcelableListDestination(val list: List<MyParcelable>)
 
+@Destination
+class SerializableParcelableDestination(val mySerializableParcelable: MySerializableParcelable)
+
 @Destination(target = [MyFragment::class])
 class MyFragmentTargetDestination
 
