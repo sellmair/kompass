@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import io.sellmair.example.R
 import io.sellmair.example.destination.ChatDestination
 import io.sellmair.example.viewmodel.ChatViewModel
-import io.sellmair.kompass.tryAsChatDestination
+import io.sellmair.kompass.asChatDestination
 import java.util.*
 
 /**
@@ -21,7 +21,7 @@ class ChatFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        destination = arguments?.tryAsChatDestination() ?: throw IllegalStateException()
+        destination = arguments.asChatDestination()
         val apCompatActivity = activity as AppCompatActivity
         apCompatActivity.supportActionBar?.title = destination.chatTitle
         apCompatActivity.supportActionBar?.subtitle = Date(destination.lastSeenTime).toString()

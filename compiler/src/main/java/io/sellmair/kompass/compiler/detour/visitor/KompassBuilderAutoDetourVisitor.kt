@@ -49,10 +49,11 @@ internal class KompassBuilderAutoDetourVisitor(override val context: RenderConte
         for (detour in tree.detours) {
             addDetour(detour)
         }
+
+        addStatement("return this")
     }
 
     private fun FunSpec.Builder.addDetour(tree: DetoursRenderTree.DetourRenderTree) {
         addStatement("addDetour(%T())", tree.element.asClassName())
-        addStatement("return this")
     }
 }

@@ -5,32 +5,32 @@ import android.os.Parcelable
 
 
 fun Bundle.getBooleanOrNull(key: String): Boolean? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Boolean
 }
 
 fun Bundle.getByteOrNull(key: String): Byte? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Byte
 }
 
 fun Bundle.getCharOrNull(key: String): Char? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Char
 }
 
 fun Bundle.getShortOrNull(key: String): Short? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Short
 }
 
 fun Bundle.getIntOrNull(key: String): Int? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Int
 }
 
 fun Bundle.getLongOrNull(key: String): Long? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Long
 }
 
@@ -40,7 +40,7 @@ fun Bundle.getFloatOrNull(key: String): Float? {
 }
 
 fun Bundle.getDoubleOrNull(key: String): Double? {
-    if (this.containsKey(key)) return null
+    if (!this.containsKey(key)) return null
     return this.get(key) as Double
 }
 

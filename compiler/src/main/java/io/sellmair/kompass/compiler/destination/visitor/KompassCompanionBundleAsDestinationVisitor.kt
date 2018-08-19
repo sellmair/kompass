@@ -48,6 +48,9 @@ class KompassCompanionBundleAsDestinationVisitor(
 
         for (parameter in tree.constructor.parameters) {
             buildImplementationParam(tree, parameter)
+            if (tree.constructor.parameters.last() != parameter) {
+                addCode(",")
+            }
         }
 
         buildImplementationFooter()

@@ -3,7 +3,9 @@ package io.sellmair.example
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import io.sellmair.example.extension.main
 import io.sellmair.example.viewmodel.MainViewModel
+import io.sellmair.kompass.extension.sail
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,9 +19,13 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
     }
 
+    override fun onStart() {
+        super.onStart()
+        kompass.main.setSail(sail(R.id.container)).releasedBy(this)
+    }
 
     override fun onBackPressed() {
-        if (!kompass.popBackImmediate()) finish()
+        if (!kompass.backImmediate()) finish()
     }
 
 }

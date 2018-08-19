@@ -236,3 +236,13 @@ class MainActivityTargetDestination
 
 @Destination(target = [MyView::class])
 class MyViewTargetDestination
+
+
+@Destination
+class MultiArgumentDestination(
+    val myInt: Int,
+    val myFloat: Float,
+    val mySerializable: MySerializable,
+    val myParcelable: MyParcelable,
+    val myStrings: List<String>?,
+    val myDoubles: List<Double>?)

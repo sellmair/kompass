@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import io.sellmair.kompass.KeyLessBackStack
 import io.sellmair.kompass.KompassSail
+import io.sellmair.kompass.extension.resetTransitions
 import io.sellmair.kompass.internal.ExecutableDetourRegistry
 
 
@@ -74,10 +75,10 @@ internal class FragmentEndpoint<Destination : Any>(
         val containerId = endpoint.sail.containerId
         val fragment = endpoint.route.fragment
 
-        manager.popBackStackImmediate()
-
         val transaction = manager.beginTransaction()
         applyDetour(endpoint, transaction)
+
+        manager.popBackStackImmediate()
 
         transaction.replace(containerId, fragment)
         transaction.addToBackStack(null)
@@ -96,6 +97,10 @@ internal class FragmentEndpoint<Destination : Any>(
         val destination = endpoint.instruction.destination
         val currentFragment = findCurrentFragment(endpoint.sail)
         val nextFragment = endpoint.route.fragment
+
+        currentFragment.resetTransitions()
+        nextFragment.resetTransitions()
+
         setupFragmentDetour(
             destination = destination,
             current = currentFragment,

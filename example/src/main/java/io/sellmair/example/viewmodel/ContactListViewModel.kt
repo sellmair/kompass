@@ -14,7 +14,7 @@ class ContactListViewModel : ViewModel() {
     private val kompass = DummyDependencyHolder.getKompass()
 
     fun onContactClicked(contact: Contact) {
-        kompass.main += ChatDestination(
+        kompass.main navigateTo ChatDestination(
                 System.currentTimeMillis(),
                 1,
                 contact.nickname ?: contact.name,

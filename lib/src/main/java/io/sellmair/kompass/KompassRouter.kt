@@ -5,13 +5,13 @@ import android.support.annotation.AnyThread
 interface KompassRouter<in Destination> : KeyLessBackStack {
 
     @AnyThread
-    fun startAt(destination: Destination)
+    infix fun startAt(destination: Destination)
 
     @AnyThread
-    fun navigateTo(destination: Destination)
+    infix fun navigateTo(destination: Destination)
 
     @AnyThread
-    fun beamTo(destination: Destination)
+    infix fun beamTo(destination: Destination)
 
 }
 
