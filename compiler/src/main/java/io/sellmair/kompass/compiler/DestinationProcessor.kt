@@ -48,7 +48,8 @@ class DestinationProcessor : AbstractProcessor() {
             AutoCraneVisitor() +
             KompassBuilderAutoCraneVisitor() +
             AutoMapVisitor(context) +
-            KompassBuilderAutoMapVisitor()
+            KompassBuilderAutoMapVisitor() +
+            ExtensionsWarningSuppressVisitor()
 
         visitor.visit(renderTree)
 

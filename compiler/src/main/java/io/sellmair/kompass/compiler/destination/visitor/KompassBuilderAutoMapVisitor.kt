@@ -7,23 +7,23 @@ import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
 class KompassBuilderAutoMapVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
-        target.kompassBuilderExtensions.autoMap.visit(target)
+        target.kompassBuilderExtensions.autoMap.visit()
     }
 
-    private fun FunSpec.Builder.visit(tree: DestinationsRenderTree) {
+    private fun FunSpec.Builder.visit() {
         buildHeader()
-        buildImplementation(tree)
+        buildImplementation()
     }
 
     private fun FunSpec.Builder.buildHeader() {
         addTypeVariable(TypeVariableName("T", ClassNames.any))
         receiver(ClassNames.kompassBuilder("T"))
+        returns(ClassNames.kompassBuilder("T"))
     }
 
-    private fun FunSpec.Builder.buildImplementation(tree: DestinationsRenderTree) {
-        addStatement("""
-        this.addMap(AutoMap<T>())
-        """.trimIndent())
+    private fun FunSpec.Builder.buildImplementation() {
+        addStatement("this.addMap(AutoMap<T>())")
+        addStatement("return this")
     }
 
 }

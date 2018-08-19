@@ -42,6 +42,7 @@ internal class KompassBuilderAutoDetourVisitor(override val context: RenderConte
     private fun FunSpec.Builder.buildHeader() {
         this.addTypeVariable(TypeVariableName("T", ClassNames.any))
         this.receiver(ClassNames.kompassBuilder("T"))
+        this.returns(ClassNames.kompassBuilder("T"))
     }
 
     private fun FunSpec.Builder.buildImplementation(tree: DetoursRenderTree) {
@@ -51,6 +52,7 @@ internal class KompassBuilderAutoDetourVisitor(override val context: RenderConte
     }
 
     private fun FunSpec.Builder.addDetour(tree: DetoursRenderTree.DetourRenderTree) {
-        addStatement("add(%T())", tree.element.asClassName())
+        addStatement("addDetour(%T())", tree.element.asClassName())
+        addStatement("return this")
     }
 }

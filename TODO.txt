@@ -15,7 +15,7 @@ SAVE STATE
 - Implement AutoMap extension [ DONE ]
 - Implement AutoCrane [ DONE ]
 - Implement AutoCrane extension [ DONE ]
-- Implement AutoDetour
-- Implement AutoDetour extension
+- Implement AutoDetour [ UNNECESSARY ]
+- Implement AutoDetour extension [ DONE ]
 - Implement proper constructor selection
 - Support function getters

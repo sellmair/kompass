@@ -10,11 +10,11 @@ import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
 class AutoCraneVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
-        target.autoCrane.type.visit(target)
+        target.autoCrane.type.visit()
         target.autoCrane.get.visit(target)
     }
 
-    private fun TypeSpec.Builder.visit(tree: DestinationsRenderTree) {
+    private fun TypeSpec.Builder.visit() {
         this.addTypeVariable(TypeVariableName("Destination", ClassNames.any))
         this.addSuperinterface(ClassNames.kompassCrane("Destination"))
     }
