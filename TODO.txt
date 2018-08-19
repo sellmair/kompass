@@ -13,7 +13,9 @@ SAVE STATE
 - Implement tryAsDestination method [ DONE ]
 - Implement AutoMap
 - Implement AutoMap extension
-- Implement AutoCrane
-- Implement AutoCrane extension
+- Implement AutoCrane [ DONE ]
+- Implement AutoCrane extension [ DONE ]
 - Implement AutoDetour
 - Implement AutoDetour extension
+- Implement proper constructor selection
+- Support function getters

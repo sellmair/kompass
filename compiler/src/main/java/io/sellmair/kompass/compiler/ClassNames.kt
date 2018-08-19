@@ -4,6 +4,9 @@ import com.squareup.kotlinpoet.ClassName
 
 object ClassNames {
     val kompassCompanion = ClassName("io.sellmair.kompass", "Kompass.Companion")
+    fun kompassBuilder(type: String) = ClassName("io.sellmair.kompass", "KompassBuilder<$type>")
+    fun kompassMap(type: String) = ClassName("io.sellmair.kompass", "KompassMap<$type>")
+    fun kompassCrane(type: String) = ClassName("io.sellmair.kompass", "KompassCrane<$type>")
 
     val bundle = ClassName("android.os", "Bundle")
     val parcelable = ClassName("android.os", "Parcelable")
@@ -19,6 +22,10 @@ object ClassNames {
     val float = ClassName("java.lang", "Float")
     val double = ClassName("java.lang", "Double")
     val string = ClassName("java.lang", "String")
+
+
+    val javaObject = ClassName("java.lang", "Object")
+    val any = ClassName("kotlin", "Any")
 
 }
 
