@@ -17,5 +17,9 @@ SAVE STATE
 - Implement AutoCrane extension [ DONE ]
 - Implement AutoDetour [ UNNECESSARY ]
 - Implement AutoDetour extension [ DONE ]
+
 - Implement proper constructor selection
 - Support function getters
+- Get ViewDetours running
+- Create nicer readme / getting started
+- Create tutorial
