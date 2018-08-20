@@ -38,3 +38,12 @@ before_script:
 script:
   - android list target
   - ./gradlew connectedAndroidTest
+
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/371f2824d156ad57db2f
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always
