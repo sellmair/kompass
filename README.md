@@ -1,6 +1,6 @@
 ![Kompass](https://github.com/sellmair/kompass/blob/develop/assets/Kompass_724.png?raw=true)
 
-## A boilerplate free router concept for android, written in Kotlin
+## A powerful router for Android, written in Kotlin
 <br>
 
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
