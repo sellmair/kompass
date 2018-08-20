@@ -22,19 +22,17 @@ data class LoginProcessingDestination(
 
 @Destination(target = [ContactListFragment::class])
 data class ContactListDestination(
-        val searchString: String?,
-        val contacts: List<Contact>
-) : AppDestination()
+    val searchString: String?,
+    val contacts: List<Contact>) : AppDestination()
 
 
 @Destination(target = [ChatFragment::class])
 data class ChatDestination(
-        val lastSeenTime: Long,
-        val backgroundId: Int,
-        val chatTitle: String,
-        val savedAlreadyTypedText: String,
-        val contact: Contact
-) : AppDestination()
+    val lastSeenTime: Long,
+    val backgroundId: Int,
+    val chatTitle: String,
+    val savedAlreadyTypedText: String,
+    val contact: Contact) : AppDestination()
 
 
 @Destination(target = [LoginFailedFragment::class])

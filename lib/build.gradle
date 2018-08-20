@@ -30,13 +30,12 @@ ext {
 
 
 android {
-    compileSdkVersion 26
-
+    compileSdkVersion 27
 
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "$kompass_version"
 
@@ -54,23 +53,22 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'org.mockito:mockito-core:2.21.0'
 }
+
 repositories {
     mavenCentral()
 }
 
 
-
 apply plugin: 'com.github.dcendents.android-maven'
-
-group = publishedGroupId                               // Maven Group ID for the artifact
-
-
 apply plugin: 'com.jfrog.bintray'
 
 task sourceJar(type: Jar) {
@@ -102,7 +100,7 @@ publishing {
             version = "$libraryVersion"
             artifactId "$bintrayName"
 
-            artifact ("$buildDir/outputs/aar/lib-release.aar")
+            artifact("$buildDir/outputs/aar/lib-release.aar")
             artifact sourceJar
         }
     }

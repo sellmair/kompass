@@ -1,42 +1,79 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package io.sellmair.kompass
 
-import android.content.Context
-import android.support.v4.app.Fragment
+import android.support.annotation.UiThread
+import io.sellmair.kompass.extension.plus
+import io.sellmair.kompass.internal.*
+import io.sellmair.kompass.internal.precondition.Precondition
+import io.sellmair.kompass.internal.precondition.requireMainThread
 
-class KompassBuilder<Destination : Any> internal constructor(private val context: Context) {
-    private val maps = mutableListOf<KompassMap<Destination>>()
-    private val cranes = mutableListOf<KompassCrane<Destination>>()
-    private val pilots = mutableListOf<KompassDetourPilot>()
+/*
+################################################################################################
+PUBLIC API
+################################################################################################
+*/
+
+
+class KompassBuilder<Destination : Any> internal constructor(
+    private val registry: ExecutableDetourRegistry = DetourRegistryImpl()) {
 
     @PublishedApi
-    internal val detourPilot = KompassDetourPilot.create()
+    internal val fragmentDetourRegistry: FragmentDetourRegistry = registry
 
-    fun addMap(vararg maps: KompassMap<Destination>): KompassBuilder<Destination> {
-        this.maps.addAll(maps)
+    @PublishedApi
+    internal val viewDetourRegistry: ViewDetourRegistry = registry
+
+    private var crane = KompassCrane.empty<Destination>()
+
+    private var map = KompassMap.empty<Destination>()
+
+    @UiThread
+    fun addCrane(crane: KompassCrane<Destination>): KompassBuilder<Destination> = apply {
+        Precondition.requireMainThread()
+        this.crane += crane
         return this
     }
 
-    fun addCrane(vararg cranes: KompassCrane<Destination>): KompassBuilder<Destination> {
-        this.cranes.addAll(cranes)
+    @UiThread
+    fun addMap(map: KompassMap<Destination>): KompassBuilder<Destination> = apply {
+        Precondition.requireMainThread()
+        this.map += map
         return this
     }
 
-    fun addPilot(vararg pilots: KompassDetourPilot): KompassBuilder<Destination> {
-        this.pilots.addAll(pilots)
-        return this
+    @UiThread
+    inline fun <
+        reified Destination : Any,
+        reified CurrentFragment : Any,
+        reified NextFragment : Any> addDetour(
+        fragmentDetour: KompassFragmentDetour<Destination, CurrentFragment, NextFragment>) = apply {
+        fragmentDetourRegistry.add(fragmentDetour,
+            destinationClass = Destination::class,
+            currentClass = CurrentFragment::class,
+            nextClass = NextFragment::class)
     }
 
-    inline fun <reified Destination : Any,
-            reified CurrentFragment : Fragment,
-            reified NextFragment : Fragment>
-            addDetour(detour: KompassDetour<Destination, CurrentFragment, NextFragment>) {
-        this.detourPilot.registerDetour(detour)
+    @UiThread
+    inline fun <
+        reified Destination : Any,
+        reified CurrentView : Any,
+        reified NextView : Any> addDetour(
+        viewDetour: KompassViewDetour<Destination, CurrentView, NextView>) = apply {
+        viewDetourRegistry.add(viewDetour,
+            destinationClass = Destination::class,
+            currentClass = CurrentView::class,
+            nextClass = NextView::class)
     }
 
-    fun build(): Kompass<Destination> = Kompass.create(context, CompositeKompassMap(maps),
-            CompositeKompassCrane(cranes), CompositeKompassDetourPilot(pilots))
-
-    init {
-        pilots.add(detourPilot)
+    @UiThread
+    fun build(): Kompass<Destination> {
+        Precondition.requireMainThread()
+        return KompassImpl(
+            map = map,
+            crane = crane,
+            registry = registry
+        )
     }
+
 }

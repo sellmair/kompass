@@ -1,14 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.20'
-    ext.kompass_version = '0.0.10'
+    ext.kotlin_version = '1.2.50'
+    ext.kompass_version = '0.1.0-pre-alpha.3'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
@@ -20,9 +20,25 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenLocal()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+if (!project.hasProperty("bintray_user")) {
+    ext.bintray_user = "stub"
+}
+
+if (!project.hasProperty("bintray_apikey")) {
+    ext.bintray_apikey = "stub"
+}
+
+if (!project.hasProperty("bintray_gpg_password")) {
+    ext.bintray_gpg_password = "stub"
+}
+
+
