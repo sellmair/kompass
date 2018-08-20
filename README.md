@@ -222,7 +222,7 @@ class HomeActivity: AppCompatActivity(){
 ```
 
 ## Advanced
-#### The Map 🗺
+#### 🗺 The Map 
 Maps contain information about how to display a certain _Destination_. This can be done by 
 starting a new Activity or creating a new Fragment. If you want to use a custom Map element, add it to the KompassBuilder
 ```kotlin
@@ -230,7 +230,7 @@ Kompass.builder()
        .addMap(myCustomMap)
        ...
 ```
-#### The Crane 🏗
+#### 🏗 The Crane 
 A crane knows how to pack a _Destination_ object into a bundle. If you want to use a custom Cran, 
 add it to the KompassBuilder 
 
@@ -238,7 +238,7 @@ add it to the KompassBuilder
 Kompass.builder()
        .addCrane(myCutomCrane)
 ```
-#### The Detour / The DetourPilot
+#### 🎢 The Detour 
 It is a very common thing to apply transitions when one fragment is replaced by another fragment. 
 A _Detour_ can very easily implement such a transition generically. 
 
@@ -268,7 +268,7 @@ Kompass.builder()
 ```
 is used!
 
-#### AutoMap, AutoCran, AutoPilot
+#### AutoMap, AutoCrane, AutoPilot
 The functions 
 ```kotlin
 Kompass.builder()
