@@ -1,13 +1,15 @@
 ![Kompass](https://github.com/sellmair/kompass/blob/develop/assets/Kompass_724.png?raw=true)
 
-## A boilerplate free router concept for android, written in Kotlin
+A boilerplate free router concept for android, written in Kotlin
 <br>
 <br>
+
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
 ![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sellmair/kompass.svg)
 ![GitHub commit activity the past week, 4 weeks, year](https://img.shields.io/github/commit-activity/w/sellmair/kompass.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/kompass-android/)
+
 
 #### Support
 I am happy to help you with any problem on [gitter](https://gitter.im/kompass-android/Help), as fast as I can! <br>
