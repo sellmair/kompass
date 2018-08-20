@@ -54,29 +54,29 @@ I highly recommend having a look at the [example](https://github.com/sellmair/ko
 ## Basic
 Kompass uses a ship related naming schema. Here are the types that you will encounter
 
-- The ```Kompass```  is the upper most object and contains multiple ships
+- 🏰 ```Kompass```  is the upper most object and contains multiple ships
 
-- A ```KompassShip``` 🛶️ is the entity which can route to a certain _Destination_. This might represent a certain area of your 
+- 🛶️ ```KompassShip```  is the entity which can route to a certain _Destination_. This might represent a certain area of your 
 activity where fragments can be loaded: e.g. One Ship can route to views/fragments on the top of the screen
 while another Ship is able`to display content on the bottom of the screen. You can have as many ships as you want
 in your App.
 
-- A ```KompassSail``` ⛵️ is the actual area where fragments can be placed in. Your activity therefore sets the 
+- ⛵ ```KompassSail```️ is the actual area where fragments can be placed in. Your activity therefore sets the 
 sails for a certain ship, which then 'sails' to the destination.
  You might want to use ```FrameLayout``` most often as target for your fragments
  
-- A ```Destination``` 🏖 represents one certain 'scene' of your app. It also holds all necessary arguments for 
+- 🏖  ```Destination``` represents one certain 'scene' of your app. It also holds all necessary arguments for 
  the fragment/activity. For example: You might have a 
 'LoginDestination', 'HomeDestination', 'SettingsDestination', ...  in your application. 
 You can use plain kotlin (data) classes to represent destinations
 
-- A ```KompassMap``` 🗺 knows how to display a certain _Destination_ (meaning which Fragment/View/Activity to load for it). 
+- 🗺 ```KompassMap```  knows how to display a certain _Destination_ (meaning which Fragment/View/Activity to load for it). 
 A map (_AutoMap_) is automatically created for you
 
-- A ```KompassCrane``` 🏗  knows how to push a _Destination_ object into a _Bundle_. A Cran (_AutoCran_) is automatically
+- 🏗 ```KompassCrane```   knows how to push a _Destination_ object into a _Bundle_. A Cran (_AutoCran_) is automatically
 created for you
 
-- A ```Detour``` 🎢  can implement custom transitions/animations for certain routes. 
+- 🎢 ```Detour```  can implement custom transitions/animations for certain routes. 
 Just implement a ```KompassFragmentDetour``` or ```KompassViewDetour``` 
 
 
