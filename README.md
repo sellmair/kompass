@@ -2,7 +2,6 @@
 
 ## A boilerplate free router concept for android, written in Kotlin
 <br>
-<br>
 
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
 ![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass.svg)
