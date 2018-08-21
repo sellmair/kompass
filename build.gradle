@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version = '1.2.50'
-    ext.kompass_version = '0.1.0-pre-alpha.3'
+    ext.kompass_version = '0.1.0-alpha.0'
     repositories {
         google()
         jcenter()
