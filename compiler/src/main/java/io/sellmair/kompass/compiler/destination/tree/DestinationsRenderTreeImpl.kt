@@ -4,16 +4,14 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.sellmair.kompass.compiler.common.RenderContext
-import io.sellmair.kompass.compiler.destination.DestinationConstructorElement
 import io.sellmair.kompass.compiler.destination.DestinationElement
-import io.sellmair.kompass.compiler.destination.from
 
 
-fun DestinationsRenderTree.Companion.from(context: RenderContext, elements: List<DestinationElement>):
+internal fun DestinationsRenderTree.Companion.from(context: RenderContext, elements: List<DestinationElement>):
     DestinationsRenderTree = DestinationsRenderTreeImpl(context, elements)
 
 
-class DestinationsRenderTreeImpl(
+internal class DestinationsRenderTreeImpl(
     override val context: RenderContext,
     elements: List<DestinationElement>) : DestinationsRenderTree {
 
@@ -27,12 +25,9 @@ class DestinationsRenderTreeImpl(
 
 }
 
-class DestinationRenderTreeImpl(override val context: RenderContext,
-                                override val element: DestinationElement) :
+internal class DestinationRenderTreeImpl(override val context: RenderContext,
+                                         override val element: DestinationElement) :
     DestinationRenderTree {
-
-    override val constructor: DestinationConstructorElement =
-        DestinationConstructorElement.from(element)
 
     override val extensions: ExtensionRenderTree =
         ExtensionRenderTreeImpl(context, element)
@@ -69,7 +64,7 @@ class KompassBuilderExtensionsRenderTreeImpl(
 
 }
 
-class ExtensionRenderTreeImpl(
+internal class ExtensionRenderTreeImpl(
     override val context: RenderContext,
     element: DestinationElement) : ExtensionRenderTree {
 
@@ -87,7 +82,7 @@ class ExtensionRenderTreeImpl(
 
 }
 
-class KompassCompanionExtensionsRenderTreeImpl(
+internal class KompassCompanionExtensionsRenderTreeImpl(
     override val context: RenderContext,
     element: DestinationElement) : KompassCompanionExtensionRenderTree {
 
@@ -100,7 +95,7 @@ class KompassCompanionExtensionsRenderTreeImpl(
 
 }
 
-class BundleExtensionsRenderTreeImpl(
+internal class BundleExtensionsRenderTreeImpl(
     override val context: RenderContext,
     element: DestinationElement) : BundleExtensionsRenderTree {
 

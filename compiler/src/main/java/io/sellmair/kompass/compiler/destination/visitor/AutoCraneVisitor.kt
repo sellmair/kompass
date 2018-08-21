@@ -8,7 +8,7 @@ import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
-class AutoCraneVisitor : DestinationVisitor {
+internal class AutoCraneVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
         target.autoCrane.type.visit()
         target.autoCrane.get.visit(target)

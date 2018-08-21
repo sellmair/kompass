@@ -249,3 +249,31 @@ class MultiArgumentDestination(
     val myParcelable: MyParcelable,
     val myStrings: List<String>?,
     val myDoubles: List<Double>?)
+
+
+@Destination
+class IntGetFunDestination(id: Int) {
+    fun getId(): Int = 0
+}
+
+@Destination
+class OptionalIntGetFunDestination(id: Int?) {
+    fun getId(): Int? = 0
+}
+
+
+@Destination
+class IntCreateFunDestination(id: Int) {
+    fun createId(): Int = 0
+}
+
+@Destination
+class OptionalCreateGetFunDestination(id: Int?) {
+    fun createId(): Int? = 0
+}
+
+
+@Destination
+class OptionalParamDestination(val id: Int, val name: String,
+                               val timestamp: Long = System.currentTimeMillis())
+

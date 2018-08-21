@@ -6,15 +6,15 @@ import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.common.KompassUnsupportedDestinationTypeException
 import io.sellmair.kompass.compiler.common.RenderContext
 import io.sellmair.kompass.compiler.common.types
+import io.sellmair.kompass.compiler.destination.DestinationAccessor
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.extension.RenderContextUse
 import io.sellmair.kompass.compiler.extension.isOptional
-import javax.lang.model.element.VariableElement
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 
-class KompassCompanionDestinationAsBundleVisitor(override val context: RenderContext) :
+internal class KompassCompanionDestinationAsBundleVisitor(override val context: RenderContext) :
     DestinationVisitor,
     RenderContextUse {
     override fun visit(target: DestinationsRenderTree) {
@@ -41,8 +41,8 @@ class KompassCompanionDestinationAsBundleVisitor(override val context: RenderCon
     private fun FunSpec.Builder.buildImplementation(tree: DestinationRenderTree) {
         createNewBundle()
 
-        for (parameter in tree.constructor.parameters) {
-            writeToBundle(tree, parameter)
+        for (accessor in tree.element.accessors) {
+            writeToBundle(tree, accessor)
         }
 
         returnBundle()
@@ -57,22 +57,21 @@ class KompassCompanionDestinationAsBundleVisitor(override val context: RenderCon
     }
 
     private fun FunSpec.Builder.writeToBundle(
-        tree: DestinationRenderTree, parameter: VariableElement) {
+        tree: DestinationRenderTree, accessor: DestinationAccessor) {
         when {
-            parameter.isOptional() -> writeOptionalToBundle(tree, parameter)
-            else -> writeStraightToBundle(tree, parameter)
+            accessor.element.isOptional() -> writeOptionalToBundle(tree, accessor)
+            else -> writeStraightToBundle(tree, accessor)
         }
     }
 
     private fun FunSpec.Builder.writeOptionalToBundle(
-        tree: DestinationRenderTree, parameter: VariableElement) {
-        val name = parameter.simpleName
-        val putFunction = createBundlePutFunction(tree, parameter)
+        tree: DestinationRenderTree, accessor: DestinationAccessor) {
+        val putFunction = createBundlePutFunction(accessor)
         addCode("""
 
-        val $name = destination.$name
-        if($name != null) {
-            bundle.$putFunction("$name", $name)
+        val ${accessor.name} = destination.$accessor
+        if(${accessor.name} != null) {
+            bundle.$putFunction("${accessor.name}", ${accessor.name})
         }
 
 
@@ -80,23 +79,22 @@ class KompassCompanionDestinationAsBundleVisitor(override val context: RenderCon
     }
 
     private fun FunSpec.Builder.writeStraightToBundle(
-        tree: DestinationRenderTree, parameter: VariableElement) {
-        val name = parameter.simpleName
-        val putFunction = createBundlePutFunction(tree, parameter)
+        tree: DestinationRenderTree, accessor: DestinationAccessor) {
+        val putFunction = createBundlePutFunction(accessor)
 
         addCode("""
 
-        bundle.$putFunction("$name", destination.$name)
+        bundle.$putFunction("${accessor.name}", destination.$accessor)
 
 
         """.trimIndent())
     }
 
-    private fun createBundlePutFunction(tree: DestinationRenderTree, parameter: VariableElement): String {
-        val type = parameter.asType()
+    private fun createBundlePutFunction(accessor: DestinationAccessor): String {
+        val type = accessor.type
 
         return when {
-            type.kind == TypeKind.ARRAY -> createBundlePutFunctionForArray(parameter)
+            type.kind == TypeKind.ARRAY -> createBundlePutFunctionForArray(accessor)
 
             type.isSameType(ClassNames.boolean.asType()) -> "putBoolean"
             type.kind == TypeKind.BOOLEAN -> "putBoolean"
@@ -153,8 +151,8 @@ class KompassCompanionDestinationAsBundleVisitor(override val context: RenderCon
     }
 
 
-    private fun createBundlePutFunctionForArray(parameter: VariableElement): String {
-        val type = parameter.asType() as ArrayType
+    private fun createBundlePutFunctionForArray(accessor: DestinationAccessor): String {
+        val type = accessor.type as ArrayType
         val componentType = type.componentType
         return when {
             componentType.kind == TypeKind.BOOLEAN -> "putBooleanArray"
