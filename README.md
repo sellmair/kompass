@@ -3,6 +3,7 @@
 ## A powerful router for Android, written in Kotlin
 <br>
 
+![GitHub top language](https://img.shields.io/github/languages/top/sellmair/kompass.svg)
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
 ![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sellmair/kompass.svg)
