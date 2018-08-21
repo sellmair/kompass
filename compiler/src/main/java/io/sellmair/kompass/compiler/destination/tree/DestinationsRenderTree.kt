@@ -4,7 +4,6 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.sellmair.kompass.compiler.common.RenderTree
-import io.sellmair.kompass.compiler.destination.DestinationConstructorElement
 import io.sellmair.kompass.compiler.destination.DestinationElement
 
 /*
@@ -33,7 +32,7 @@ KompassBuilder.autoCrane() !!! needs to know AutoCrane !!!
  */
 
 
-interface DestinationsRenderTree : RenderTree {
+internal interface DestinationsRenderTree : RenderTree {
     val destinations: List<DestinationRenderTree>
     val autoCrane: AutoCraneRenderTree
     val autoMap: AutoMapRenderTree
@@ -54,9 +53,8 @@ interface AutoMapRenderTree : RenderTree {
     val get: FunSpec.Builder
 }
 
-interface DestinationRenderTree : RenderTree {
+internal interface DestinationRenderTree : RenderTree {
     val element: DestinationElement
-    val constructor: DestinationConstructorElement
     val extensions: ExtensionRenderTree
 }
 

@@ -6,7 +6,7 @@ import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
-class BundleAsDestinationVisitor : DestinationVisitor {
+internal class BundleAsDestinationVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
         for (destination in target.destinations) {
             destination.extensions.bundleExtensions.asDestination.visit(destination)

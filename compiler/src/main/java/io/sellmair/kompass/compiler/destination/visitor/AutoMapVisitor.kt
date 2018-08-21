@@ -10,7 +10,7 @@ import io.sellmair.kompass.compiler.extension.RenderContextUse
 import io.sellmair.kompass.compiler.extension.target
 import javax.lang.model.type.TypeMirror
 
-class AutoMapVisitor(override val context: RenderContext) : DestinationVisitor, RenderContextUse {
+internal class AutoMapVisitor(override val context: RenderContext) : DestinationVisitor, RenderContextUse {
     override fun visit(target: DestinationsRenderTree) {
         target.autoMap.type.visit()
         target.autoMap.get.visit(target)

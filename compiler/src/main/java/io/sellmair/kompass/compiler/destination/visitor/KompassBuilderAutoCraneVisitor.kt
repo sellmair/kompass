@@ -5,7 +5,7 @@ import com.squareup.kotlinpoet.TypeVariableName
 import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 
-class KompassBuilderAutoCraneVisitor : DestinationVisitor {
+internal class KompassBuilderAutoCraneVisitor : DestinationVisitor {
     override fun visit(target: DestinationsRenderTree) {
         target.kompassBuilderExtensions.autoCrane.visit()
     }

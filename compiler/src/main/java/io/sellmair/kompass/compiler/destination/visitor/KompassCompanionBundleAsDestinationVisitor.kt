@@ -8,17 +8,17 @@ import io.sellmair.kompass.compiler.common.ClassNames
 import io.sellmair.kompass.compiler.common.KompassUnsupportedDestinationTypeException
 import io.sellmair.kompass.compiler.common.RenderContext
 import io.sellmair.kompass.compiler.common.types
+import io.sellmair.kompass.compiler.destination.DestinationAccessor
 import io.sellmair.kompass.compiler.destination.tree.DestinationRenderTree
 import io.sellmair.kompass.compiler.destination.tree.DestinationsRenderTree
 import io.sellmair.kompass.compiler.extension.RenderContextUse
 import io.sellmair.kompass.compiler.extension.invoke
 import io.sellmair.kompass.compiler.extension.isOptional
-import javax.lang.model.element.VariableElement
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 
 
-class KompassCompanionBundleAsDestinationVisitor(
+internal class KompassCompanionBundleAsDestinationVisitor(
     override val context: RenderContext) :
     DestinationVisitor,
     RenderContextUse {
@@ -46,9 +46,9 @@ class KompassCompanionBundleAsDestinationVisitor(
     private fun FunSpec.Builder.buildImplementation(tree: DestinationRenderTree) {
         buildImplementationHeader(tree)
 
-        for (parameter in tree.constructor.parameters) {
-            buildImplementationParam(tree, parameter)
-            if (tree.constructor.parameters.last() != parameter) {
+        for (accessor in tree.element.accessors) {
+            buildImplementationParam(tree, accessor)
+            if (tree.element.accessors.last() != accessor) {
                 addCode(",")
             }
         }
@@ -65,53 +65,52 @@ class KompassCompanionBundleAsDestinationVisitor(
     }
 
     private fun FunSpec.Builder.buildImplementationParam(tree: DestinationRenderTree,
-                                                         parameter: VariableElement) {
+                                                         accessor: DestinationAccessor) {
 
-        val simpleName = parameter.simpleName
 
-        val getFunction = createBundleGetFunction(parameter)
-        val missingKeyAppendix = createMissingKeyAppendix(parameter)
-        val castAppendix = createCastAppendixFor(tree, parameter)
+        val getFunction = createBundleGetFunction(accessor)
+        val missingKeyAppendix = createMissingKeyAppendix(accessor)
+        val castAppendix = createCastAppendixFor(tree, accessor)
 
         addStatement(
             """
 
-            $simpleName = (bundle.$getFunction("$simpleName") $missingKeyAppendix) $castAppendix
+            ${accessor.name} = (bundle.$getFunction("${accessor.name}") $missingKeyAppendix) $castAppendix
             """.trimMargin()
         )
     }
 
 
-    private fun createMissingKeyAppendix(parameter: VariableElement): String {
-        return if (parameter.isOptional()) ""
-        else """ ?: throw IllegalArgumentException("Missing key ${parameter.simpleName}")"""
+    private fun createMissingKeyAppendix(accessor: DestinationAccessor): String {
+        return if (accessor.element.isOptional()) ""
+        else """ ?: throw IllegalArgumentException("Missing key ${accessor.name}")"""
     }
 
 
     private fun createCastAppendixFor(tree: DestinationRenderTree,
-                                      parameter: VariableElement): String = context {
+                                      accessor: DestinationAccessor): String = context {
 
-        val type = parameter.asType()
+        val type = accessor.type
         if (!type.isAssignable(ClassNames.serializable.asType())) return@context ""
         if (type.isAssignable(ClassNames.parcelable.asType())) return@context ""
         if (type.kind != TypeKind.DECLARED) return@context ""
 
-        val className = parameter.asType().asTypeName() as ClassName
+        val className = type.asTypeName() as ClassName
         if (className.packageName.startsWith("java")) return@context ""
 
 
-        val isOptional = parameter.isOptional()
+        val isOptional = accessor.element.isOptional()
         tree.extensions.file.addImport(className.packageName, className.simpleName)
 
         """as${if (isOptional) "?" else ""} ${className.simpleName} """
 
     }
 
-    private fun createBundleGetFunction(parameter: VariableElement): String {
-        val type = parameter.asType()
+    private fun createBundleGetFunction(accessor: DestinationAccessor): String {
+        val type = accessor.type
         return when {
 
-            type.kind == TypeKind.ARRAY -> createBundleGetFunctionForArray(parameter)
+            type.kind == TypeKind.ARRAY -> createBundleGetFunctionForArray(accessor)
 
             type.isSameType(ClassNames.boolean.asType()) -> "getBooleanOrNull"
             type.kind == TypeKind.BOOLEAN -> "getBooleanOrNull"
@@ -169,8 +168,8 @@ class KompassCompanionBundleAsDestinationVisitor(
 
     }
 
-    private fun createBundleGetFunctionForArray(parameter: VariableElement): String {
-        val type = parameter.asType() as ArrayType
+    private fun createBundleGetFunctionForArray(accessor: DestinationAccessor): String {
+        val type = accessor.type as ArrayType
         val componentType = type.componentType
         return when {
             componentType.kind == TypeKind.BOOLEAN -> "getBooleanArray"

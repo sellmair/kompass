@@ -13,15 +13,15 @@ import javax.tools.Diagnostic
 
 /*
 ################################################################################################
-PUBLIC API
+INTERNAL API
 ################################################################################################
 */
 
-interface DestinationsTreeRenderer : Renderable<DestinationsRenderTree> {
+internal interface DestinationsTreeRenderer : Renderable<DestinationsRenderTree> {
     companion object
 }
 
-operator fun DestinationsTreeRenderer.Companion.invoke(
+internal operator fun DestinationsTreeRenderer.Companion.invoke(
     context: RenderContext,
     fileRenderer: FileRenderer): DestinationsTreeRenderer {
     return DestinationsTreeRendererImpl(context, fileRenderer)
