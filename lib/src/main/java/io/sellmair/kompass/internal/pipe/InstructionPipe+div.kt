@@ -1,10 +1,8 @@
 package io.sellmair.kompass.internal.pipe
 
-import android.support.annotation.AnyThread
 import android.support.annotation.UiThread
 import io.sellmair.kompass.internal.precondition.Precondition
 import io.sellmair.kompass.internal.precondition.requireMainThread
-import io.sellmair.kompass.internal.util.mainThread
 
 internal operator fun <In, Out>
     InstructionPipe<In, Out>.div(other: InstructionPipe<In, Out>): InstructionPipe<In, Out> {
@@ -21,26 +19,15 @@ PRIVATE IMPLEMENTATION
 private class InstructionPipeDivConnector<In, Out>(
     private val first: InstructionPipe<In, Out>,
     private val second: InstructionPipe<In, Out>) :
-    InstructionPipe<In, Out> {
+    InstructionPipe<In, Out>,
+    Handleable<Out> by Handleable.delegate() {
 
-    private var handler: ((Out) -> Unit)? = null
 
     @UiThread
     override fun invoke(payload: In) {
         Precondition.requireMainThread()
         first(payload)
         second(payload)
-    }
-
-    @UiThread
-    override fun handle(handler: (out: Out) -> Unit) {
-        Precondition.requireMainThread()
-        this.handler = handler
-    }
-
-    @AnyThread
-    override fun handle(value: Out) = mainThread {
-        handler?.invoke(value)
     }
 
 
