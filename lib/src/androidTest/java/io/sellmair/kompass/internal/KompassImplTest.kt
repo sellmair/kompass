@@ -7,6 +7,7 @@ import io.sellmair.kompass.builder
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.concurrent.thread
 
 
 @RunWith(AndroidJUnit4::class)
@@ -22,10 +23,14 @@ class KompassImplTest {
         assertEquals(x, y)
     }
 
+    @UiThreadTest
     @Test
     fun get_fromBackgroundThread() {
         val kompass = Kompass.builder<Any>().build()
-        kompass["test"]
+
+        thread {
+            kompass["test"]
+        }.join()
     }
 
 }
