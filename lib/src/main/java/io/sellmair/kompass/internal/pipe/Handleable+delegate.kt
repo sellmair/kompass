@@ -1,10 +1,8 @@
 package io.sellmair.kompass.internal.pipe
 
 import android.support.annotation.AnyThread
-import android.support.annotation.UiThread
-import io.sellmair.kompass.internal.precondition.Precondition
-import io.sellmair.kompass.internal.precondition.requireMainThread
 import io.sellmair.kompass.internal.util.mainThread
+import java.util.concurrent.atomic.AtomicReference
 
 
 /*
@@ -24,17 +22,16 @@ PRIVATE IMPLEMENTATION
 
 private class HandleableImpl<T> : Handleable<T> {
 
-    private var handler: ((T) -> Unit)? = null
+    private val handler: AtomicReference<((T) -> Unit)> = AtomicReference()
 
-    @UiThread
+    @AnyThread
     override fun handle(handler: (T) -> Unit) {
-        Precondition.requireMainThread()
-        this.handler = handler
+        this.handler.set(handler)
     }
 
     @AnyThread
     override fun handle(value: T) = mainThread {
-        handler?.invoke(value)
+        handler.get()?.invoke(value)
     }
 
 }
