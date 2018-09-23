@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.sellmair.example.DummyDependencyHolder
 import io.sellmair.example.destination.LoginProcessingDestination
-import io.sellmair.example.extension.main
+import io.sellmair.kompass.extension.main
 
 /**
  * Created by sebastiansellmair on 27.01.18.

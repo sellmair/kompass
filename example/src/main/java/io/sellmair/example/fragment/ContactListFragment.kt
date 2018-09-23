@@ -1,6 +1,7 @@
 package io.sellmair.example.fragment
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -10,9 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import io.sellmair.example.DummyDependencyHolder
 import io.sellmair.example.R
 import io.sellmair.example.destination.ContactListDestination
 import io.sellmair.example.viewmodel.ContactListViewModel
+import io.sellmair.kompass.extension.main
 import io.sellmair.kompass.tryAsContactListDestination
 
 /**
@@ -22,11 +25,15 @@ class ContactListFragment : Fragment() {
     private lateinit var destination: ContactListDestination
     private lateinit var viewModel: ContactListViewModel
 
+    override fun setArguments(args: Bundle?) {
+        super.setArguments(args)
+        DummyDependencyHolder.getKompass().main.retainTransitions(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this)[ContactListViewModel::class.java]
         destination = arguments?.tryAsContactListDestination()
-                ?: throw IllegalArgumentException()
+            ?: throw IllegalArgumentException()
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -59,8 +66,8 @@ class ContactListFragment : Fragment() {
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.item_contact, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.item_contact, parent, false)
 
             return ViewHolder(view)
         }

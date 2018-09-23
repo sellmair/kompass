@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.sellmair.example.DummyDependencyHolder
 import io.sellmair.example.R
 import io.sellmair.example.destination.ChatDestination
 import io.sellmair.example.viewmodel.ChatViewModel
 import io.sellmair.kompass.asChatDestination
+import io.sellmair.kompass.extension.main
 import java.util.*
 
 /**
@@ -18,6 +20,11 @@ import java.util.*
 class ChatFragment : Fragment() {
     private lateinit var viewModel: ChatViewModel
     private lateinit var destination: ChatDestination
+
+    override fun setArguments(args: Bundle?) {
+        super.setArguments(args)
+        DummyDependencyHolder.getKompass().main.retainTransitions(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

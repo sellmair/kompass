@@ -3,8 +3,8 @@ package io.sellmair.example
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import io.sellmair.example.extension.main
 import io.sellmair.example.viewmodel.MainViewModel
+import io.sellmair.kompass.extension.main
 import io.sellmair.kompass.extension.sail
 
 class MainActivity : AppCompatActivity() {

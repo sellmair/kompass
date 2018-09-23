@@ -6,6 +6,7 @@ import io.sellmair.kompass.KeyLessBackStack
 import io.sellmair.kompass.KompassSail
 import io.sellmair.kompass.extension.resetTransitions
 import io.sellmair.kompass.internal.ExecutableDetourRegistry
+import io.sellmair.kompass.internal.FragmentTransitionStack
 import io.sellmair.kompass.internal.InstructionReceiver
 
 
@@ -13,6 +14,7 @@ private typealias FEndpoint<Destination> = Payload<Destination, Stage.Endpoint.F
 
 
 internal class FragmentEndpoint<Destination : Any>(
+    private val fragmentTransitionStack: FragmentTransitionStack,
     instructionReceiver: InstructionReceiver<Destination>,
     backStack: KeyLessBackStack,
     detourRegistry: ExecutableDetourRegistry) :
@@ -96,6 +98,7 @@ internal class FragmentEndpoint<Destination : Any>(
 
 
     private fun popBackStackImmediate(endpoint: FEndpoint<Destination>) {
+        applyBackwardDetour(endpoint)
         endpoint.sail.manager.popBackStackImmediate()
     }
 
@@ -148,9 +151,17 @@ internal class FragmentEndpoint<Destination : Any>(
             current = currentFragment,
             next = nextFragment,
             transaction = transaction)
+
+        fragmentTransitionStack.add(
+            from = currentFragment,
+            to = nextFragment)
     }
 
 
+    private fun applyBackwardDetour(endpoint: FEndpoint<Destination>) {
+        val currentFragment = findCurrentFragment(endpoint.sail)
+        fragmentTransitionStack.pop()?.to?.applyTo(currentFragment)
+    }
 }
 
 

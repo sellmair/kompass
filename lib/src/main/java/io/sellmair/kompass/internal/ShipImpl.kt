@@ -2,6 +2,7 @@ package io.sellmair.kompass.internal
 
 import android.support.annotation.AnyThread
 import android.support.annotation.UiThread
+import android.support.v4.app.Fragment
 import io.sellmair.kompass.*
 import io.sellmair.kompass.extension.withKey
 import io.sellmair.kompass.internal.pipe.*
@@ -20,12 +21,18 @@ internal class ShipImpl<Destination : Any>(
     KeyLessBackStack by backStack withKey name,
     InstructionReceiver<Destination> {
 
+    private val fragmentTransitionStack = FragmentTransitionStack.create()
+
     private val instructionBuffer = InstructionBuffer<Destination>()
     private val instructionRouter = InstructionRouter(map)
     private val instructionCrane = InstructionCrane(crane)
-    private val fragmentEndpoint = FragmentEndpoint(this, this, registry)
+    private val fragmentEndpoint = FragmentEndpoint(fragmentTransitionStack, this, this, registry)
     private val activityEndpoint = ActivityEndpoint<Destination>(this)
     private val viewEndpoint = ViewEndpoint<Destination>(this)
+
+    override fun retainTransitions(fragment: Fragment) {
+        fragmentTransitionStack.retain(fragment)
+    }
 
     @UiThread
     override fun setSail(sail: KompassSail): KompassReleasable {
