@@ -17,12 +17,13 @@ internal class ShipImpl<Destination : Any>(
     registry: ExecutableDetourRegistry) :
 
     KompassShip<Destination>,
-    KeyLessBackStack by backStack withKey name {
+    KeyLessBackStack by backStack withKey name,
+    InstructionReceiver<Destination> {
 
     private val instructionBuffer = InstructionBuffer<Destination>()
     private val instructionRouter = InstructionRouter(map)
     private val instructionCrane = InstructionCrane(crane)
-    private val fragmentEndpoint = FragmentEndpoint<Destination>(this, registry)
+    private val fragmentEndpoint = FragmentEndpoint(this, this, registry)
     private val activityEndpoint = ActivityEndpoint<Destination>(this)
     private val viewEndpoint = ViewEndpoint<Destination>(this)
 
@@ -42,24 +43,26 @@ internal class ShipImpl<Destination : Any>(
     override fun startAt(destination: Destination) = mainThread {
         clear()
         val instruction = Instruction.StartAt(destination)
-        val payload = Payload(instruction)
-        instructionCrane(payload)
+        receive(instruction)
     }
 
     @AnyThread
     override fun navigateTo(destination: Destination) = mainThread {
         val instruction = Instruction.NavigateTo(destination)
-        val payload = Payload(instruction)
-        instructionCrane(payload)
+        receive(instruction)
     }
 
     @AnyThread
     override fun beamTo(destination: Destination) = mainThread {
         val instruction = Instruction.BeamTo(destination)
+        receive(instruction)
+    }
+
+
+    override fun receive(instruction: Instruction<Destination>) {
         val payload = Payload(instruction)
         instructionCrane(payload)
     }
-
 
     init {
         instructionCrane + instructionBuffer + instructionRouter +

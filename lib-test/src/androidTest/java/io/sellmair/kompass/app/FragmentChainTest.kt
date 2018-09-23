@@ -1,5 +1,6 @@
 package io.sellmair.kompass.app
 
+import android.content.pm.ActivityInfo
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -177,6 +178,22 @@ class FragmentChainTest {
 
         Holder.main.beamTo(Destination.Four("four"))
         shows(Target.FragmentFour)
+
+        Holder.main.back()
+        shows(Target.FragmentOne)
+    }
+
+    @Test
+    fun startAtOne_navigateFive_orientationChange_back() {
+        activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        Holder.main.startAt(Destination.One("one"))
+        shows(Target.FragmentOne)
+
+        Holder.main.navigateTo(Destination.Five("five"))
+        shows(Target.FragmentFive)
+
+        activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
 
         Holder.main.back()
         shows(Target.FragmentOne)
