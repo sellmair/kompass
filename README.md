@@ -39,9 +39,9 @@ kapt {
 ```groovy
 dependencies {
     ...
-    implementation 'io.sellmair:kompass:0.1.0-alpha.2'
-    implementation 'io.sellmair:kompass-annotation:0.1.0-alpha.2'
-    kapt 'io.sellmair:kompass-processor:0.1.0-alpha.2'
+    implementation 'io.sellmair:kompass:0.1.0-beta.0'
+    implementation 'io.sellmair:kompass-annotation:0.1.0-beta.0'
+    kapt 'io.sellmair:kompass-processor:0.1.0-beta.0'
 }
 ```
 
