@@ -1,6 +1,7 @@
 package io.sellmair.kompass.internal.pipe
 
 import io.sellmair.kompass.KompassCrane
+import io.sellmair.kompass.KompassSelfCraned
 
 internal class InstructionCrane<Destination : Any>(
     private val crane: KompassCrane<Destination>) :
@@ -9,7 +10,10 @@ internal class InstructionCrane<Destination : Any>(
 
     override fun invoke(payload: Payload<Destination, Stage.Pending>) {
         val destination = payload.instruction.destination
-        val bundle = crane[destination] ?: throwNotCraned(destination)
+        val bundle = when (destination) {
+            is KompassSelfCraned -> destination.toBundle()
+            else -> crane[destination] ?: throwNotCraned(destination)
+        }
         handle(payload.craned(bundle))
     }
 

@@ -1,6 +1,7 @@
 package io.sellmair.kompass.internal.pipe
 
 import io.sellmair.kompass.KompassMap
+import io.sellmair.kompass.KompassSelfMapped
 
 internal class InstructionRouter<Destination : Any>(
     private val map: KompassMap<Destination>) :
@@ -9,7 +10,10 @@ internal class InstructionRouter<Destination : Any>(
 
     override fun invoke(payload: Payload<Destination, Stage.Sailed>) {
         val destination = payload.instruction.destination
-        val route = map[destination] ?: throwNoRouteFound(destination)
+        val route = when (destination) {
+            is KompassSelfMapped -> destination.route()
+            else -> map[destination] ?: throwNoRouteFound(destination)
+        }
         handle(payload.routed(route))
     }
 
