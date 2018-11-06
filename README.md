@@ -7,7 +7,6 @@
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
 ![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sellmair/kompass.svg)
-![GitHub commit activity the past week, 4 weeks, year](https://img.shields.io/github/commit-activity/w/sellmair/kompass.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/kompass-android/)
 
 
