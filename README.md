@@ -154,7 +154,6 @@ be used for the ship called Lisa as _Sail_:
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -183,7 +182,6 @@ Side-note: ```kompass.main``` is a little convenience extension for ```kompass["
 
 ```kotlin
     
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
