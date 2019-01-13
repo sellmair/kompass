@@ -132,7 +132,7 @@ Destinations are simple classes or data classes which hold very simple data like
 
 Destinations are typically annotated with 
 ```kotlin
-@Destination(target = [MyFragmentOrActivity::class])
+@Destination(MyFragmentOrActivity::class)
 ```
  
  I personally consider it a good idea implementing a sealed superclass for groups of _Destinations_ and restrict 

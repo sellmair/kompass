@@ -8,5 +8,5 @@ import kotlin.reflect.KClass
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-annotation class Destination(val target: Array<KClass<*>> = [])
+annotation class Destination(vararg val target: KClass<*> = [])
 
