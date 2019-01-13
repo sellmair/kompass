@@ -9,24 +9,24 @@ import io.sellmair.kompass.annotation.Destination
  */
 sealed class AppDestination
 
-@Destination(target = [LoginFragment::class])
+@Destination(LoginFragment::class)
 class LoginDestination : AppDestination()
 
 
-@Destination(target = [LoginProcessingFragment::class])
+@Destination(LoginProcessingFragment::class)
 data class LoginProcessingDestination(
         val email: String,
         val password: String
 ) : AppDestination()
 
 
-@Destination(target = [ContactListFragment::class])
+@Destination(ContactListFragment::class)
 data class ContactListDestination(
     val searchString: String?,
     val contacts: List<Contact>) : AppDestination()
 
 
-@Destination(target = [ChatFragment::class])
+@Destination(ChatFragment::class)
 data class ChatDestination(
     val lastSeenTime: Long,
     val backgroundId: Int,
@@ -35,6 +35,6 @@ data class ChatDestination(
     val contact: Contact) : AppDestination()
 
 
-@Destination(target = [LoginFailedFragment::class])
+@Destination(LoginFailedFragment::class)
 data class LoginFailedDestination(val username: String)
     : AppDestination()
