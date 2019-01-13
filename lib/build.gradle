@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-
 ext {
     bintrayRepo = 'sellmair'
     bintrayName = 'kompass'
@@ -28,14 +27,13 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "$kompass_version"
 
@@ -49,11 +47,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:28.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
@@ -67,7 +64,6 @@ dependencies {
 repositories {
     mavenCentral()
 }
-
 
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
@@ -132,5 +128,3 @@ bintray {
         }
     }
 }
-
-
