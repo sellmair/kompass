@@ -231,13 +231,13 @@ class OptionalParcelableListDestination(val list: List<MyParcelable>)
 @Destination
 class SerializableParcelableDestination(val mySerializableParcelable: MySerializableParcelable)
 
-@Destination(MyFragment::class)
+@Destination(target = [MyFragment::class])
 class MyFragmentTargetDestination
 
-@Destination(MainActivity::class)
+@Destination(target = [MainActivity::class])
 class MainActivityTargetDestination
 
-@Destination(MyView::class)
+@Destination(target = [MyView::class])
 class MyViewTargetDestination
 
 
@@ -252,31 +252,28 @@ class MultiArgumentDestination(
 
 
 @Destination
-class IntGetFunDestination(private val id: Int) {
-    fun getId(): Int = id
+class IntGetFunDestination(id: Int) {
+    fun getId(): Int = 0
 }
 
 @Destination
-class OptionalIntGetFunDestination(private val id: Int?) {
-    fun getId(): Int? = id
-}
-
-
-@Destination
-class IntCreateFunDestination(private val id: Int) {
-    fun createId(): Int = id
-}
-
-@Destination
-class OptionalCreateGetFunDestination(private val id: Int?) {
-    fun createId(): Int? = id
+class OptionalIntGetFunDestination(id: Int?) {
+    fun getId(): Int? = 0
 }
 
 
 @Destination
-class OptionalParamDestination(
-        val id: Int,
-        val name: String,
-        val timestamp: Long = System.currentTimeMillis()
-)
+class IntCreateFunDestination(id: Int) {
+    fun createId(): Int = 0
+}
+
+@Destination
+class OptionalCreateGetFunDestination(id: Int?) {
+    fun createId(): Int? = 0
+}
+
+
+@Destination
+class OptionalParamDestination(val id: Int, val name: String,
+                               val timestamp: Long = System.currentTimeMillis())
 
