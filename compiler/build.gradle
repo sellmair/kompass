@@ -45,28 +45,27 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-
 repositories {
     mavenCentral()
 }
-
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.6"
     }
 }
-
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.6"
     }
 }
 
-group = publishedGroupId                               // Maven Group ID for the artifact
 
+
+group = publishedGroupId                               // Maven Group ID for the artifact
 apply plugin: 'com.jfrog.bintray'
 
 version = libraryVersion
+
 
 task sourceJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -109,6 +108,7 @@ publishing {
 }
 
 // Bintray
+
 bintray {
     user = "$bintray_user"
     key = "$bintray_apikey"

@@ -41,17 +41,14 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-
 repositories {
     mavenCentral()
 }
-
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.6"
     }
 }
-
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.6"
@@ -62,6 +59,7 @@ group = publishedGroupId                               // Maven Group ID for the
 apply plugin: 'com.jfrog.bintray'
 
 version = libraryVersion
+
 
 task sourceJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -76,6 +74,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 publishing {
     publications {
         maven(MavenPublication) {
+
 
             // Thanks to https://stackoverflow.com/questions/24743562/gradle-not-including-dependencies-in-published-pom-xml
             // ###############################################################
@@ -96,7 +95,7 @@ publishing {
             version = "$libraryVersion"
             artifactId "$bintrayName"
 
-            artifact("$buildDir/libs/annotation-${libraryVersion}.jar")
+            artifact ("$buildDir/libs/annotation-${libraryVersion}.jar")
             artifact sourceJar
             artifact javadocJar
         }
@@ -104,6 +103,7 @@ publishing {
 }
 
 // Bintray
+
 bintray {
     user = "$bintray_user"
     key = "$bintray_apikey"
