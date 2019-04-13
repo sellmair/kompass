@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.sellmair.kompass.android.test.base">
+
+    <application
+        android:theme="@style/Theme.AppCompat"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name="io.sellmair.kompass.android.test.FragmentHostActivity" />
+    </application>
+
+</manifest>

@@ -1,1 +1,9 @@
-include ':lib-test', ':lib', ':compiler', ':annotation', ':example', ':compiler-test'
+rootProject.name = 'kompass'
+
+include ':core'
+include ':android'
+include ':android-test-base'
+include ':android-test--fragment'
+include ':android-example--fragment'
+
+enableFeaturePreview('GRADLE_METADATA')
