@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Example</string>
-    <string name="login">LOGIN</string>
-    <string name="contacts">Contacts</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="logging_in">Logging in</string>
-</resources>
