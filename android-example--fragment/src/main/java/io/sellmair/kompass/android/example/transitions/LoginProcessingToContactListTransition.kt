@@ -17,9 +17,7 @@ class LoginProcessingToContactListTransition : FragmentTransition {
     ) {
         if (exitFragment is LoginProcessingFragment && enterFragment is ContactListFragment) {
             exitFragment.exitTransition = Slide(Gravity.BOTTOM)
-            enterFragment.enterTransition = Slide(Gravity.TOP).apply {
-                startDelay = TransitionsConfiguration.ENTER_START_DELAY
-            }
+            enterFragment.enterTransition = Slide(Gravity.TOP)
         }
     }
 }
