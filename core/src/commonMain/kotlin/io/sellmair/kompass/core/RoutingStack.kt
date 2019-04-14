@@ -17,6 +17,10 @@ interface RoutingStack<T : Route> {
 
         abstract val route: T
 
+        override fun toString(): String {
+            return "Element(key=${key.value}, route=$route)"
+        }
+
         final override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (other !is Element<*>) return false
