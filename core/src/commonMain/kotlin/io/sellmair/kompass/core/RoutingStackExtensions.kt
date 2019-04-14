@@ -1,14 +1,12 @@
 package io.sellmair.kompass.core
 
-import io.sellmair.kompass.core.internal.ElementImpl
 
-
-operator fun <T : Route> RoutingStack<T>.plus(element: T): RoutingStack<T> {
-    return push(element)
+operator fun <T : Route> RoutingStack<T>.plus(route: T): RoutingStack<T> {
+    return push(route)
 }
 
-fun <T : Route> RoutingStack<T>.push(element: T): RoutingStack<T> {
-    return with(elements + ElementImpl(element))
+fun <T : Route> RoutingStack<T>.push(route: T): RoutingStack<T> {
+    return with(elements + RoutingStack.Element(route))
 }
 
 fun <T : Route> RoutingStack<T>.push(element: RoutingStack.Element<T>): RoutingStack<T> {
@@ -29,8 +27,8 @@ inline fun <T : Route> RoutingStack<T>.popUntil(predicate: (T) -> Boolean): Rout
     return with(elements = elements.dropLastWhile { entry -> !predicate(entry.route) })
 }
 
-fun <T : Route> RoutingStack<T>.popUntilRoute(element: T): RoutingStack<T> {
-    return popUntil { it == element }
+fun <T : Route> RoutingStack<T>.popUntilRoute(route: T): RoutingStack<T> {
+    return popUntil { it == route }
 }
 
 
