@@ -5,6 +5,7 @@ import io.sellmair.kompass.android.fragment.FragmentContainer
 import io.sellmair.kompass.android.fragment.FragmentElement
 import io.sellmair.kompass.android.fragment.FragmentMappingMissingException
 import io.sellmair.kompass.android.fragment.FragmentRoute
+import io.sellmair.kompass.core.Key
 import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.RoutingStack
 import kotlin.reflect.KClass
@@ -14,9 +15,8 @@ internal class FragmentElementImpl<T : Route>(
     private val container: FragmentContainer,
     private val element: RoutingStack.Element<T>
 ) :
-    FragmentElement<T>,
-    FragmentRouterConfiguration<T> by fragmentRouterConfiguration,
-    RoutingStack.Element<T> by element {
+    FragmentElement<T>(),
+    FragmentRouterConfiguration<T> by fragmentRouterConfiguration {
 
     class Factory<T : Route>(
         private val fragmentRouterConfiguration: FragmentRouterConfiguration<T>,
@@ -30,6 +30,10 @@ internal class FragmentElementImpl<T : Route>(
             )
         }
     }
+
+    override val key: Key = element.key
+
+    override val route: T = element.route
 
     override fun createFragment(): Fragment {
         val context = container.activity
@@ -50,19 +54,5 @@ internal class FragmentElementImpl<T : Route>(
 
         return fragmentMap[route] ?: throw FragmentMappingMissingException(route)
     }
-
-    // TODO: Test this behaviour. Silently broke behaviours of DefaultFragmentStackPatcher
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is RoutingStack.Element<*>) return false
-        if (this.key != other.key) return false
-        if (this.route != other.route) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return element.hashCode()
-    }
-
 
 }

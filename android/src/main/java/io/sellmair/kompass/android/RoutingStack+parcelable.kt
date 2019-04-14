@@ -37,5 +37,5 @@ private class ParcelableRoutingStackWrapper<T>(override val elements: List<Parce
 data class ParcelableElement<T>(
     override val key: Key,
     override val route: T
-) : RoutingStack.Element<T>, Parcelable where T : Route, T : Parcelable
+) : RoutingStack.Element<T>(), Parcelable where T : Route, T : Parcelable
 

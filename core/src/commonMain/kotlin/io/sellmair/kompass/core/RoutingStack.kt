@@ -11,9 +11,32 @@ interface RoutingStack<T : Route> {
     fun with(elements: Iterable<Element<T>> = this.elements): RoutingStack<T>
 
 
-    interface Element<T : Route> {
-        val key: Key
-        val route: T
+    abstract class Element<T : Route> {
+
+        abstract val key: Key
+
+        abstract val route: T
+
+        final override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is Element<*>) return false
+            if (this.key != other.key) return false
+            if (this.route != other.route) return false
+            return true
+        }
+
+        final override fun hashCode(): Int {
+            var hashCode = 31
+            hashCode += 31 * this.key.hashCode()
+            hashCode += 31 * this.route.hashCode()
+            return hashCode
+        }
+
+        companion object Factory {
+            operator fun <T : Route> invoke(route: T, key: Key = Key()): Element<T> =
+                ElementImpl(route, key)
+        }
+
     }
 
     companion object Factory {
