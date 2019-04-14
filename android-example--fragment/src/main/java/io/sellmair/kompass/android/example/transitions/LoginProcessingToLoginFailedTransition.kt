@@ -1,6 +1,8 @@
 package io.sellmair.kompass.android.example.transitions
 
+import android.view.Gravity
 import androidx.fragment.app.FragmentTransaction
+import androidx.transition.Slide
 import io.sellmair.kompass.android.example.fragment.LoginFailedFragment
 import io.sellmair.kompass.android.example.fragment.LoginProcessingFragment
 import io.sellmair.kompass.android.fragment.GenericFragmentTransition
@@ -16,5 +18,8 @@ class LoginProcessingToLoginFailedTransition :
         transaction: FragmentTransaction,
         exitFragment: LoginProcessingFragment, exitRoute: Route,
         enterFragment: LoginFailedFragment, enterRoute: Route
-    ) = Unit
+    ) {
+        exitFragment.exitTransition = Slide(Gravity.TOP)
+        enterFragment.enterTransition = Slide(Gravity.BOTTOM)
+    }
 }

@@ -16,7 +16,7 @@ private class CompositeFragmentTransition(
         transaction: FragmentTransaction,
         exitFragment: Fragment, exitRoute: Route, enterFragment: Fragment, enterRoute: Route
     ) {
-        first.setup(transaction, enterFragment, enterRoute, exitFragment, exitRoute)
-        second.setup(transaction, enterFragment, enterRoute, exitFragment, exitRoute)
+        first.setup(transaction, exitFragment, exitRoute, enterFragment, enterRoute)
+        second.setup(transaction, exitFragment, exitRoute, enterFragment, enterRoute)
     }
 }
