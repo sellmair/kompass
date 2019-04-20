@@ -7,6 +7,8 @@ import io.sellmair.kompass.android.example.transitions.LoginProcessingToContactL
 import io.sellmair.kompass.android.example.transitions.LoginProcessingToLoginFailedTransition
 import io.sellmair.kompass.android.example.transitions.LoginToLoginProcessingTransition
 import io.sellmair.kompass.android.fragment.FragmentRouter
+import io.sellmair.kompass.core.clear
+import io.sellmair.kompass.core.push
 
 /**
  * Created by sebastiansellmair on 27.01.18.
@@ -30,5 +32,7 @@ class Application : Application() {
                 route<LoginFailedRoute> { LoginFailedFragment::class }
             }
         }
+
+        Dependencies.router.execute { clear().push(LoginRoute()) }
     }
 }

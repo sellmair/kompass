@@ -1,7 +1,7 @@
 package io.sellmair.kompass.android.fragment
 
-import io.sellmair.kompass.core.KompassException
 import io.sellmair.kompass.core.Route
+import io.sellmair.kompass.core.exception.KompassException
 
 class FragmentMappingMissingException(route: Route) : KompassException(
     """

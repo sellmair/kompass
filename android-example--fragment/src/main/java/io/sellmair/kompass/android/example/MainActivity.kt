@@ -15,18 +15,20 @@ class MainActivity : AppCompatActivity(), KompassFragmentActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+        router.setup(savedInstanceState, R.id.container)
     }
 
-    override fun onStart() {
-        super.onStart()
-        router.setup(R.id.container)
-    }
 
     override fun onBackPressed() {
-        //TODO()
-        router.execute { pop() }
+        router.execute {
+            if (elements.size <= 1) {
+                finish()
+                this
+            } else {
+                pop()
+            }
+        }
     }
 
 }

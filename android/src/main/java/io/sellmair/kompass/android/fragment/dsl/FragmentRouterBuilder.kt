@@ -12,6 +12,8 @@ import kotlin.reflect.KClass
 @FragmentRouterDsl
 class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
+    private val typeIsParcelable = Parcelable::class.java.isAssignableFrom(type.java)
+
     private var initialStack: RoutingStack<T> = RoutingStack.empty()
 
     private var fragmentStackPatcher: FragmentStackPatcher = DefaultFragmentStackPatcher
@@ -21,7 +23,12 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     private var fragmentTransition: FragmentTransition = EmptyFragmentTransition
 
     private var fragmentRouteStorage: FragmentRouteStorage<T>? = when {
-        Parcelable::class.java.isAssignableFrom(type.java) -> ParcelableFragmentRouteStorage.createUnsafe()
+        typeIsParcelable -> ParcelableFragmentRouteStorage.createUnsafe()
+        else -> null
+    }
+
+    private var fragmentRoutingStackBundler: FragmentRoutingStackBundler<T>? = when {
+        typeIsParcelable -> ParcelableFragmentRoutingStackBundler.createUnsafe()
         else -> null
     }
 
@@ -60,6 +67,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
         return FragmentRouter(
             fragmentMap = fragmentMap,
             fragmentRouteStorage = requireFragmentRouteStorage(),
+            fragmentRoutingStackBundler = requireFragmentRoutingStackBundler(),
             fragmentTransition = fragmentTransition,
             fragmentStackPatcher = fragmentStackPatcher,
             fragmentContainerLifecycleFactory = fragmentContainerLifecycleFactory,
@@ -69,6 +77,13 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
     private fun requireFragmentRouteStorage(): FragmentRouteStorage<T> {
         return fragmentRouteStorage ?: throw KompassFragmentDslException(
+            ""
+        )
+    }
+
+
+    private fun requireFragmentRoutingStackBundler(): FragmentRoutingStackBundler<T> {
+        return fragmentRoutingStackBundler ?: throw KompassFragmentDslException(
             ""
         )
     }

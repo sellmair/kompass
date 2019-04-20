@@ -1,4 +1,4 @@
-package io.sellmair.kompass.core
+package io.sellmair.kompass.core.exception
 
 open class KompassException : Exception {
     constructor() : super()

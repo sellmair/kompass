@@ -4,6 +4,7 @@ import android.os.Parcelable
 import io.sellmair.kompass.core.Key
 import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.RoutingStack
+import io.sellmair.kompass.core.randomKeyValue
 import kotlinx.android.parcel.Parcelize
 
 
@@ -17,7 +18,7 @@ fun <T> RoutingStack<T>.parcelable(): ParcelableRoutingStack<T> where T : Route,
 fun <T> RoutingStack.Element<T>.parcelable(): ParcelableElement<T> where T : Route, T : Parcelable {
     return when (this) {
         is ParcelableElement -> this
-        else -> ParcelableElement(key, route)
+        else -> ParcelableElement(key.parcelable(), route)
     }
 }
 
@@ -35,7 +36,18 @@ private class ParcelableRoutingStackWrapper<T>(override val elements: List<Parce
 
 @Parcelize
 data class ParcelableElement<T>(
-    override val key: Key,
+    override val key: ParcelableKey,
     override val route: T
 ) : RoutingStack.Element<T>(), Parcelable where T : Route, T : Parcelable
 
+
+@Parcelize
+data class ParcelableKey(override val value: String = randomKeyValue()) : Key(), Parcelable
+
+
+fun Key.parcelable(): ParcelableKey {
+    return when (this) {
+        is ParcelableKey -> this
+        else -> ParcelableKey(value)
+    }
+}
