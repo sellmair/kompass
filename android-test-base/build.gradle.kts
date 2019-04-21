@@ -17,6 +17,7 @@ androidExtensions {
     isExperimental = true
 }
 
+
 dependencies {
     api(Deps.Kotlin.StdLib.jdk)
     api(Deps.Android.X.appCompat)
@@ -24,5 +25,5 @@ dependencies {
     api(Deps.Android.X.testRunner)
     api(Deps.Android.X.testRules)
     api(Deps.Android.X.junit)
-    api(project(":android"))
+    api(project(":kompass-android"))
 }
