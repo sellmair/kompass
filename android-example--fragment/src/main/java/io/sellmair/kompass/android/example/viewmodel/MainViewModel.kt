@@ -26,9 +26,7 @@ class MainViewModel : ViewModel() {
             )
         }
 
-        router.instruction {
-            clear() push route
-        }
+        router { clear() push route }
     }
 
 
