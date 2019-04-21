@@ -26,8 +26,8 @@ class MainViewModel : ViewModel() {
             )
         }
 
-        router.execute {
-            clear().push(route)
+        router.instruction {
+            clear() push route
         }
     }
 

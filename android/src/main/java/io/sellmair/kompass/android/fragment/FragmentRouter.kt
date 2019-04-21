@@ -20,7 +20,7 @@ class FragmentRouter<T : Route> internal constructor(
     private val fragmentTransition: FragmentTransition,
     private val fragmentStackPatcher: FragmentStackPatcher,
     fragmentContainerLifecycleFactory: FragmentContainerLifecycle.Factory,
-    initialInstruction: RoutingStackInstruction<T>
+    initialInstruction: RouterInstruction<T>
 ) :
     Router<T>,
     FragmentRouterConfiguration<T> {
@@ -39,7 +39,7 @@ class FragmentRouter<T : Route> internal constructor(
 
         data class Detached<T : Route>(
             override val stack: RoutingStack<T>,
-            val pendingInstruction: RoutingStackInstruction<T> = EmptyRoutingStackInstruction()
+            val pendingInstruction: RouterInstruction<T> = EmptyRouterInstruction()
         ) : State<T>()
     }
 
@@ -65,16 +65,9 @@ class FragmentRouter<T : Route> internal constructor(
         }
 
 
-    override fun execute(instruction: RoutingStackInstruction<T>) = mainThread {
-        executeImmediate(instruction)
-    }
-
-
-    private fun executeImmediate(instruction: RoutingStackInstruction<T>) {
-        requireMainThread()
+    override infix fun instruction(instruction: RouterInstruction<T>) = mainThread {
         state = state.nextState(instruction)
     }
-
 
     internal fun attachContainer(container: FragmentContainer) {
         requireMainThread()
@@ -106,7 +99,7 @@ class FragmentRouter<T : Route> internal constructor(
         }
     }
 
-    private fun State<T>.nextState(instruction: RoutingStackInstruction<T>): State<T> = when (this) {
+    private fun State<T>.nextState(instruction: RouterInstruction<T>): State<T> = when (this) {
         is State.Attached -> copy(stack = stack.instruction())
         is State.Detached -> copy(pendingInstruction = pendingInstruction + instruction)
     }

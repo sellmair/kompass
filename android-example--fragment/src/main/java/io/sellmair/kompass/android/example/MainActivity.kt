@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import io.sellmair.kompass.android.example.Dependencies.router
 import io.sellmair.kompass.android.example.viewmodel.MainViewModel
 import io.sellmair.kompass.android.fragment.KompassFragmentActivity
-import io.sellmair.kompass.core.pop
 
 class MainActivity : AppCompatActivity(), KompassFragmentActivity {
 
@@ -27,14 +26,8 @@ class MainActivity : AppCompatActivity(), KompassFragmentActivity {
 
 
     override fun onBackPressed() {
-        router.execute {
-            if (elements.size <= 1) {
-                finish()
-                this
-            } else {
-                pop()
-            }
-        }
+        router.popRetainRootImmediateOrFinish()
     }
 
 }
+

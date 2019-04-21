@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class RoutingStackExtensionsTest {
+class RoutingStackInstructionSyntaxTest {
 
     @Test
     fun push() {
@@ -14,6 +14,16 @@ class RoutingStackExtensionsTest {
         val newStack = stack.push(RouteImpl(0))
         assertEquals(1, newStack.elements.size)
         assertEquals(RouteImpl(0), newStack.elements.first().route)
+    }
+
+    @Test
+    fun pushDistinct() {
+        val stack = RoutingStack.from(RouteImpl(0), RouteImpl(1), RouteImpl(2))
+        val newStack = stack.pushDistinct(RouteImpl(1))
+        assertEquals(3, newStack.elements.size)
+        assertEquals(0, newStack.elements[0].route.id)
+        assertEquals(2, newStack.elements[1].route.id)
+        assertEquals(1, newStack.elements[2].route.id)
     }
 
     @Test

@@ -25,7 +25,7 @@ class LoginViewModel : ViewModel() {
             return
         }
 
-        router.execute { push(LoginProcessingRoute(email, password)) }
+        router.push(LoginProcessingRoute(email, password))
     }
 
 }
