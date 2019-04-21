@@ -21,20 +21,10 @@ class LoginProcessingViewModel : ViewModel() {
     private lateinit var password: String
 
     private val loggedIn = Runnable {
-
         if (password == "kompass") {
-            DummyService.isLoggedIn = true
-            router.instruction {
-                clear() push ContactListRoute(
-                    searchString = null,
-                    contacts = DummyService.contacts
-                )
-            }
-
+            onLoginSuccess()
         } else {
-            router.instruction {
-                pop() push LoginFailedRoute(email)
-            }
+            onLoginFailed()
         }
     }
 
@@ -48,6 +38,18 @@ class LoginProcessingViewModel : ViewModel() {
         handler.removeCallbacks(loggedIn)
     }
 
+    private fun onLoginFailed() = router {
+        pop() push LoginFailedRoute(email)
+    }
+
+
+    private fun onLoginSuccess() = router {
+        DummyService.isLoggedIn = true
+        clear() push ContactListRoute(
+            searchString = null,
+            contacts = DummyService.contacts
+        )
+    }
 
     override fun onCleared() {
         super.onCleared()
