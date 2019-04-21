@@ -49,8 +49,8 @@ interface Router<T : Route> :
      */
     operator fun invoke(instruction: RouterInstruction<T>): Unit = instruction(instruction)
 
-    override fun plainStackInstruction(instruction: RoutingStackInstruction<T>): Unit =
-        instruction { plainStackInstruction(instruction) }
+    override fun plainStackInstruction(instruction: PlainStackInstruction<T>): Unit =
+        instruction { this.plainStackInstruction(instruction) }
 
 }
 

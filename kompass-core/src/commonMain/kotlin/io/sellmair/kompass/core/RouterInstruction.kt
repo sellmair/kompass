@@ -1,20 +1,14 @@
 package io.sellmair.kompass.core
 
+/**
+ * # RouterInstruction
+ * A [Router] can execute arbitrary changes in the [RoutingStack].
+ * All instructions that one can send to a [Router] are represented as a function from the "current"
+ * [RoutingStack] to the "desired" one.
+ *
+ * ## Note
+ * - This function has to be pure
+ * - This function should not have any side-effects
+ * - This function should not mutate the "current" [RoutingStack], but create a new one.
+ */
 typealias RouterInstruction<T> = RoutingStack<T>.() -> RoutingStack<T>
-
-interface RouterInstructionSyntax<T : Route> {
-    fun instruction(instruction: RouterInstruction<T>)
-}
-
-
-operator fun <T : Route> RouterInstruction<T>.plus(
-    other: RouterInstruction<T>
-): RouterInstruction<T> {
-    return {
-        this@plus.invoke(this)
-        other.invoke(this)
-    }
-}
-
-@Suppress("FunctionName")
-fun <T : Route> EmptyRouterInstruction(): RouterInstruction<T> = { this }

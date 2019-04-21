@@ -1,11 +1,27 @@
 package io.sellmair.kompass.core
 
+import io.sellmair.kompass.core.RoutingStack.Element
 import io.sellmair.kompass.core.internal.ElementImpl
 import io.sellmair.kompass.core.internal.RoutingStackImpl
 import kotlin.jvm.JvmName
 
-interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<T>>,
-    Iterable<RoutingStack.Element<T>> {
+/**
+ * # RoutingStack
+ * Represents a "routing state" where the most top (last) [Element] is representing the currently "active" (displayed)
+ * route and the most bottom (first) [Element] the "root". The two most common operations of a [RoutingStack]
+ * are "push" and "pop"
+ * - push: Adds a route to the top of the stack.
+ * e.g. navigating from the "HomeRoute" to the "SettingsRoute"
+ * - pop: Removes the currently "active" route from the top of this stack
+ * e.g. pressing a back button in the "SettingsRoute" will lead to the "HomeRoute" getting active again
+ *
+ * ## Note
+ * - Implementations of [RoutingStack] should implement a [equals] and [hashCode] function that makes
+ * [RoutingStack]'s comparable
+ *
+ * - Implementations of [RoutingStack] should always be implemented *immutable*
+ */
+interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<T>>, Iterable<Element<T>> {
 
     val elements: List<Element<T>>
 
@@ -15,7 +31,7 @@ interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<
         return elements.iterator()
     }
 
-    override fun plainStackInstruction(instruction: RoutingStackInstruction<T>): RoutingStack<T> {
+    override fun plainStackInstruction(instruction: PlainStackInstruction<T>): RoutingStack<T> {
         return with(elements.instruction())
     }
 
@@ -51,25 +67,26 @@ interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<
 
     }
 
+    @Suppress("unused")
     companion object Factory {
         fun <T : Route> empty(): RoutingStack<T> = RoutingStackImpl(emptyList())
 
-        fun <T : Route> just(element: T): RoutingStack<T> = RoutingStackImpl(listOf(element).toEntries())
+        fun <T : Route> just(element: T): RoutingStack<T> = RoutingStackImpl(listOf(element).toElements())
 
         @JvmName("from")
-        fun <T : Route> from(vararg elements: T): RoutingStack<T> = RoutingStackImpl(elements.toList().toEntries())
+        fun <T : Route> from(vararg elements: T): RoutingStack<T> = RoutingStackImpl(elements.toList().toElements())
 
         @JvmName("fromIterable")
-        fun <T : Route> from(elements: Iterable<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toEntries())
+        fun <T : Route> from(elements: Iterable<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toElements())
 
         @JvmName("fromArray")
-        fun <T : Route> from(elements: Array<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toEntries())
+        fun <T : Route> from(elements: Array<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toElements())
 
         @JvmName("fromSequence")
-        fun <T : Route> from(elements: Sequence<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toEntries())
+        fun <T : Route> from(elements: Sequence<T>): RoutingStack<T> = RoutingStackImpl(elements.toList().toElements())
     }
 }
 
 
-private fun <T : Route> Iterable<T>.toEntries() =
-    this.map { element -> ElementImpl(element) }.map { it as RoutingStack.Element<T> }
+private fun <T : Route> Iterable<T>.toElements() =
+    this.map { element -> ElementImpl(element) }

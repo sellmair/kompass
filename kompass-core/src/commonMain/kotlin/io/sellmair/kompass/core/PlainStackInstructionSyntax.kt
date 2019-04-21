@@ -2,14 +2,13 @@ package io.sellmair.kompass.core
 
 import io.sellmair.kompass.core.RoutingStack.Element
 
-typealias RoutingStackInstruction<T> = List<Element<T>>.() -> Iterable<Element<T>>
 
 @DslMarker
 annotation class RoutingStackInstructionMarker
 
 @RoutingStackInstructionMarker
 interface PlainStackInstructionSyntax<T : Route, R> {
-    fun plainStackInstruction(instruction: RoutingStackInstruction<T>): R
+    fun plainStackInstruction(instruction: PlainStackInstruction<T>): R
 }
 
 
