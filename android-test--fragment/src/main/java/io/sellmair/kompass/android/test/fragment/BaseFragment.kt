@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 abstract class BaseFragment : Fragment(), KompassFragment {
 
     override val router: FragmentRouter<*>
-        get() = (requireActivity() as FragmentHostActivity).router
+        get() = FragmentHostActivity.router
 
     abstract val route: BaseRoute
 

@@ -17,11 +17,15 @@ open class Key {
         return value.hashCode()
     }
 
-    companion object
+    companion object Factory
 
 }
 
-fun Key.Companion.randomKeyValue() = Random.nextBytes(16)
+fun Key.Factory.randomKeyValue() = Random.nextBytes(16)
     .map { byte -> byte.toInt() and 0xFF }
     .joinToString("") { it.toString(16) }
 
+
+operator fun Key.Factory.invoke(value: String): Key = DefinedKey(value)
+
+private class DefinedKey(override val value: String) : Key()

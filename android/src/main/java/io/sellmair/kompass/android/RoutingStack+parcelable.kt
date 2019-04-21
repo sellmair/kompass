@@ -1,10 +1,8 @@
 package io.sellmair.kompass.android
 
 import android.os.Parcelable
-import io.sellmair.kompass.core.Key
 import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.RoutingStack
-import io.sellmair.kompass.core.randomKeyValue
 import kotlinx.android.parcel.Parcelize
 
 
@@ -41,13 +39,3 @@ data class ParcelableElement<T>(
 ) : RoutingStack.Element<T>(), Parcelable where T : Route, T : Parcelable
 
 
-@Parcelize
-data class ParcelableKey(override val value: String = randomKeyValue()) : Key(), Parcelable
-
-
-fun Key.parcelable(): ParcelableKey {
-    return when (this) {
-        is ParcelableKey -> this
-        else -> ParcelableKey(value)
-    }
-}
