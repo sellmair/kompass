@@ -17,6 +17,7 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
         Log.d("Example", "Application.onCreate")
+
         Dependencies.router = FragmentRouter {
             animation {
                 register(LoginToLoginProcessingTransition())

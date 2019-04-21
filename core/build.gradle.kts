@@ -1,13 +1,11 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    id("com.android.library")
     kotlin("multiplatform")
 }
 
 kotlin {
     macosX64("macos")
-    android("android")
     jvm("jvm")
 
     sourceSets {
@@ -37,31 +35,6 @@ kotlin {
                 implementation(Deps.Kotlin.Test.junit)
             }
         }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(Deps.Kotlin.StdLib.jdk)
-                api(Deps.Kotlin.Coroutines.android)
-            }
-        }
-
-        val androidTest by getting {
-            dependsOn(commonTest)
-            dependencies {
-                implementation(Deps.Kotlin.Test.junit)
-            }
-        }
-    }
-
-
-}
-
-
-android {
-    compileSdkVersion(Project.Android.compileSdkVersion)
-    defaultConfig {
-        targetSdkVersion(Project.Android.targetSdkVersion)
-        minSdkVersion(Project.Android.minSdkVersion)
     }
 }
 
