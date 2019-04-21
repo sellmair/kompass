@@ -29,5 +29,5 @@ dependencies {
     androidTestImplementation(Deps.Android.X.testRules)
     androidTestImplementation(Deps.Android.X.testRunner)
     androidTestImplementation(Deps.Android.X.junit)
-    implementation(project(":android"))
+    implementation(project(":kompass-android"))
 }

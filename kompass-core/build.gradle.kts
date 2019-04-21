@@ -1,8 +1,18 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+
 plugins {
     kotlin("multiplatform")
+    `maven-publish`
 }
+
+
+// TODO work around for https://youtrack.jetbrains.com/issue/KT-27170
+configurations.create("compileClasspath")
+
+group = Library.group
+version = Library.version
+
 
 kotlin {
     macosX64("macos")
