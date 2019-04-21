@@ -1,6 +1,8 @@
 package io.sellmair.kompass.core
 
 
+val <T : Route> RoutingStack<T>.routes get() = elements.map(RoutingStack.Element<T>::route)
+
 operator fun <T : Route> RoutingStack<T>.plus(route: T): RoutingStack<T> {
     return push(route)
 }

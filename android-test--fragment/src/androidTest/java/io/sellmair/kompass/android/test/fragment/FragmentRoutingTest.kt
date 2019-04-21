@@ -15,11 +15,7 @@ import org.junit.Test
 class FragmentRoutingTest {
 
     @get:Rule
-    val activityRule = object : ActivityTestRule<FragmentHostActivity>(FragmentHostActivity::class.java) {
-        override fun beforeActivityLaunched() {
-            setupRouter()
-        }
-    }
+    val activityRule = ActivityTestRule<FragmentHostActivity>(FragmentHostActivity::class.java)
 
     private val router: FragmentRouter<FragmentHostRoute> get() = FragmentHostActivity.router
 
@@ -63,6 +59,10 @@ class FragmentRoutingTest {
         setupRouter()
         activityRule.runOnUiThread { activity.recreate() }
         Espresso.onIdle()
+    }
+
+    init {
+        setupRouter()
     }
 
 
@@ -199,5 +199,30 @@ class FragmentRoutingTest {
 
         router.execute { pop() }
         activity.assertShowsNothing()
+    }
+
+
+    @Test
+    fun push_push_finish_start_pop_push() {
+        router.execute { push(route1) }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        router.execute { push(route2) }
+        activity.assertShowsRoute(route2)
+        activity.assertShowsFragment<FragmentTwo>()
+
+        activityRule.finishActivity()
+        activityRule.launchActivity(null)
+
+        Espresso.onIdle()
+        activity.assertShowsNothing()
+
+        router.execute { pop() }
+        activity.assertShowsNothing()
+
+        router.execute { push(route1) }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
     }
 }
