@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Example</string>
+    <string name="app_name">Kompass Example</string>
     <string name="login">LOGIN</string>
     <string name="contacts">Contacts</string>
     <string name="email">Email</string>

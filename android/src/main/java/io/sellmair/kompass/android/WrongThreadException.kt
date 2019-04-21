@@ -1,6 +1,6 @@
 package io.sellmair.kompass.android
 
-import io.sellmair.kompass.core.KompassException
+import io.sellmair.kompass.core.exception.KompassException
 
 class WrongThreadException : KompassException {
     constructor() : super()

@@ -5,14 +5,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import io.sellmair.kompass.android.fragment.*
 import io.sellmair.kompass.android.fragment.internal.*
+import io.sellmair.kompass.core.EmptyRoutingStackInstruction
 import io.sellmair.kompass.core.Route
-import io.sellmair.kompass.core.RoutingStack
+import io.sellmair.kompass.core.RoutingStackInstruction
+import io.sellmair.kompass.core.plus
 import kotlin.reflect.KClass
 
 @FragmentRouterDsl
 class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
-    private var initialStack: RoutingStack<T> = RoutingStack.empty()
+    private val typeIsParcelable = Parcelable::class.java.isAssignableFrom(type.java)
+
+    private var initialInstruction: RoutingStackInstruction<T> = EmptyRoutingStackInstruction()
 
     private var fragmentStackPatcher: FragmentStackPatcher = DefaultFragmentStackPatcher
 
@@ -21,7 +25,12 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     private var fragmentTransition: FragmentTransition = EmptyFragmentTransition
 
     private var fragmentRouteStorage: FragmentRouteStorage<T>? = when {
-        Parcelable::class.java.isAssignableFrom(type.java) -> ParcelableFragmentRouteStorage.createUnsafe()
+        typeIsParcelable -> ParcelableFragmentRouteStorage.createUnsafe()
+        else -> null
+    }
+
+    private var fragmentRoutingStackBundler: FragmentRoutingStackBundler<T>? = when {
+        typeIsParcelable -> ParcelableFragmentRoutingStackBundler.createUnsafe()
         else -> null
     }
 
@@ -54,21 +63,34 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
         this.fragmentTransition += FragmentTransitionBuilder().also(init).build()
     }
 
+    @FragmentRouterDsl
+    fun initialize(instruction: RoutingStackInstruction<T>) {
+        this.initialInstruction += instruction
+    }
+
 
     @PublishedApi
     internal fun build(): FragmentRouter<T> {
         return FragmentRouter(
             fragmentMap = fragmentMap,
             fragmentRouteStorage = requireFragmentRouteStorage(),
+            fragmentRoutingStackBundler = requireFragmentRoutingStackBundler(),
             fragmentTransition = fragmentTransition,
             fragmentStackPatcher = fragmentStackPatcher,
             fragmentContainerLifecycleFactory = fragmentContainerLifecycleFactory,
-            initialStack = initialStack
+            initialInstruction = initialInstruction
         )
     }
 
     private fun requireFragmentRouteStorage(): FragmentRouteStorage<T> {
         return fragmentRouteStorage ?: throw KompassFragmentDslException(
+            ""
+        )
+    }
+
+
+    private fun requireFragmentRoutingStackBundler(): FragmentRoutingStackBundler<T> {
+        return fragmentRoutingStackBundler ?: throw KompassFragmentDslException(
             ""
         )
     }

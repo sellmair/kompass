@@ -26,6 +26,7 @@ dependencies {
     implementation(Deps.Android.X.lifecycleViewModel)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.Android.X.espresso)
+    androidTestImplementation(Deps.Android.X.testRules)
     androidTestImplementation(Deps.Android.X.testRunner)
     androidTestImplementation(Deps.Android.X.junit)
     implementation(project(":android"))

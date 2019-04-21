@@ -1,12 +1,15 @@
 package io.sellmair.kompass.android.example
 
 import android.app.Application
+import android.util.Log
 import io.sellmair.kompass.android.example.fragment.*
 import io.sellmair.kompass.android.example.transitions.ContactListToChatTransition
 import io.sellmair.kompass.android.example.transitions.LoginProcessingToContactListTransition
 import io.sellmair.kompass.android.example.transitions.LoginProcessingToLoginFailedTransition
 import io.sellmair.kompass.android.example.transitions.LoginToLoginProcessingTransition
 import io.sellmair.kompass.android.fragment.FragmentRouter
+import io.sellmair.kompass.core.clear
+import io.sellmair.kompass.core.push
 
 /**
  * Created by sebastiansellmair on 27.01.18.
@@ -15,6 +18,7 @@ import io.sellmair.kompass.android.fragment.FragmentRouter
 class Application : Application() {
     override fun onCreate() {
         super.onCreate()
+        Log.d("Example", "Application.onCreate")
         Dependencies.router = FragmentRouter {
             animation {
                 register(LoginToLoginProcessingTransition())

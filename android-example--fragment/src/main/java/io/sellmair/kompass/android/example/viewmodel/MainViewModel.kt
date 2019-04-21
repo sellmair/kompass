@@ -1,5 +1,6 @@
 package io.sellmair.kompass.android.example.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import io.sellmair.kompass.android.example.ContactListRoute
 import io.sellmair.kompass.android.example.Dependencies
@@ -14,7 +15,8 @@ import io.sellmair.kompass.core.push
 class MainViewModel : ViewModel() {
     private val router = Dependencies.router
 
-    private fun checkIfLoggedIn() {
+    fun checkIfLoggedIn() {
+        Log.d("Example", "checkIfLoggedIn")
         val route = if (!DummyService.isLoggedIn) {
             LoginRoute()
         } else {
@@ -24,12 +26,12 @@ class MainViewModel : ViewModel() {
             )
         }
 
-        router.execute { clear().push(route) }
+        router.execute {
+            clear().push(route)
+        }
     }
 
-    init {
-        checkIfLoggedIn()
-    }
+
 }
 
 

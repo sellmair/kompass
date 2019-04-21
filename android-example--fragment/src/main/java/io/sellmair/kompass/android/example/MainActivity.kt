@@ -1,6 +1,7 @@
 package io.sellmair.kompass.android.example
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import io.sellmair.kompass.android.example.Dependencies.router
@@ -15,18 +16,25 @@ class MainActivity : AppCompatActivity(), KompassFragmentActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+        if (savedInstanceState == null) {
+            viewModel.checkIfLoggedIn()
+        }
+
+        Log.d("Example", "MainActivity.onCreate($savedInstanceState)")
+        router.setup(savedInstanceState, R.id.container)
     }
 
-    override fun onStart() {
-        super.onStart()
-        router.setup(R.id.container)
-    }
 
     override fun onBackPressed() {
-        //TODO()
-        router.execute { pop() }
+        router.execute {
+            if (elements.size <= 1) {
+                finish()
+                this
+            } else {
+                pop()
+            }
+        }
     }
 
 }

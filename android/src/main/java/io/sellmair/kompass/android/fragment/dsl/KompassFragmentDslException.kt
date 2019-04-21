@@ -1,6 +1,6 @@
 package io.sellmair.kompass.android.fragment.dsl
 
-import io.sellmair.kompass.core.KompassException
+import io.sellmair.kompass.core.exception.KompassException
 
 class KompassFragmentDslException : KompassException {
     constructor() : super()

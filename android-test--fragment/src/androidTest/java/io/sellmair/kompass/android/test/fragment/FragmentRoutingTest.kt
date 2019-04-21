@@ -1,5 +1,6 @@
 package io.sellmair.kompass.android.test.fragment
 
+import androidx.test.espresso.Espresso
 import androidx.test.rule.ActivityTestRule
 import io.sellmair.kompass.android.fragment.FragmentRouter
 import io.sellmair.kompass.android.test.FragmentHostActivity
@@ -8,18 +9,15 @@ import io.sellmair.kompass.core.RoutingStack
 import io.sellmair.kompass.core.pop
 import io.sellmair.kompass.core.popUntilRoute
 import io.sellmair.kompass.core.push
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class FragmentRoutingTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule<FragmentHostActivity>(
-        FragmentHostActivity::class.java
-    )
+    val activityRule = ActivityTestRule<FragmentHostActivity>(FragmentHostActivity::class.java)
 
-    private val router: FragmentRouter<FragmentHostRoute> get() = activityRule.activity.router
+    private val router: FragmentRouter<FragmentHostRoute> get() = FragmentHostActivity.router
 
     private val activity: FragmentHostActivity get() = activityRule.activity
 
@@ -41,9 +39,8 @@ class FragmentRoutingTest {
 
     private val route9 = RouteNine()
 
-    @Before
-    fun setup() {
-        activityRule.activity.router = FragmentRouter {
+    private fun setupRouter() {
+        FragmentHostActivity.router = FragmentRouter {
             routing {
                 route<RouteOne> { FragmentOne::class }
                 route<RouteTwo> { FragmentTwo::class }
@@ -57,6 +54,17 @@ class FragmentRoutingTest {
             }
         }
     }
+
+    private fun recreate() {
+        setupRouter()
+        activityRule.runOnUiThread { activity.recreate() }
+        Espresso.onIdle()
+    }
+
+    init {
+        setupRouter()
+    }
+
 
     @Test
     fun singlePush() {
@@ -164,6 +172,57 @@ class FragmentRoutingTest {
 
         router.execute { pop() }
         activity.assertShowsNothing()
+    }
 
+    @Test
+    fun push_push_recreate_pop_pop_pop() {
+        router.execute { push(route1) }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        router.execute { push(route2) }
+        activity.assertShowsRoute(route2)
+        activity.assertShowsFragment<FragmentTwo>()
+
+        recreate()
+
+        activity.assertShowsRoute(route2)
+        activity.assertShowsFragment<FragmentTwo>()
+
+        router.execute { pop() }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+
+        router.execute { pop() }
+        activity.assertShowsNothing()
+
+        router.execute { pop() }
+        activity.assertShowsNothing()
+    }
+
+
+    @Test
+    fun push_push_finish_start_pop_push() {
+        router.execute { push(route1) }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        router.execute { push(route2) }
+        activity.assertShowsRoute(route2)
+        activity.assertShowsFragment<FragmentTwo>()
+
+        activityRule.finishActivity()
+        activityRule.launchActivity(null)
+
+        Espresso.onIdle()
+        activity.assertShowsNothing()
+
+        router.execute { pop() }
+        activity.assertShowsNothing()
+
+        router.execute { push(route1) }
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
     }
 }

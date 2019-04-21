@@ -2,7 +2,7 @@ object Versions {
     const val kotlin = "1.3.30"
     const val coroutines = "1.1.1"
     const val serialization = "0.10.0"
-    const val androidGradlePlugin = "3.3.2"
+    const val androidGradlePlugin = "3.4.0"
     const val lifecycleExtensions = "2.0.0"
     const val lifecycleViewModel = "2.0.0"
     const val fragment = "1.1.0-alpha06"
