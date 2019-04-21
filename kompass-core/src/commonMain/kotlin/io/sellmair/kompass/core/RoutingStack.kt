@@ -4,7 +4,7 @@ import io.sellmair.kompass.core.internal.ElementImpl
 import io.sellmair.kompass.core.internal.RoutingStackImpl
 import kotlin.jvm.JvmName
 
-interface RoutingStack<T : Route> : RoutingStackInstructionSyntax<T, RoutingStack<T>>,
+interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<T>>,
     Iterable<RoutingStack.Element<T>> {
 
     val elements: List<Element<T>>
@@ -15,11 +15,11 @@ interface RoutingStack<T : Route> : RoutingStackInstructionSyntax<T, RoutingStac
         return elements.iterator()
     }
 
-    override fun stackInstruction(instruction: RoutingStackInstruction<T>): RoutingStack<T> {
+    override fun plainStackInstruction(instruction: RoutingStackInstruction<T>): RoutingStack<T> {
         return with(elements.instruction())
     }
 
-    abstract class Element<T : Route> {
+    abstract class Element<out T : Route> {
 
         abstract val key: Key
 

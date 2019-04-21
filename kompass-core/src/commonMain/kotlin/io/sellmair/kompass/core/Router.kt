@@ -41,15 +41,16 @@ package io.sellmair.kompass.core
  */
 interface Router<T : Route> :
     RouterInstructionSyntax<T>,
-    RoutingStackInstructionSyntax<T, Unit> {
+    PlainStackInstructionSyntax<T, Unit> {
 
     /**
+     * Just syntactic sugar for [RouterInstructionSyntax.instruction]
      * @see RouterInstructionSyntax.instruction
      */
     operator fun invoke(instruction: RouterInstruction<T>): Unit = instruction(instruction)
 
-    override fun stackInstruction(instruction: RoutingStackInstruction<T>): Unit =
-        instruction { stackInstruction(instruction) }
+    override fun plainStackInstruction(instruction: RoutingStackInstruction<T>): Unit =
+        instruction { plainStackInstruction(instruction) }
 
 }
 
