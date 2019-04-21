@@ -5,7 +5,7 @@ import io.sellmair.kompass.core.Router
 import io.sellmair.kompass.core.exception.MissingRouteException
 import kotlin.reflect.KClass
 
-interface KompassTarget {
+interface GetRouteSyntax {
 
     val router: Router<*>
 
@@ -19,13 +19,13 @@ interface KompassTarget {
 
 }
 
-inline fun <reified T : Route> KompassTarget.getRoute(): T {
+inline fun <reified T : Route> GetRouteSyntax.getRoute(): T {
     return getRoute(T::class)
 }
 
-inline fun <reified T : Route> KompassTarget.getRouteOrNull(): T? {
+inline fun <reified T : Route> GetRouteSyntax.getRouteOrNull(): T? {
     return getRouteOrNull(T::class)
 }
 
-inline fun <reified T : Route> KompassTarget.route() = lazy { getRoute(T::class) }
+inline fun <reified T : Route> GetRouteSyntax.route() = lazy { getRoute(T::class) }
 

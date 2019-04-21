@@ -15,18 +15,12 @@ class ContactListViewModel : ViewModel() {
     private val router = Dependencies.router
 
     fun onContactClicked(contact: Contact) {
-
-        router.execute {
-            push(
-                ChatRoute(
-                    lastSeenTime = System.currentTimeMillis(),
-                    backgroundId = 1,
-                    chatTitle = contact.nickname ?: contact.name,
-                    savedAlreadyTypedText = "",
-                    contact = contact
-                )
-            )
-        }
-
+        router push ChatRoute(
+            lastSeenTime = System.currentTimeMillis(),
+            backgroundId = 1,
+            chatTitle = contact.nickname ?: contact.name,
+            savedAlreadyTypedText = "",
+            contact = contact
+        )
     }
 }

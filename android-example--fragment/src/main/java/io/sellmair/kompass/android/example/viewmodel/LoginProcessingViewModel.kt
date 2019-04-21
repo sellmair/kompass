@@ -24,18 +24,16 @@ class LoginProcessingViewModel : ViewModel() {
 
         if (password == "kompass") {
             DummyService.isLoggedIn = true
-            router.execute {
-                clear().push(
-                    ContactListRoute(
-                        searchString = null,
-                        contacts = DummyService.contacts
-                    )
+            router.instruction {
+                clear() push ContactListRoute(
+                    searchString = null,
+                    contacts = DummyService.contacts
                 )
             }
 
         } else {
-            router.execute {
-                pop().push(LoginFailedRoute(email))
+            router.instruction {
+                pop() push LoginFailedRoute(email)
             }
         }
     }

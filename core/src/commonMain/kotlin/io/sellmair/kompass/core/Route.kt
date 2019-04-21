@@ -1,3 +1,7 @@
 package io.sellmair.kompass.core
 
-interface Route
+import io.sellmair.kompass.core.RoutingStack.Element
+
+interface Route {
+    fun asElement(key: Key = Key()) = Element(this, key)
+}

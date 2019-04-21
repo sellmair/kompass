@@ -68,25 +68,25 @@ class FragmentRoutingTest {
 
     @Test
     fun singlePush() {
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
     }
 
     @Test
     fun pushPush() {
-        router.execute { push(route1).push(route2) }
+        router.instruction { push(route1).push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
     }
 
     @Test
     fun pushPush_pop() {
-        router.execute { push(route1).push(route2) }
+        router.instruction { push(route1).push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
     }
@@ -94,15 +94,15 @@ class FragmentRoutingTest {
 
     @Test
     fun pushPush_push_pop() {
-        router.execute { push(route1).push(route2) }
+        router.instruction { push(route1).push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
-        router.execute { push(route3) }
+        router.instruction { push(route3) }
         activity.assertShowsRoute(route3)
         activity.assertShowsFragment<FragmentThree>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
     }
@@ -110,27 +110,27 @@ class FragmentRoutingTest {
 
     @Test
     fun pop() {
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
     }
 
     @Test
     fun push_pop_pop() {
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
     }
 
 
     @Test
     fun stack_popUntil() {
-        router.execute {
+        router.instruction {
             RoutingStack.from(
                 route1, route2, route3, route4, route5,
                 route6, route7, route8, route9
@@ -140,47 +140,47 @@ class FragmentRoutingTest {
         activity.assertShowsRoute(route9)
         activity.assertShowsFragment<FragmentNine>()
 
-        router.execute { popUntilRoute(route5) }
+        router.instruction { popUntilRoute(route5) }
         activity.assertShowsRoute(route5)
         activity.assertShowsFragment<FragmentFive>()
     }
 
     @Test
     fun push_push_push_removeRoute2_pop_pop_pop() {
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
-        router.execute { push(route2) }
+        router.instruction { push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
-        router.execute { push(route3) }
+        router.instruction { push(route3) }
         activity.assertShowsRoute(route3)
         activity.assertShowsFragment<FragmentThree>()
 
-        router.execute { with(elements.filterNot { it.route == route2 }) }
+        router.instruction { with(elements.filterNot { it.route == route2 }) }
         activity.assertShowsRoute(route3)
         activity.assertShowsFragment<FragmentThree>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
     }
 
     @Test
     fun push_push_recreate_pop_pop_pop() {
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
-        router.execute { push(route2) }
+        router.instruction { push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
@@ -189,26 +189,26 @@ class FragmentRoutingTest {
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
     }
 
 
     @Test
     fun push_push_finish_start_pop_push() {
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
 
-        router.execute { push(route2) }
+        router.instruction { push(route2) }
         activity.assertShowsRoute(route2)
         activity.assertShowsFragment<FragmentTwo>()
 
@@ -218,10 +218,10 @@ class FragmentRoutingTest {
         Espresso.onIdle()
         activity.assertShowsNothing()
 
-        router.execute { pop() }
+        router.instruction { pop() }
         activity.assertShowsNothing()
 
-        router.execute { push(route1) }
+        router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
     }

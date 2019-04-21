@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import io.sellmair.kompass.android.fragment.*
 import io.sellmair.kompass.android.fragment.internal.*
-import io.sellmair.kompass.core.EmptyRoutingStackInstruction
+import io.sellmair.kompass.core.EmptyRouterInstruction
 import io.sellmair.kompass.core.Route
-import io.sellmair.kompass.core.RoutingStackInstruction
+import io.sellmair.kompass.core.RouterInstruction
 import io.sellmair.kompass.core.plus
 import kotlin.reflect.KClass
 
@@ -16,7 +16,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
     private val typeIsParcelable = Parcelable::class.java.isAssignableFrom(type.java)
 
-    private var initialInstruction: RoutingStackInstruction<T> = EmptyRoutingStackInstruction()
+    private var initialInstruction: RouterInstruction<T> = EmptyRouterInstruction()
 
     private var fragmentStackPatcher: FragmentStackPatcher = DefaultFragmentStackPatcher
 
@@ -64,7 +64,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     }
 
     @FragmentRouterDsl
-    fun initialize(instruction: RoutingStackInstruction<T>) {
+    fun initialize(instruction: RouterInstruction<T>) {
         this.initialInstruction += instruction
     }
 
