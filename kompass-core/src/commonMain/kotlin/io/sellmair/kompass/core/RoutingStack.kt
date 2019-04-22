@@ -23,22 +23,67 @@ import kotlin.jvm.JvmName
  */
 interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<T>>, Iterable<Element<T>> {
 
+    /**
+     * All routes that represent this routing stack.
+     * This routes are stored as [Element] which makes routes identifiable by associating each entry in an
+     * stack with a [Key]
+     *
+     * @see RoutingStack
+     * @see Element
+     */
     val elements: List<Element<T>>
 
+    /**
+     * @return
+     * - A new [RoutingStack] that contains the specified [elements]
+     * - This [RoutingStack] if the [elements] did not change.
+     *
+     * ## Note
+     * [RoutingStack] implementations are required to be immutable
+     */
     fun with(elements: Iterable<Element<T>> = this.elements): RoutingStack<T>
 
     override fun iterator(): Iterator<Element<T>> {
         return elements.iterator()
     }
 
+    /**
+     * Creates a new [RoutingStack] based on the specified [instruction].
+     * @param instruction A simple function that describes how a new stack can be created from current stack
+     * @see with
+     * @see RoutingStack
+     */
     override fun plainStackInstruction(instruction: PlainStackInstruction<T>): RoutingStack<T> {
         return with(elements.instruction())
     }
 
+    /**
+     * # RoutingStack.Element
+     * Represents one entry of the [RoutingStack] that is able to identify each given route by a unique [Key], so
+     * that even if the routes in the stack are not distinct, the elements are!
+     *
+     * ## Note
+     * - Elements are compared by route and key, thus the behaviour of the [equals] and [hashCode] functions are
+     * guaranteed to behave consistently for all implementations
+     *
+     * @see Key
+     * @see Route
+     * @see RoutingStack
+     */
     abstract class Element<out T : Route> {
 
+        /**
+         * Unique [Key] that can be used to identify the [Element] inside a [RoutingStack]
+         * @see Element
+         */
         abstract val key: Key
 
+        /**
+         * The route associated with the element.
+         * # Note
+         * Routes are not required to be distinct in a [RoutingStack]. Use [key] to properly
+         * identify elements in the [RoutingStack]
+         */
         abstract val route: T
 
         override fun toString(): String {
@@ -61,6 +106,9 @@ interface RoutingStack<T : Route> : PlainStackInstructionSyntax<T, RoutingStack<
         }
 
         companion object Factory {
+            /**
+             * @return A default implementation of [Element] for the given [route] and [key]
+             */
             operator fun <T : Route> invoke(route: T, key: Key = Key()): Element<T> =
                 ElementImpl(route, key)
         }

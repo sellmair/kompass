@@ -6,6 +6,7 @@ import io.sellmair.kompass.core.RoutingStack.Element
 @DslMarker
 annotation class RoutingStackInstructionMarker
 
+
 @RoutingStackInstructionMarker
 interface PlainStackInstructionSyntax<T : Route, R> {
     fun plainStackInstruction(instruction: PlainStackInstruction<T>): R
