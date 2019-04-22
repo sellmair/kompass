@@ -16,12 +16,12 @@ class ParcelableFragmentRouteStorage<T>(
         this.arguments = arguments
     }
 
-    override fun getOrNull(fragment: Fragment): T? {
-        return fragment.arguments?.getParcelable(bundleKey)
+    override fun Fragment.getRouteOrNull(): T? {
+        return arguments?.getParcelable(bundleKey)
     }
 
-    override fun get(fragment: Fragment): T {
-        return getOrNull(fragment) ?: throw MissingRouteException(
+    override fun Fragment.getRoute(): T {
+        return getRouteOrNull() ?: throw MissingRouteException(
             "Expected route with key $bundleKey"
         )
     }

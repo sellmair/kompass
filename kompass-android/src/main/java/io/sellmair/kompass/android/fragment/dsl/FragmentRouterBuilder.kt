@@ -29,7 +29,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
         else -> null
     }
 
-    private var fragmentRoutingStackBundler: FragmentRoutingStackBundler<T>? = when {
+    private var fragmentRoutingStackBundleSyntax: FragmentRoutingStackBundleSyntax<T>? = when {
         typeIsParcelable -> ParcelableFragmentRoutingStackBundler.createUnsafe()
         else -> null
     }
@@ -74,7 +74,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
         return FragmentRouter(
             fragmentMap = fragmentMap,
             fragmentRouteStorage = requireFragmentRouteStorage(),
-            fragmentRoutingStackBundler = requireFragmentRoutingStackBundler(),
+            fragmentRoutingStackBundleSyntax = requireFragmentRoutingStackBundler(),
             fragmentTransition = fragmentTransition,
             fragmentStackPatcher = fragmentStackPatcher,
             fragmentContainerLifecycleFactory = fragmentContainerLifecycleFactory,
@@ -89,8 +89,8 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     }
 
 
-    private fun requireFragmentRoutingStackBundler(): FragmentRoutingStackBundler<T> {
-        return fragmentRoutingStackBundler ?: throw KompassFragmentDslException(
+    private fun requireFragmentRoutingStackBundler(): FragmentRoutingStackBundleSyntax<T> {
+        return fragmentRoutingStackBundleSyntax ?: throw KompassFragmentDslException(
             ""
         )
     }

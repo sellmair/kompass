@@ -10,13 +10,13 @@ import io.sellmair.kompass.core.Route
  * ## Usage
  * ```
  * fragmentRouteStorage.run { fragment.attach(route) } 
- * val route = fragmentRouteStorage[route]
+ * val route = fragmentRouteStorage.run {  fragment.getRouteOrNull() } 
  * ```
  *
  * @see FragmentGetRouteSyntax
  */
 interface FragmentRouteStorage<T : Route> {
     fun Fragment.attach(route: T)
-    fun getOrNull(fragment: Fragment): T?
-    operator fun get(fragment: Fragment): T
+    fun Fragment.getRouteOrNull(): T?
+    fun Fragment.getRoute(): T
 }

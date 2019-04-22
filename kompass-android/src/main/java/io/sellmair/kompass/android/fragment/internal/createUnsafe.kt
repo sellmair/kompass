@@ -2,7 +2,7 @@ package io.sellmair.kompass.android.fragment.internal
 
 import android.os.Parcelable
 import io.sellmair.kompass.android.fragment.FragmentRouteStorage
-import io.sellmair.kompass.android.fragment.FragmentRoutingStackBundler
+import io.sellmair.kompass.android.fragment.FragmentRoutingStackBundleSyntax
 import io.sellmair.kompass.android.fragment.ParcelableFragmentRouteStorage
 import io.sellmair.kompass.android.fragment.ParcelableFragmentRoutingStackBundler
 import io.sellmair.kompass.core.Route
@@ -15,9 +15,9 @@ internal fun <T : Route> ParcelableFragmentRouteStorage.Companion.createUnsafe()
 
 internal fun <T : Route> ParcelableFragmentRoutingStackBundler.Companion.createUnsafe(
     key: String = defaultKey
-): FragmentRoutingStackBundler<T> {
+): FragmentRoutingStackBundleSyntax<T> {
     @Suppress("UNCHECKED_CAST")
-    return ParcelableFragmentRoutingStackBundler<ParcelableRoute>(key) as FragmentRoutingStackBundler<T>
+    return ParcelableFragmentRoutingStackBundler<ParcelableRoute>(key) as FragmentRoutingStackBundleSyntax<T>
 }
 
 

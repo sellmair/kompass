@@ -11,7 +11,7 @@ import io.sellmair.kompass.core.routes
 
 class ParcelableFragmentRoutingStackBundler<T>(
     private val key: String = defaultKey
-) : FragmentRoutingStackBundler<T> where T : Route, T : Parcelable {
+) : FragmentRoutingStackBundleSyntax<T> where T : Route, T : Parcelable {
 
     override fun RoutingStack<T>.saveTo(outState: Bundle) {
         log("saving routes: ${this.routes.joinToString(", ")}")

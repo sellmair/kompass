@@ -71,7 +71,7 @@ import io.sellmair.kompass.core.RoutingStack.Factory.empty
 class FragmentRouter<T : Route> internal constructor(
     override val fragmentMap: FragmentMap<T>,
     override val fragmentRouteStorage: FragmentRouteStorage<T>,
-    override val fragmentRoutingStackBundler: FragmentRoutingStackBundler<T>,
+    override val fragmentRoutingStackBundleSyntax: FragmentRoutingStackBundleSyntax<T>,
     private val fragmentTransition: FragmentTransition,
     private val fragmentStackPatcher: FragmentStackPatcher,
     fragmentContainerLifecycleFactory: FragmentContainerLifecycle.Factory,
@@ -145,14 +145,14 @@ class FragmentRouter<T : Route> internal constructor(
 
     internal fun saveState(outState: Bundle) {
         requireMainThread()
-        fragmentRoutingStackBundler.run {
+        fragmentRoutingStackBundleSyntax.run {
             state.stack.saveTo(outState)
         }
     }
 
     internal fun restoreState(outState: Bundle?) {
         requireMainThread()
-        val stack = fragmentRoutingStackBundler.run { outState?.restore() } ?: empty()
+        val stack = fragmentRoutingStackBundleSyntax.run { outState?.restore() } ?: empty()
         _state = when (val state = state) {
             is State.Attached -> state.copy(stack = stack)
             is State.Detached -> state.copy(stack = stack)
