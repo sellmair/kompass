@@ -4,18 +4,18 @@ import androidx.fragment.app.Fragment
 import io.sellmair.kompass.core.Route
 
 /**
- * # FragmentRouteStorage
+ * # FragmentRouteStorageSyntax
  * Defines a way of attaching a route to a fragment in a way, that this fragment can retrieve this router later.
  *
  * ## Usage
  * ```
- * fragmentRouteStorage.run { fragment.attach(route) } 
- * val route = fragmentRouteStorage.run {  fragment.getRouteOrNull() } 
+ * fragmentRouteStorageSyntax.run { fragment.attach(route) } 
+ * val route = fragmentRouteStorageSyntax.run {  fragment.getRouteOrNull() } 
  * ```
  *
  * @see FragmentGetRouteSyntax
  */
-interface FragmentRouteStorage<T : Route> {
+interface FragmentRouteStorageSyntax<T : Route> {
     fun Fragment.attach(route: T)
     fun Fragment.getRouteOrNull(): T?
     fun Fragment.getRoute(): T

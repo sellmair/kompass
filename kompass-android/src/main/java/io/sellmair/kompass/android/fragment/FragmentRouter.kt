@@ -70,7 +70,7 @@ import io.sellmair.kompass.core.RoutingStack.Factory.empty
  */
 class FragmentRouter<T : Route> internal constructor(
     override val fragmentMap: FragmentMap<T>,
-    override val fragmentRouteStorage: FragmentRouteStorage<T>,
+    override val fragmentRouteStorageSyntax: FragmentRouteStorageSyntax<T>,
     override val fragmentRoutingStackBundleSyntax: FragmentRoutingStackBundleSyntax<T>,
     private val fragmentTransition: FragmentTransition,
     private val fragmentStackPatcher: FragmentStackPatcher,

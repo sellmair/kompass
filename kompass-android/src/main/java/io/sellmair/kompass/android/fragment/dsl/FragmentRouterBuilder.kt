@@ -24,8 +24,8 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
     private var fragmentTransition: FragmentTransition = EmptyFragmentTransition
 
-    private var fragmentRouteStorage: FragmentRouteStorage<T>? = when {
-        typeIsParcelable -> ParcelableFragmentRouteStorage.createUnsafe()
+    private var fragmentRouteStorageSyntax: FragmentRouteStorageSyntax<T>? = when {
+        typeIsParcelable -> ParcelableFragmentRouteStorageSyntax.createUnsafe()
         else -> null
     }
 
@@ -47,8 +47,8 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     }
 
     @FragmentRouterDsl
-    fun fragmentRouteStorage(storage: FragmentRouteStorage<T>) {
-        this.fragmentRouteStorage = storage
+    fun fragmentRouteStorage(storage: FragmentRouteStorageSyntax<T>) {
+        this.fragmentRouteStorageSyntax = storage
     }
 
 
@@ -73,7 +73,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
     internal fun build(): FragmentRouter<T> {
         return FragmentRouter(
             fragmentMap = fragmentMap,
-            fragmentRouteStorage = requireFragmentRouteStorage(),
+            fragmentRouteStorageSyntax = requireFragmentRouteStorage(),
             fragmentRoutingStackBundleSyntax = requireFragmentRoutingStackBundler(),
             fragmentTransition = fragmentTransition,
             fragmentStackPatcher = fragmentStackPatcher,
@@ -82,8 +82,8 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
         )
     }
 
-    private fun requireFragmentRouteStorage(): FragmentRouteStorage<T> {
-        return fragmentRouteStorage ?: throw KompassFragmentDslException(
+    private fun requireFragmentRouteStorage(): FragmentRouteStorageSyntax<T> {
+        return fragmentRouteStorageSyntax ?: throw KompassFragmentDslException(
             ""
         )
     }

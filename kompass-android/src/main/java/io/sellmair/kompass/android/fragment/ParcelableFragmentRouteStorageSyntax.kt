@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.exception.MissingRouteException
 
-class ParcelableFragmentRouteStorage<T>(
+class ParcelableFragmentRouteStorageSyntax<T>(
     private val bundleKey: String = DEFAULT_BUNDLE_KEY
-) : FragmentRouteStorage<T> where T : Parcelable, T : Route {
+) : FragmentRouteStorageSyntax<T> where T : Parcelable, T : Route {
 
     override fun Fragment.attach(route: T) {
         val arguments = this.arguments ?: Bundle()

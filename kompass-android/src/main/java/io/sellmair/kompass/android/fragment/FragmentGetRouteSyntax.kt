@@ -11,7 +11,7 @@ interface FragmentGetRouteSyntax : GetRouteSyntax,
     override val router: FragmentRouter<*>
 
     override fun <R : Route> getRouteOrNull(clazz: KClass<R>): R? {
-        val route = router.fragmentRouteStorage.run { expectThisToBeAFragment().getRouteOrNull() }
+        val route = router.fragmentRouteStorageSyntax.run { expectThisToBeAFragment().getRouteOrNull() }
         if (clazz.java.isInstance(route)) {
             @Suppress("UNCHECKED_CAST")
             return route as? R
