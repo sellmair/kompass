@@ -59,7 +59,7 @@ class FragmentRouterBuilder<T : Route>(type: KClass<T>) {
 
 
     @FragmentRouterDsl
-    fun animation(init: FragmentTransitionBuilder.() -> Unit) {
+    fun transitions(init: FragmentTransitionBuilder.() -> Unit) {
         this.fragmentTransition += FragmentTransitionBuilder().also(init).build()
     }
 

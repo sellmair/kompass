@@ -22,8 +22,7 @@ class ParcelableFragmentRouteStorage<T>(
 
     override fun get(fragment: Fragment): T {
         return getOrNull(fragment) ?: throw MissingRouteException(
-            "" +
-                    "Expected route with key $bundleKey"
+            "Expected route with key $bundleKey"
         )
     }
 

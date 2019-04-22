@@ -5,7 +5,10 @@ import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.RoutingStack
 import kotlinx.android.parcel.Parcelize
 
-
+/**
+ * @return [ParcelableRoutingStack] wrapper for the current stack, or this instance if it already
+ * implements [ParcelableRoutingStack]
+ */
 fun <T> RoutingStack<T>.parcelable(): ParcelableRoutingStack<T> where T : Route, T : Parcelable {
     return when (this) {
         is ParcelableRoutingStack<T> -> this
@@ -13,15 +16,6 @@ fun <T> RoutingStack<T>.parcelable(): ParcelableRoutingStack<T> where T : Route,
     }
 }
 
-fun <T> RoutingStack.Element<T>.parcelable(): ParcelableElement<T> where T : Route, T : Parcelable {
-    return when (this) {
-        is ParcelableElement -> this
-        else -> ParcelableElement(key.parcelable(), route)
-    }
-}
-
-fun <T> Iterable<RoutingStack.Element<T>>.parcelable() where T : Route, T : Parcelable =
-    this.map { entry -> entry.parcelable() }
 
 @Parcelize
 private class ParcelableRoutingStackWrapper<T>(override val elements: List<ParcelableElement<T>>) :
@@ -32,10 +26,14 @@ private class ParcelableRoutingStackWrapper<T>(override val elements: List<Parce
     }
 }
 
-@Parcelize
-data class ParcelableElement<T>(
-    override val key: ParcelableKey,
-    override val route: T
-) : RoutingStack.Element<T>(), Parcelable where T : Route, T : Parcelable
 
-
+/**
+ * @return [ParcelableElement] wrapper for the current element of this instance if it already implemennts
+ * [ParcelableElement]
+ */
+fun <T> RoutingStack.Element<T>.parcelable(): ParcelableElement<T> where T : Route, T : Parcelable {
+    return when (this) {
+        is ParcelableElement -> this
+        else -> ParcelableElement(key.parcelable(), route)
+    }
+}
