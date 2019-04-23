@@ -52,6 +52,19 @@ class FragmentRouterBuilder<T : Route>(private val type: KClass<T>) {
         this.fragmentStackPatcher = patcher
     }
 
+
+    /**
+     * Allows for configuration of the lifecycle events that shall be used to attach/detach
+     * the fragment container.
+     *
+     * Default:
+     * attach on `ON_RESUME`
+     * detach on  `ON_PAUSE`
+     */
+    fun fragmentContainerLifecycle(init: GenericFragmentContainerLifecycleBuilder.() -> Unit) {
+        this.fragmentContainerLifecycleFactory = GenericFragmentContainerLifecycleBuilder().also(init).build()
+    }
+
     /**
      * Specify a custom [FragmentRouteStorageSyntax].
      *
@@ -145,3 +158,5 @@ class FragmentRouterBuilder<T : Route>(private val type: KClass<T>) {
         )
     }
 }
+
+
