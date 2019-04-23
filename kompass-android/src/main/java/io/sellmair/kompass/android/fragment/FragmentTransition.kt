@@ -32,6 +32,17 @@ import io.sellmair.kompass.core.Route
  * }
  * ```
  *
+ * ### Transitions can be chained
+ * Transitions can be combined/chained to build a new transition which invokes all setup methods
+ *
+ * ```
+ * val loginToRegisterTransition: FragmentTransition = ...
+ * val loginToHomeTransition: FragmentTransition = ...
+ * val homeToSettingsTransition: FragmentTransition = ...
+ * val transitionSet: FragmentTransition = loginToRegisterTransition + loginToHomeTransition + homeToSettingsTransition
+ * ```
+ *
+ *
  * ## Note
  * - The setup method will be called before the the router commits any fragment transaction
  * - The setup method will be called for pushing a new route to the top

@@ -9,7 +9,7 @@ import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.RoutingStack
 import io.sellmair.kompass.core.routes
 
-class ParcelableFragmentRoutingStackBundler<T>(
+class ParcelableFragmentRoutingStackBundleSyntax<T>(
     private val key: String = defaultKey
 ) : FragmentRoutingStackBundleSyntax<T> where T : Route, T : Parcelable {
 
