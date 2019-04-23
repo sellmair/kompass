@@ -1,6 +1,8 @@
 package io.sellmair.kompass.android.fragment
 
 import android.os.Bundle
+import androidx.annotation.AnyThread
+import androidx.fragment.app.Fragment
 import io.sellmair.kompass.android.fragment.dsl.FragmentRouterBuilder
 import io.sellmair.kompass.android.fragment.dsl.FragmentRouterDsl
 import io.sellmair.kompass.android.fragment.internal.FragmentContainerLifecycle
@@ -12,11 +14,64 @@ import io.sellmair.kompass.android.utils.requireMainThread
 import io.sellmair.kompass.core.*
 import io.sellmair.kompass.core.RoutingStack.Factory.empty
 
-
+/**
+ * # FragmentRouter
+ * [Router] implementation that targets Android [Fragment]s
+ *
+ * ## DSL
+ * This router can be configured using the [FragmentRouterDsl]:
+ * e.g.
+ * ```
+ * val router = FragmentRouter {
+ *
+ *     // Define which fragment to show for which route
+ *     routing {
+ *         route<LoginRoute> { LoginFragment::class }
+ *         route<HomeRoute> { HomeFragment::class }
+ *         route<SettingsRoute> { SettingsFragment::class } 
+ *     }
+ *
+ *     // Register beautiful transitions to make the app look and feel nice
+ *     transitions {
+ *         register(LoginToHomeTransition())
+ *         register(HomeToSettingsTransition())
+ *     }
+ * }
+ * ```
+ *
+ * ## Usage
+ * ### Example: Replacing the `LoginRoute` with the `HomeRoute`:
+ * ```
+ * router { pop().push(HomeRoute()) } 
+ * ```
+ *
+ * ### Example: Navigating to the `SettingsRoute`
+ * ```
+ * router.push(SettingsRoute())
+ * ```
+ *
+ * ### Example: Going back from the `SettingsRoute`
+ *
+ * ```
+ * router.pop()
+ * ```
+ *
+ *
+ * ## Note
+ * - This router requires the `setup` method to be called which can only be called from
+ * a [KompassFragmentActivity] or [KompassFragment].
+ * - Instructions sent to the router before the `setup` method was called will be postponed until the router was set up
+ * - This router (once set up) will automatically handle the lifecycle of its host and will only execute instructions
+ * between configurable lifecycle-events (onResume <-> onPause by default).
+ * - Instructions sent to the router while the lifecycle of the host is not suitable will be postponed and executed
+ * once the lifecycle enters the correct state again (onResume by default)
+ * - This router will automatically save its state for configuration changes or process-death
+ *
+ */
 class FragmentRouter<T : Route> internal constructor(
     override val fragmentMap: FragmentMap<T>,
-    override val fragmentRouteStorage: FragmentRouteStorage<T>,
-    override val fragmentRoutingStackBundler: FragmentRoutingStackBundler<T>,
+    override val fragmentRouteStorageSyntax: FragmentRouteStorageSyntax<T>,
+    override val fragmentRoutingStackBundleSyntax: FragmentRoutingStackBundleSyntax<T>,
     private val fragmentTransition: FragmentTransition,
     private val fragmentStackPatcher: FragmentStackPatcher,
     fragmentContainerLifecycleFactory: FragmentContainerLifecycle.Factory,
@@ -65,6 +120,11 @@ class FragmentRouter<T : Route> internal constructor(
         }
 
 
+    /**
+     * Will execute the given instruction on the main thread.
+     * Execution will be done immediately if the calling thread is already the main thread.
+     */
+    @AnyThread
     override infix fun instruction(instruction: RouterInstruction<T>) = mainThread {
         state = state.nextState(instruction)
     }
@@ -85,14 +145,14 @@ class FragmentRouter<T : Route> internal constructor(
 
     internal fun saveState(outState: Bundle) {
         requireMainThread()
-        fragmentRoutingStackBundler.run {
+        fragmentRoutingStackBundleSyntax.run {
             state.stack.saveTo(outState)
         }
     }
 
     internal fun restoreState(outState: Bundle?) {
         requireMainThread()
-        val stack = fragmentRoutingStackBundler.run { outState?.restore() } ?: empty()
+        val stack = fragmentRoutingStackBundleSyntax.run { outState?.restore() } ?: empty()
         _state = when (val state = state) {
             is State.Attached -> state.copy(stack = stack)
             is State.Detached -> state.copy(stack = stack)

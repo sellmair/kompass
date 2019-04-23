@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class RoutingStackInstructionSyntaxTest {
+class PlainStackInstructionSyntaxTest {
 
     @Test
     fun push() {

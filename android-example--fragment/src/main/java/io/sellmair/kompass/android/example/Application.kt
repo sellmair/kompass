@@ -19,7 +19,7 @@ class Application : Application() {
         Log.d("Example", "Application.onCreate")
 
         Dependencies.router = FragmentRouter {
-            animation {
+            transitions {
                 register(LoginToLoginProcessingTransition())
                 register(ContactListToChatTransition())
                 register(LoginProcessingToLoginFailedTransition())

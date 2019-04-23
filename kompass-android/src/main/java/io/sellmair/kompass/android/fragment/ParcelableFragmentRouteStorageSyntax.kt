@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import io.sellmair.kompass.core.Route
 import io.sellmair.kompass.core.exception.MissingRouteException
 
-class ParcelableFragmentRouteStorage<T>(
+class ParcelableFragmentRouteStorageSyntax<T>(
     private val bundleKey: String = DEFAULT_BUNDLE_KEY
-) : FragmentRouteStorage<T> where T : Parcelable, T : Route {
+) : FragmentRouteStorageSyntax<T> where T : Parcelable, T : Route {
 
     override fun Fragment.attach(route: T) {
         val arguments = this.arguments ?: Bundle()
@@ -16,14 +16,13 @@ class ParcelableFragmentRouteStorage<T>(
         this.arguments = arguments
     }
 
-    override fun getOrNull(fragment: Fragment): T? {
-        return fragment.arguments?.getParcelable(bundleKey)
+    override fun Fragment.getRouteOrNull(): T? {
+        return arguments?.getParcelable(bundleKey)
     }
 
-    override fun get(fragment: Fragment): T {
-        return getOrNull(fragment) ?: throw MissingRouteException(
-            "" +
-                    "Expected route with key $bundleKey"
+    override fun Fragment.getRoute(): T {
+        return getRouteOrNull() ?: throw MissingRouteException(
+            "Expected route with key $bundleKey"
         )
     }
 

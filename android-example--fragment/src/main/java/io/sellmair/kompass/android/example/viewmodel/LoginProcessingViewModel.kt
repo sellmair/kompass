@@ -42,7 +42,6 @@ class LoginProcessingViewModel : ViewModel() {
         pop() push LoginFailedRoute(email)
     }
 
-
     private fun onLoginSuccess() = router {
         DummyService.isLoggedIn = true
         clear() push ContactListRoute(

@@ -2,6 +2,15 @@ package io.sellmair.kompass.core
 
 import kotlin.random.Random
 
+/**
+ * # Key
+ * Key objects are used to identify other objects (routes in particular)
+ * The [value] of the key will be used for comparison of [Key] objects.
+ *
+ * ## Note
+ * - [Key] sub-implementations cannot override the behaviour of the [equals] or [hashCode] function
+ * - [Key] implementations are required to be immutable and not changing over time.
+ */
 open class Key {
 
     open val value: String = randomKeyValue()
@@ -21,11 +30,21 @@ open class Key {
 
 }
 
+/**
+ * Creates a new 128-bit long random string, which can be used as value for [Key] objects.
+ */
 fun Key.Factory.randomKeyValue() = Random.nextBytes(16)
     .map { byte -> byte.toInt() and 0xFF }
     .joinToString("") { it.toString(16) }
 
 
+/**
+ * @return A default implementation of [Key] that allows for a pre-defined [Key] value.
+ */
 operator fun Key.Factory.invoke(value: String): Key = DefinedKey(value)
 
+
+/**
+ * Default implementation of [Key] which allows a pre-defined [Key] value.
+ */
 private class DefinedKey(override val value: String) : Key()
