@@ -17,6 +17,10 @@ androidExtensions {
     isExperimental = true
 }
 
+repositories {
+    maven { url = uri("https://dl.bintray.com/sellmair/sellmair") }
+}
+
 dependencies {
     implementation(Deps.Kotlin.StdLib.jdk)
     implementation(Deps.Android.X.appCompat)
@@ -29,5 +33,8 @@ dependencies {
     androidTestImplementation(Deps.Android.X.testRules)
     androidTestImplementation(Deps.Android.X.testRunner)
     androidTestImplementation(Deps.Android.X.junit)
-    implementation(project(":kompass-android"))
+    //implementation(project(":kompass-android"))
+    implementation("io.sellmair:kompass-android:0.2.0-pre-alpha.1")
+    //implementation("io.sellmair:kompass-core-jvm:0.2.0-pre-alpha.0")
+
 }

@@ -11,6 +11,7 @@ object Versions {
     const val androidTestRunner = "1.1.0"
     const val androidTestRules = "1.1.0"
     const val espresso = "3.1.0"
+    const val bintrayGradlePlugin = "1.8.4"
 }
 
 
@@ -20,6 +21,7 @@ object Deps {
         const val android = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+        const val bintray = "com.jfrog.bintray.gradle:gradle-bintray-plugin:${Versions.bintrayGradlePlugin}"
     }
 
     object Kotlin {

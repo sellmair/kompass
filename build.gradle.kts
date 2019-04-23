@@ -13,6 +13,7 @@ buildscript {
         classpath(Deps.Plugins.android)
         classpath(Deps.Plugins.kotlin)
         classpath(Deps.Plugins.kotlinSerialization)
+        classpath(Deps.Plugins.bintray)
     }
 }
 

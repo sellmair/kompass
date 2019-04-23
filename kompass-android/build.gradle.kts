@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("org.jetbrains.kotlin.android.extensions")
+    id("com.jfrog.bintray")
     `maven-publish`
 }
 
@@ -53,13 +54,42 @@ publishing {
                 asNode().appendNode("dependencies").apply {
                     val dependencyNode = appendNode("dependency")
                     dependencyNode.appendNode("groupId", Library.group)
-                    dependencyNode.appendNode("artifactId", Library.Core.Jvm.name)
+                    dependencyNode.appendNode("artifactId", Library.Core.name)
                     dependencyNode.appendNode("version", Library.version)
                 }
             }
         }
     }
 }
+
+
+bintray {
+    user = project.properties.getOrDefault("bintray_user", "stub").toString()
+    key = project.properties.getOrDefault("bintray_apikey", "stub").toString()
+    override = true
+    setPublications("aar")
+    with(pkg) {
+        name = Library.Android.name
+        repo = Bintray.repository
+        desc = Library.Android.Meta.description
+        websiteUrl = Library.Android.Meta.websiteUrl
+        vcsUrl = Library.Android.Meta.gitUrl
+        setLicenses(*Bintray.allLicenses)
+        publish = true
+        with(version) {
+            name = Library.version
+            desc = Library.version
+            with(gpg) {
+                sign = false
+                passphrase == project.properties.getOrDefault("bintray_gpg_password", "stub").toString()
+            }
+        }
+    }
+}
+
+val bintrayUpload: Task by tasks.getting
+bintrayUpload.dependsOn("assembleRelease")
+
 
 
 //endregion
