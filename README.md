@@ -1,6 +1,6 @@
 ![Kompass](https://github.com/sellmair/kompass/blob/develop/assets/Kompass_724.png?raw=true)
 
-## A powerful router for Android, written in Kotlin
+## A powerful Kotlin Multiplatform router for Android (and iOS)
 <br>
 
 ![GitHub top language](https://img.shields.io/github/languages/top/sellmair/kompass.svg)
@@ -11,294 +11,297 @@
 
 
 #### Support
-I am happy to help you with any problem on [gitter](https://gitter.im/kompass-android/Help), as fast as I can! <br>
-Alternatively, just open a new issue! 
+I am happy to help you with any problem on [gitter](https://gitter.im/kompass-android/Help) <br>
+Feel free to open any new issue! 
 
-# Why you should use Kompass
-- Powerful router which works great with MVP, MVVM and any other architecture
-- Boilerplate free routing: No more bundle.putInt(ARG_SOMETHING, something)
-- Very simple and clean architecture for applying custom transitions
-- Generic fragment transitions
-- Routing with multiple screen (which are called ships)
-- Kotlin
+# What Kompass can do for you
+- Perfect fit for `MVVM`, `MVI`, `MVP`, `MVX` architectures
+- Powerful routing concept that targets multiple platforms like Android, JVM & iOS 
+- Easy to use API's
+- Highly configurable implementations
+
+## Android
+- Flexible routing with fragments
+- Built in solution for passing arguments to fragments
+- Very easy support for transitions/animations 
+- No XML configuration
+- Built in `DSL` to configure the `FragmentRouter`
+- Survives configuration changes
+- Can restore the "routing stack" after process death
+
+
+# What Kompass *can't* do for now
+While the `core` module is currently built and published for multiple platforms (JVM, iOS), there are no
+default `Router` implementations for any other platforms than `Android` yet. Those are currently "work in progress". 
+`Kompass` can still be used as a common API for routing by providing custom implementations of a `Router` for your platform! 
+
 
 # Setup
-##### Step 1: Enable Annotation Processing
-Add this at the top of your build.gradle
+
+## Step 1: Add the repository
+Early builds of `0.2.0` are not linked to jCenter, right now. Please add the bintray repository to your 
+root `build.gradle` or `build.gradle.kts` script
+ 
+`build.gradle.kts`:
+ ```kotlin
+ allprojects {
+    repositories {
+     maven { url = uri("https://dl.bintray.com/sellmair/sellmair") }
+    }
+ }
+ ```
+ 
+`build.gradle` 
 ```groovy
-apply plugin: 'kotlin-kapt'
-
-
-kapt {
-    generateStubs = true
-}
+  allprojects {
+     repositories {
+        maven { url "https://dl.bintray.com/sellmair/sellmair" }
+     }
+  }
 
 ```
 
-##### Step2: Add Kompass Dependencies
-```groovy
+### Step 2: Add the dependency (Multiplatform)
+
+`build.gradle.kts`
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("io.sellmair:kompass-core:0.2.0-alpha.0")
+            }
+        }
+        
+        /* Optional Android module */
+        val androidMain by getting {
+            dependencies {
+                implementation("io.sellmair:kompass-android:0.2.0-alpha.0")
+            }
+        }
+    }
+}
+```
+
+### Step 2: Add the dependency (Android Only)
+
+`build.gradle.kts`
+
+```kotlin
 dependencies {
-    ...
-    implementation 'io.sellmair:kompass:0.1.0'
-    implementation 'io.sellmair:kompass-annotation:0.1.0'
-    kapt 'io.sellmair:kompass-processor:0.1.0'
+    implementation("io.sellmair:kompass-android:0.2.0-alpha.0")
 }
 ```
+
+
+### Optional Step 3: (Android: Highly encouraged) Enable Kotlin's Android extensions (with `@Parcelize`)
+
+`build.gradle.kts` 
+
+```kotlin
+plugins {
+    // ...
+    id("org.jetbrains.kotlin.android.extensions")
+}
+
+// ...
+
+// Currently still necessary for @Parcelize annotation
+androidExtensions {
+    isExperimental = true
+}
+
+```
+
 
 
 # Usage
 ## Example
-I highly recommend having a look at the [example](https://github.com/sellmair/kompass/tree/develop/example) app built with Kompass
+I recommend having a look at the [example](https://github.com/sellmair/kompass/tree/develop/android-example--fragment) app built with Kompass
 
 <br><br>
 ###### Gif
 <img src="https://github.com/sellmair/kompass/blob/develop/assets/example.gif?raw=true" width="250">
 <br><br>
 
-
-## Basic
-Kompass uses a ship related naming schema. Here are the types that you will encounter
-
-- 🏰 ```Kompass```  is the upper most object and contains multiple ships
-
-- 🛶️ ```KompassShip```  is the entity which can route to a certain _Destination_. This might represent a certain area of your 
-activity where fragments can be loaded: e.g. One Ship can route to views/fragments on the top of the screen
-while another Ship is able`to display content on the bottom of the screen. You can have as many ships as you want
-in your App.
-
-- ⛵ ```KompassSail```️ is the actual area where fragments can be placed in. Your activity therefore sets the 
-sails for a certain ship, which then 'sails' to the destination.
- You might want to use ```FrameLayout``` most often as target for your fragments
- 
-- 🏖  ```Destination``` represents one certain 'scene' of your app. It also holds all necessary arguments for 
- the fragment/activity. For example: You might have a 
-'LoginDestination', 'HomeDestination', 'SettingsDestination', ...  in your application. 
-You can use plain kotlin (data) classes to represent destinations
-
-- 🗺 ```KompassMap```  knows how to display a certain _Destination_ (meaning which Fragment/View/Activity to load for it). 
-A map (_AutoMap_) is automatically created for you
-
-- 🏗 ```KompassCrane```   knows how to push a _Destination_ object into a _Bundle_. A Cran (_AutoCran_) is automatically
-created for you
-
-- 🎢 ```Detour```  can implement custom transitions/animations for certain routes. 
-Just implement a ```KompassFragmentDetour``` or ```KompassViewDetour``` 
-
-
-#### Create a Kompass
-Creating the _Kompass_ is very simple using the provided builder: 
-
-###### Create a Kompass: Trivial
-This example is the most trivial Kompass that can be built. It accepts any object implementing
-_KompassDestination_ as Destination. We will talk about the .autoMap() part later. 
-It is easy, I promise :bowtie:
-```kotlin
-val trivialKompass = Kompass.builder<KompassDestination>()
-                     .autoMap() // we will talk about this later
-                     .build()
-```
-
-___
-<br><br>
-###### Create a Kompass: Real World Example
-Here is a real-world example of Kompass, where _MyCustomDestinationType_ is just a basic
-sealed class and 'autoMap', 'autoCrane' and 'autoPilot' are extension functions automatically 
-generated by the _KompassCompiler_. But as you can see: It is very easy to create a Kompass object :blush:
+#### Defining routes
+Routes can easily be represented by data classes. Let's say your App has three routes that you might want to display:
+A `LoginRoute`, `ContactListRoute` and a `ChatRoute`: 
 
 ```kotlin
-val kompass = Kompass.builder<MyCustomDestinationType>()
-                     .autoMap()
-                     .autoCrane()
-                     .autoDetour()
-                     .build()
+
+sealed class AppRoute : Route, Parcelable
+
+@Parcelize
+class LoginRoute: AppRoute()
+
+@Parcelize
+data class ContactListRoute(val contacts: List<Contact>): AppRoute()
+
+@Parcelize
+data class ChatRoute(val contact: Contact): AppRoute() 
+
 ```
 
+All the arguments necessary to display a certain route should be present in the route itself. 
+The example above uses the `@Parcelize` feature from the Kotlin's Android extensions
 
-#### Create your _Destinations_
-Destinations are simple classes or data classes which hold very simple data like 
-- ```Float```
-- ```Int```
-- ```String```
-- ```List<Float>```
-- ```List<Int>```
-- ```List<String>```
-- ```FloatArray```
-- ```IntArray```
-- ```Array<String>```
-- ```Parcelable```
-- ...
 
-(Everything that can be represented inside android.os.Bundle plus some additions)
+#### Creating a router instance (Android)
 
-Destinations are typically annotated with 
-```kotlin
-@Destination(target = [MyFragmentOrActivity::class])
-```
- 
- I personally consider it a good idea implementing a sealed superclass for groups of _Destinations_ and restrict 
- the Kompass object to this superclass. 
- 
- ###### Example: Annotated Destination
- ```kotlin
-@Destination
-class HomeDestination(val user: User)
-```
-
- 
-#### Set sails to a Ship
-Once your activity has started, you have to provide a sail for the ship which should route to certain 
-destinations. You can do this whenever you want to (even after you routed your ship to a certain
-destination). The following example will show how the FrameLayout with id 'R.id.lisa_container' will 
-be used for the ship called Lisa as _Sail_: 
+A `FragmentRouter` for Android can be configured quite easily by using the built in DSL for configuration. 
 
 ```kotlin
-class MainActivity : AppCompatActivity() {
+router = FragmentRouter {
+            transitions {
+                register(LoginToContactListTransition())
+                register(ContactListToChatTransition())
+            }
+            routing {
+                route<LoginRoute> { LoginFragment::class }
+                route<ContactListRoute> { ContactListFragment::class }
+                route<ChatRoute> { ChatFragment::class }
+            }
+        }
+```
+
+The above DSL shows two configurations: 
+- `transitions`: configures animations/transitions that should be running when routing
+- `routing`: configures which `Fragment` should be displayed for a certain route
+
+
+#### Setting up a router instance (Android)
+
+A `FragmentRouter` needs a `ViewGroup` to place the fragments in. This can be setup like this:
+
+```kotlin
+
+class MainActivity : AppCompatActivity(), KompassFragmentActivity {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
-        // Step 1: Get the kompass instance (Dagger, Kodein, Singleton?, ...)
-        val kompass = ...
-        
-        // Step 2: Get the ship called 'lisa'
-        val lisa = kompass["lisa"]
-        
-       
+        router.setup(savedInstanceState, R.id.container)
     }
 
-    override fun onStart(){
-        super.onStart()
-        // Step 3: Set the sail and release it automatically by lifecycle
-        lisa.setSail(sail(R.id.lisa_container)).releasedBy(this)
+
+    override fun onBackPressed() {
+        router.popRetainRootImmediateOrFinish()
+    }
+
+}
+
+```
+
+Please note: In order to call the `setup` method, one needs to either implement `KomapssFragmentActivity` 
+or `KompassFragment`! 
+
+
+
+#### Routing (Simple push)
+
+Let's assume that the user taps on a certain contact in the contact list displayed by the `ContactListRoute`: 
+
+```kotlin
+class ContactListViewModel {
+ 
+    private val router = TODO("Maybe use DI?")
+ 
+    fun onContactClicked(contact: Contact) {
+        router.push(ChatRoute(contact))
+    }
+
+}
+```
+
+The code above will push the `ChatRoute` onto the "routing stack" and results in the `ChatFragment` being shown. 
+Popping the "routing stack" will result in the `ContactListFragment` being displayed again. 
+
+
+#### Routing (Replacing the current route)
+
+Kompass allows you to modify the "routing stack" in any arbitrary way, so replacing the current route should be 
+no problem. Let's assume the user successfully logged into your app. This should result in the current `LoginRoute`
+being replaced by the `ContactListRoute`
+
+
+```kotlin
+class LoginViewModel {
+
+    private val router = TODO("What about Dagger?")
+    
+    fun onLoginSuccessful(user: User) {
+        router { pop().push(ContactListRoute(user.contacts)) }
     }
 }
 ```
 
-#### Route to a Destination
-Now it is time to route to a certain destination. The following example will show how the routing
-for a login-screen could look like: 
-Side-note: ```kompass.main``` is a little convenience extension for ```kompass["main"]```
+Wrapping multiple instructions into one lambda block will bundle them to one single operation on the routing stack. 
+
+
+#### Receiving the current route inside a `Fragment`
+
+Accessing the route from within the any `Fragment` implementation is easily done by conforming to the `KompassFragment`
+interface:
 
 ```kotlin
+
+class ContactListFragment : Fragment(), KompassFragment {
+   
+    override val router: FragmentRouter<AppRoute> = TODO() 
+   
+    private val route: ContactListRoute by route()
     
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val user = getUser()
-
-        sail = kompass.main.setSail(this, container.id)
-        kompass.main.navigateTo(if(user!=null) HomeDestination(user) else LoginDestination())
+        val contacts = route.contacts 
         
+       //...
     }
-```
 
-
-#### Recreate Destination from _Bundle_
-One of the strongest parts of _Kompass_ is the elimination of hassle with bundles and arguments. 
-You can easily recreate the original _Destination_ from an intent or bundle using the automatically
-generated extension functions. 
-
-##### Example: Fragment
-If you routed to a certain fragment you can easily recreate the destination from the arguments _Bundle_
-```kotlin
-class HomeFragment: Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val homeDestination = arguments.asHomeDestination() // Function was automatically generated
-        val user = homeDestination.user
-        // ... Do something with your user object
-    }
 }
 ```
 
-##### Example: Activity
-```kotlin
-class HomeActivity: AppCompatActivity(){
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        val homeDestination = intent.extras.asHomeDestination()
-        val user = homeDestination?.user
-        // ... Do something with your user object
-    }
-}
-```
 
-## Advanced
-#### 🗺 The Map 
-Maps contain information about how to display a certain _Destination_. This can be done by 
-starting a new Activity or creating a new Fragment. If you want to use a custom Map element, add it to the KompassBuilder
-```kotlin
-Kompass.builder()
-       .addMap(myCustomMap)
-       ...
-```
-#### 🏗 The Crane 
-A crane knows how to pack a _Destination_ object into a bundle. If you want to use a custom Cran, 
-add it to the KompassBuilder 
+#### Fragment Transitions
+
+In order to support animations (fragment transitions) when routing you just need to implement a `FragmentTransition`. 
+Example: Your chat app should show a `Slide` transition when going from the `ContactListFragment` to the 
+`ChatFragment` and back. Simply implement the transition, check for your constraints and apply 
+the transitions to the fragment. It is also possible to apply generic constraints to your transition 
+using the `GenericFragmentTransition` API.
 
 ```kotlin
-Kompass.builder()
-       .addCrane(myCutomCrane)
-```
-#### 🎢 The Detour 
-It is a very common thing to apply transitions when one fragment is replaced by another fragment. 
-A _Detour_ can very easily implement such a transition generically. 
 
-Consider we want every fragment to slide in, when entered and slide out, when exited. We just 
-have to write a _Detour_ class like this: 
-
-```kotlin
-    @Detour
-    class FragmentSlide: KompassFragmentDetour<Any, Fragment, Fragment>{
-        override fun setup(destination: Any,
-                           currentFragment: Fragment,
-                           nextFragment: Fragment,
-                           transaction: FragmentTransaction) {
-            currentFragment.exitTransition = Slide(Gravity.RIGHT)
-            nextFragment.enterTransition = Slide(Gravity.LEFT)
+class ContactListToChatTransition : FragmentTransition {
+    @SuppressLint("RtlHardcoded")
+    override fun setup(
+        transaction: FragmentTransaction,
+        exitFragment: Fragment, exitRoute: Route,
+        enterFragment: Fragment, enterRoute: Route
+    ) {
+        if (exitFragment is ContactListFragment && enterFragment is ChatFragment) {
+            exitFragment.exitTransition = Slide(Gravity.LEFT)
+            enterFragment.enterTransition = Slide(Gravity.RIGHT)
         }
 
+        if (exitFragment is ChatFragment && enterFragment is ContactListFragment) {
+            exitFragment.exitTransition = Slide(Gravity.RIGHT)
+            enterFragment.enterTransition = Slide(Gravity.LEFT)
+        }
     }
-```
-
-Every _Detour_ will automatically be applied if the types of 'destination', 'currentFragment' and 'nextFragment' 
-can be assigned from the current route and 
-
-```kotlin
-Kompass.builder()
-       .autoDetour() // <-- will be available if you have some class annotated with @Detour
-```
-is used!
-
-#### AutoMap, AutoCrane, AutoPilot
-The functions 
-```kotlin
-Kompass.builder()
-       .autoMap()
-       .autoCran()
-       .autoDetour()
-```
-are automatically generated if possible. 
-
-- .autoMap() will be available after you specified one target for at least one @Destination
-- .autoCrane() will be available after you annotated at least one class with @Destination
-- .autoDetour() will be available after you annotated at least one class with @Detour
-
-#### BackStack
-Kompass comes with an own back-stack. You should override your Activities 'onBackPressed' like: 
-
-```kotlin
-    override fun onBackPressed() {
-        if (!kompass.backImmediate())
-            finish()
-    }
-```
-
-You can add custom elements to the back-stack by passing a lambda to ```Kompass```
-
-```kotlin
-kompass.onBack {
-  // do something
 }
+
+```
+
+After the transition is implemented, just add it to the configuration of the `FragmentRouter` like seen above!
+
+```kotlin
+
+FragmentRouter { 
+    transitions {
+        register(LoginToContactListTransition())
+    }
+}
+
 ```
