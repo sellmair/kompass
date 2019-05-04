@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlin = "1.3.30"
+    const val kotlin = "1.3.31"
     const val coroutines = "1.1.1"
     const val serialization = "0.10.0"
     const val androidGradlePlugin = "3.4.0"
