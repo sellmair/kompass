@@ -121,7 +121,7 @@ I recommend having a look at the [example](https://github.com/sellmair/kompass/t
 
 <br><br>
 ###### Gif
-<img src="https://github.com/sellmair/kompass/blob/develop/assets/example.gif?raw=true" width="250">
+<img src="https://github.com/sellmair/kompass/blob/develop/assets/example.gif?raw=true" width="350">
 <br><br>
 
 #### Defining routes
