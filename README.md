@@ -1,6 +1,6 @@
 ![Kompass](https://github.com/sellmair/kompass/blob/develop/assets/Kompass_724.png?raw=true)
 
-## A powerful Kotlin Multiplatform router for Android (and iOS)
+## A powerful Kotlin Multiplatform Router for Android and iOS
 <br>
 
 ![GitHub top language](https://img.shields.io/github/languages/top/sellmair/kompass.svg)
