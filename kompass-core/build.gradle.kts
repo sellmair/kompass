@@ -17,6 +17,8 @@ version = Library.version
 kotlin {
     macosX64("macos")
     jvm("jvm")
+    iosArm64("iosArm64")
+    iosX64("iosX64")
 
     sourceSets {
         val commonMain by getting {
@@ -44,6 +46,31 @@ kotlin {
                 implementation(Deps.Kotlin.Test.junit)
             }
         }
+
+        val macosMain by getting {
+
+        }
+
+        val macosTest by getting {
+
+        }
+
+        val iosX64Main by getting {
+            dependsOn(macosMain)
+        }
+
+        val iosX64Test by getting {
+            dependsOn(macosTest)
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(macosMain)
+        }
+
+        val iosArm64Test by getting {
+            dependsOn(macosTest)
+        }
+
     }
 }
 
