@@ -3,10 +3,7 @@ package io.sellmair.kompass.android.example
 import android.app.Application
 import android.util.Log
 import io.sellmair.kompass.android.example.fragment.*
-import io.sellmair.kompass.android.example.transitions.ContactListToChatTransition
-import io.sellmair.kompass.android.example.transitions.LoginProcessingToContactListTransition
-import io.sellmair.kompass.android.example.transitions.LoginProcessingToLoginFailedTransition
-import io.sellmair.kompass.android.example.transitions.LoginToLoginProcessingTransition
+import io.sellmair.kompass.android.example.transitions.*
 import io.sellmair.kompass.android.fragment.FragmentRouter
 
 /**
@@ -24,6 +21,7 @@ class Application : Application() {
                 register(ContactListToChatTransition())
                 register(LoginProcessingToLoginFailedTransition())
                 register(LoginProcessingToContactListTransition())
+                register(LoginFailedToLoginTransition)
             }
             routing {
                 route<LoginRoute> { LoginFragment::class }
