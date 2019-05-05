@@ -34,7 +34,6 @@ internal class ActivityInvokeOnSaveInstanceStateSyntax(activity: FragmentActivit
 
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
             if (activity == activityReference.get()) {
-                application.unregisterActivityLifecycleCallbacks(this)
                 onSaveInstanceStateCallbacks.forEach { callback ->
                     callback.invoke(outState)
                 }

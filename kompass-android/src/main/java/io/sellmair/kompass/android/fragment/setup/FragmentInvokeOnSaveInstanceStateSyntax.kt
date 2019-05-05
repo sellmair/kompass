@@ -27,7 +27,6 @@ internal class FragmentInvokeOnSaveInstanceStateSyntax(fragment: Fragment) :
             fragmentManager: FragmentManager, fragment: Fragment, outState: Bundle
         ) {
             if (fragment == fragmentReference.get()) {
-                fragmentManager.unregisterFragmentLifecycleCallbacks(this)
                 onSaveInstanceStateCallbacks.forEach { callback -> callback(outState) }
             }
         }
