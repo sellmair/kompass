@@ -96,7 +96,7 @@ fun publications(): List<String> {
 bintray {
     user = project.properties.getOrDefault("bintray_user", "stub").toString()
     key = project.properties.getOrDefault("bintray_apikey", "stub").toString()
-    override = true
+    override = false
     setPublications(*publications().toTypedArray())
     with(pkg) {
         name = Library.Core.name
