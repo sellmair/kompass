@@ -10,7 +10,7 @@ class PlainStackInstructionSyntaxTest {
 
     @Test
     fun push() {
-        val stack = RoutingStackImpl<Route>(emptyList())
+        val stack = RoutingStackImpl(emptyList())
         val newStack = stack.push(RouteImpl(0))
         assertEquals(1, newStack.elements.size)
         assertEquals(RouteImpl(0), newStack.elements.first().route)
@@ -94,6 +94,38 @@ class PlainStackInstructionSyntaxTest {
         assertEquals(RouteImpl(1), newStack.elements[0].route)
         assertEquals(RouteImpl(0), newStack.elements[1].route)
     }
+
+
+    @Test
+    fun replaceTopWith_onEmptyStack() {
+        val stack = RoutingStack.empty<Route>()
+        val newStack = stack.replaceTopWith(RouteImpl(0))
+        assertEquals(1, newStack.elements.size)
+        assertEquals(RouteImpl(0), newStack.elements.first().route)
+    }
+
+
+    @Test
+    fun replaceTopWith_onNonEmptyStack() {
+        val stack = RoutingStack.from(RouteImpl(0), RouteImpl(1), RouteImpl(2))
+        val newStack = stack.replaceTopWith(RouteImpl(3))
+        assertEquals(3, stack.elements.size)
+        assertEquals(RouteImpl(0), newStack.elements[0].route)
+        assertEquals(RouteImpl(1), newStack.elements[1].route)
+        assertEquals(RouteImpl(3), newStack.elements[2].route)
+    }
+
+
+    @Test
+    fun replaceTopWith_onNonEmptyStack_withDuplicateKey() {
+        val stack = RoutingStack.from(RouteImpl(0), RouteImpl(1), RouteImpl(2))
+        val newStack = stack.replaceTopWith(RoutingStack.Element(RouteImpl(3), key = stack.first().key))
+        assertEquals(2, newStack.elements.size)
+        assertEquals(RouteImpl(1), newStack.elements[0].route)
+        assertEquals(RouteImpl(3), newStack.elements[1].route)
+    }
+
+
 }
 
 
