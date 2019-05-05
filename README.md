@@ -255,8 +255,13 @@ fun removeContactFromStack(contact: Contact) {
      router {
         with(filter { it.route.contact == contact })
      }
+     
+     //or
+     
+     router.plainStackInstruction { filter { it.route.contact == contact } }
 }
 ``` 
+
 
 #### Receiving the current route inside a `Fragment`
 
