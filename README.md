@@ -221,8 +221,7 @@ Popping the "routing stack" will result in the `ContactListFragment` being displ
 
 #### Routing (Replacing the current route)
 
-Kompass allows you to modify the "routing stack" in any arbitrary way, so replacing the current route should be 
-no problem. Let's assume the user successfully logged into your app. This should result in the current `LoginRoute`
+ Let's assume the user successfully logged into your app. This should result in the current `LoginRoute`
 being replaced by the `ContactListRoute`
 
 
@@ -232,13 +231,32 @@ class LoginViewModel {
     private val router = TODO("What about Dagger?")
     
     fun onLoginSuccessful(user: User) {
-        router { pop().push(ContactListRoute(user.contacts)) }
+        router.replaceTopWith(ContactListRoute(user.contacts))
     }
 }
 ```
 
 Wrapping multiple instructions into one lambda block will bundle them to one single operation on the routing stack. 
+So you could alternatively write something like 
 
+```kotlin
+fun onLoginSuccessful(user: User) {
+    router { pop().push(ContactListRoute(user.contacts)) }
+}
+```
+
+
+#### Routing (Arbitrary)
+Kompass supports `arbitrary` routing: A instruction to the router is nothing more than a function from a list of 
+routes to a new list of routes. Let's say your app would like to remove all `ChatRoute` with a certain contact
+
+```kotlin
+fun removeContactFromStack(contact: Contact) {
+     router {
+        with(filter { it.route.contact == contact })
+     }
+}
+``` 
 
 #### Receiving the current route inside a `Fragment`
 

@@ -8,8 +8,8 @@ import io.sellmair.kompass.android.example.Dependencies
 import io.sellmair.kompass.android.example.DummyService
 import io.sellmair.kompass.android.example.LoginFailedRoute
 import io.sellmair.kompass.core.clear
-import io.sellmair.kompass.core.pop
 import io.sellmair.kompass.core.push
+import io.sellmair.kompass.core.replaceTopWith
 
 /**
  * Created by sebastiansellmair on 28.01.18.
@@ -38,9 +38,8 @@ class LoginProcessingViewModel : ViewModel() {
         handler.removeCallbacks(loggedIn)
     }
 
-    private fun onLoginFailed() = router {
-        pop() push LoginFailedRoute(email)
-    }
+    private fun onLoginFailed() = router replaceTopWith LoginFailedRoute(email)
+
 
     private fun onLoginSuccess() = router {
         DummyService.isLoggedIn = true
