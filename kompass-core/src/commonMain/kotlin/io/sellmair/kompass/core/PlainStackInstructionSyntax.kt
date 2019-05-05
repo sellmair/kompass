@@ -88,3 +88,30 @@ inline infix fun <T : Route, R> PlainStackInstructionSyntax<T, R>.popUntil(
 infix fun <T : Route, R> PlainStackInstructionSyntax<T, R>.popUntilRoute(route: T): R {
     return popUntil { it == route }
 }
+
+/**
+ * Will replace the current `top` route with the new route.
+ *
+ * ## Note
+ * - Like [push]: This operation is not distinct. If the route is already present in the routing stack, it will be
+ * duplicated (unless it already was the top route)
+ * - This is effectively just a chained `pop().push(route)`
+ */
+@RoutingStackInstructionMarker
+infix fun <T : Route, R> PlainStackInstructionSyntax<T, R>.replaceTopWith(route: T): R =
+    replaceTopWith(Element(route))
+
+
+/**
+ * Will replace the current `top` route with the new route.
+ *
+ * #Note
+ * - This operation is distinct in key. An element with the same key will be removed from the routing stack
+ * - This is effectively just a chained `pop().push(route)
+ */
+@RoutingStackInstructionMarker
+infix fun <T : Route, R> PlainStackInstructionSyntax<T, R>.replaceTopWith(element: Element<T>): R =
+    plainStackInstruction {
+        if (isEmpty()) listOf(element)
+        else dropLast(1).filter { it.key != element.key }.plus(element)
+    }
