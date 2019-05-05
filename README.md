@@ -5,7 +5,7 @@
 
 ![GitHub top language](https://img.shields.io/github/languages/top/sellmair/kompass.svg)
 [![Build Status](https://travis-ci.org/sellmair/kompass.svg?branch=develop)](https://travis-ci.org/sellmair/kompass)
-![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass.svg)
+![Bintray](https://img.shields.io/bintray/v/sellmair/sellmair/kompass-core.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sellmair/kompass.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/kompass-android/)
 
