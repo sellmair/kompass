@@ -39,23 +39,13 @@ default `Router` implementations for any other platforms than `Android` yet. Tho
 # Setup
 
 ## Step 1: Add the repository
-Early builds of `0.2.0` are not linked to jCenter, right now. Please add the bintray repository to your 
-root `build.gradle` or `build.gradle.kts` script
- 
-`build.gradle.kts`:
- ```kotlin
- allprojects {
-    repositories {
-     maven { url = uri("https://dl.bintray.com/sellmair/sellmair") }
-    }
- }
- ```
- 
+Artifacts are linked to jCenter. Add jCenter repository to your root build.gradle
+  
 `build.gradle` 
 ```groovy
   allprojects {
      repositories {
-        maven { url "https://dl.bintray.com/sellmair/sellmair" }
+        jcenter()
      }
   }
 
