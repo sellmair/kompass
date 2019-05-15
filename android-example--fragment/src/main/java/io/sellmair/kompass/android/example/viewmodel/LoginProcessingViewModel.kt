@@ -34,12 +34,7 @@ class LoginProcessingViewModel : ViewModel() {
         handler.postDelayed(loggedIn, 3000)
     }
 
-    fun stop() {
-        handler.removeCallbacks(loggedIn)
-    }
-
     private fun onLoginFailed() = router replaceTopWith LoginFailedRoute(email)
-
 
     private fun onLoginSuccess() = router {
         DummyService.isLoggedIn = true
