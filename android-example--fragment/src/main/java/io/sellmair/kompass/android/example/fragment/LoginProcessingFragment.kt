@@ -40,9 +40,4 @@ class LoginProcessingFragment : BaseFragment() {
         val name: TextView = view.findViewById(R.id.name)
         name.text = route.email
     }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.stop()
-    }
 }
