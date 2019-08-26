@@ -1,12 +1,10 @@
 object Versions {
-    const val kotlin = "1.3.31"
-    const val coroutines = "1.1.1"
-    const val serialization = "0.10.0"
-    const val androidGradlePlugin = "3.4.0"
+    const val kotlin = "1.3.50"
+    const val androidGradlePlugin = "3.5.0"
     const val lifecycleExtensions = "2.0.0"
     const val lifecycleViewModel = "2.0.0"
-    const val fragment = "1.1.0-alpha06"
-    const val appCompat = "1.0.0"
+    const val fragment = "1.1.0-rc04"
+    const val appCompat = "1.0.2"
     const val junit = "4.12"
     const val androidTestRunner = "1.1.0"
     const val androidTestRules = "1.1.0"
@@ -29,17 +27,6 @@ object Deps {
         object StdLib {
             const val common = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
             const val jdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-        }
-
-        object Coroutines {
-            const val common = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.coroutines}"
-            const val jdk = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-            const val native = "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.coroutines}"
-            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-        }
-
-        object Serialization {
-            const val common = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}"
         }
 
         object Test {
