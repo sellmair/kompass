@@ -23,10 +23,7 @@ dependencies {
     implementation(Deps.Kotlin.StdLib.jdk)
 
     /* Android X */
-    api(Deps.Android.X.lifecycleExtensions)
     api(Deps.Android.X.fragment)
-
-
     api(project(":kompass-core"))
 
 }
