@@ -23,9 +23,8 @@ dependencies {
     implementation(Deps.Kotlin.StdLib.jdk)
 
     /* Android X */
-    implementation(Deps.Android.X.lifecycleExtensions)
-    implementation(Deps.Android.X.lifecycleViewModel)
-    implementation(Deps.Android.X.fragment)
+    api(Deps.Android.X.lifecycleExtensions)
+    api(Deps.Android.X.fragment)
 
 
     api(project(":kompass-core"))
@@ -51,12 +50,27 @@ publishing {
             artifact(sourcesJar.get())
 
             pom.withXml {
-                asNode().appendNode("dependencies").apply {
-                    val dependencyNode = appendNode("dependency")
-                    dependencyNode.appendNode("groupId", Library.group)
-                    dependencyNode.appendNode("artifactId", Library.Core.name)
-                    dependencyNode.appendNode("version", Library.version)
+                val node = asNode()
+
+                val dependenciesNode = node.appendNode("dependencies")
+
+                dependenciesNode.apply {
+                    val coreNode = appendNode("dependency")
+                    coreNode.appendNode("groupId", Library.group)
+                    coreNode.appendNode("artifactId", Library.Core.name)
+                    coreNode.appendNode("version", Library.version)
                 }
+
+
+                configurations.getByName("api").dependencies.toList()
+                    .filter { dependency -> dependency !is ProjectDependency }
+                    .forEach { dependency ->
+                        dependenciesNode.appendNode("dependency").apply {
+                            appendNode("groupId", dependency.group)
+                            appendNode("artifactId", dependency.name)
+                            appendNode("version", dependency.version)
+                        }
+                    }
             }
         }
     }
@@ -81,7 +95,10 @@ bintray {
             desc = Library.version
             with(gpg) {
                 sign = false
-                passphrase == project.properties.getOrDefault("bintray_gpg_password", "stub").toString()
+                passphrase == project.properties.getOrDefault(
+                    "bintray_gpg_password",
+                    "stub"
+                ).toString()
             }
         }
     }
@@ -89,7 +106,6 @@ bintray {
 
 val bintrayUpload: Task by tasks.getting
 bintrayUpload.dependsOn("assembleRelease")
-
 
 
 //endregion
