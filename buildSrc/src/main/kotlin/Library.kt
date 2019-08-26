@@ -1,6 +1,6 @@
 object Library {
     const val group = "io.sellmair"
-    const val version = "0.2.0-alpha.3"
+    const val version = "0.2.0-alpha.4"
 
     object Core {
         const val name = "kompass-core"
