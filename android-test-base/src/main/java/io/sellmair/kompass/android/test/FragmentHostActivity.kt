@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import io.sellmair.kompass.android.fragment.FragmentRouter
 import io.sellmair.kompass.android.fragment.KompassFragmentActivity
 import io.sellmair.kompass.android.test.base.R
+import kotlin.properties.Delegates
 
 class FragmentHostActivity : AppCompatActivity(), KompassFragmentActivity {
 
@@ -21,14 +22,9 @@ class FragmentHostActivity : AppCompatActivity(), KompassFragmentActivity {
 
 
     companion object {
-        private var routerField: FragmentRouter<FragmentHostRoute>? = null
 
-        var router: FragmentRouter<FragmentHostRoute>
-            set(value) {
-                routerField = value
-            }
-            get() {
-                return routerField ?: throw IllegalStateException("router not set")
-            }
+        var router: FragmentRouter<FragmentHostRoute> by Delegates.notNull()
+
+        var subRouter: FragmentRouter<FragmentHostRoute> by Delegates.notNull()
     }
 }
