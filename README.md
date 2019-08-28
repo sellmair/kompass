@@ -59,14 +59,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.sellmair:kompass-core:0.2.0-alpha.4")
+                implementation("io.sellmair:kompass-core:0.2.0-alpha.5")
             }
         }
         
         /* Optional Android module */
         val androidMain by getting {
             dependencies {
-                implementation("io.sellmair:kompass-android:0.2.0-alpha.4")
+                implementation("io.sellmair:kompass-android:0.2.0-alpha.5")
             }
         }
     }
