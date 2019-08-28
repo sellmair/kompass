@@ -1,6 +1,9 @@
 package io.sellmair.kompass.android.test.fragment
 
+import io.sellmair.kompass.android.fragment.FragmentRouter
 import io.sellmair.kompass.android.getRoute
+import io.sellmair.kompass.android.route
+import io.sellmair.kompass.android.test.FragmentHostActivity
 
 class FragmentOne : BaseFragment() {
     override val route: BaseRoute get() = getRoute<RouteOne>()
@@ -38,4 +41,12 @@ class FragmentNine : BaseFragment() {
     override val route: BaseRoute get() = getRoute<RouteNine>()
 }
 
+class FragmentSubRouteOne : BaseFragment() {
+    override val router: FragmentRouter<*> = FragmentHostActivity.subRouter
+    override val route: BaseRoute by route()
+}
 
+class FragmentSubRouteTwo : BaseFragment() {
+    override val router: FragmentRouter<*> = FragmentHostActivity.subRouter
+    override val route: BaseRoute by route()
+}

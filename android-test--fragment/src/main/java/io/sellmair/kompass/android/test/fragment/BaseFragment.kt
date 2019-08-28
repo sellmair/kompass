@@ -47,4 +47,4 @@ abstract class BaseFragment : Fragment(), KompassFragment {
     }
 }
 
-fun KClass<out BaseFragment>.text() = this.java.simpleName
+fun KClass<out Fragment>.text() = this.java.simpleName

@@ -5,10 +5,7 @@ import androidx.test.rule.ActivityTestRule
 import io.sellmair.kompass.android.fragment.FragmentRouter
 import io.sellmair.kompass.android.test.FragmentHostActivity
 import io.sellmair.kompass.android.test.FragmentHostRoute
-import io.sellmair.kompass.core.RoutingStack
-import io.sellmair.kompass.core.pop
-import io.sellmair.kompass.core.popUntilRoute
-import io.sellmair.kompass.core.push
+import io.sellmair.kompass.core.*
 import org.junit.Rule
 import org.junit.Test
 
@@ -18,6 +15,8 @@ class FragmentRoutingTest {
     val activityRule = ActivityTestRule<FragmentHostActivity>(FragmentHostActivity::class.java)
 
     private val router: FragmentRouter<FragmentHostRoute> get() = FragmentHostActivity.router
+
+    private val subRouter: FragmentRouter<FragmentHostRoute> get() = FragmentHostActivity.subRouter
 
     private val activity: FragmentHostActivity get() = activityRule.activity
 
@@ -39,7 +38,14 @@ class FragmentRoutingTest {
 
     private val route9 = RouteNine()
 
+    private val subRouteHost = SubRouteHost()
+
+    private val subRoute1 = SubRouteOne()
+
+    private val subRoute2 = SubRouteTwo()
+
     private fun setupRouter() {
+        
         FragmentHostActivity.router = FragmentRouter {
             routing {
                 route<RouteOne> { FragmentOne::class }
@@ -51,6 +57,17 @@ class FragmentRoutingTest {
                 route<RouteSeven> { FragmentSeven::class }
                 route<RouteEight> { FragmentEight::class }
                 route<RouteNine> { FragmentNine::class }
+                route<SubRouteHost> { SubRouteHostFragment::class }
+                route<SubRouteOne> { FragmentSubRouteOne::class }
+                route<SubRouteTwo> { FragmentSubRouteTwo::class }
+            }
+        }
+
+        FragmentHostActivity.subRouter = FragmentRouter {
+            routing {
+                route<SubRouteHost> { SubRouteHostFragment::class }
+                route<SubRouteOne> { FragmentSubRouteOne::class }
+                route<SubRouteTwo> { FragmentSubRouteTwo::class }
             }
         }
     }
@@ -224,5 +241,92 @@ class FragmentRoutingTest {
         router.instruction { push(route1) }
         activity.assertShowsRoute(route1)
         activity.assertShowsFragment<FragmentOne>()
+    }
+
+    @Test
+    fun startSub_pushSub() {
+        router.instruction { push(subRouteHost) }
+        subRouter.instruction { push(subRoute1) }
+        activity.assertShowsRoute(subRoute1)
+        activity.assertShowsFragment<FragmentSubRouteOne>()
+    }
+
+
+    @Test
+    fun startSub_pushSub_push() {
+        router.push(subRouteHost)
+        subRouter.push(subRoute2)
+        activity.assertShowsRoute(subRoute2)
+        activity.assertShowsFragment<FragmentSubRouteTwo>()
+        router.push(route1)
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+    }
+
+
+    @Test
+    fun startSub_pushSub_clear() {
+        router.push(subRouteHost)
+        subRouter.push(subRoute2)
+        activity.assertShowsRoute(subRoute2)
+        activity.assertShowsFragment<FragmentSubRouteTwo>()
+        router.clear()
+        activity.assertShowsNothing()
+    }
+
+    @Test
+    fun startSub_pushSub_pushSub_clear() {
+        router.push(subRouteHost)
+
+        subRouter.push(subRoute1)
+        activity.assertShowsRoute(subRoute1)
+        activity.assertShowsFragment<FragmentSubRouteOne>()
+
+        subRouter.push(subRoute2)
+        activity.assertShowsRoute(subRoute2)
+        activity.assertShowsFragment<FragmentSubRouteTwo>()
+
+        router.clear()
+        activity.assertShowsNothing()
+    }
+
+    @Test
+    fun push_pushSameTarget_pop_pop() {
+        router.push(route1)
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        val newRoute1 = route1.copy(text = route1.text + "*")
+        router.push(newRoute1)
+        activity.assertShowsRoute(newRoute1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        router.pop()
+        activity.assertShowsRoute(route1)
+        activity.assertShowsFragment<FragmentOne>()
+
+        router.pop()
+        activity.assertShowsNothing()
+
+    }
+
+
+    @Test
+    fun startSub_pushSub_startSub_pushSub() {
+        router.push(subRouteHost)
+
+        subRouter.push(subRoute1)
+        activity.assertShowsRoute(subRoute1)
+        activity.assertShowsFragment<FragmentSubRouteOne>()
+
+        val nextSubHostRoute = subRouteHost.copy(subRouteHost.text + "*")
+        router.push(nextSubHostRoute)
+
+        subRouter.push(subRoute2)
+        activity.assertShowsRoute(subRoute2)
+        activity.assertShowsFragment<FragmentSubRouteTwo>()
+
+        router.clear()
+        activity.assertShowsNothing()
     }
 }

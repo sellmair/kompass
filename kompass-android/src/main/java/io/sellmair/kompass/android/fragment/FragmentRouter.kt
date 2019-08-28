@@ -99,7 +99,8 @@ class FragmentRouter<T : Route> internal constructor(
     }
 
 
-    internal val fragmentContainerLifecycle: FragmentContainerLifecycle = fragmentContainerLifecycleFactory(this)
+    internal val fragmentContainerLifecycle: FragmentContainerLifecycle =
+        fragmentContainerLifecycleFactory(this)
 
 
     private var _state: State<T> = State.Detached(
@@ -131,10 +132,14 @@ class FragmentRouter<T : Route> internal constructor(
 
     internal fun attachContainer(container: FragmentContainer) {
         requireMainThread()
-        val state = this.state
-        check(state is State.Detached<T>)
-        val newStack = state.pendingInstruction(state.stack)
-        this.state = State.Attached(newStack, container)
+
+        this.state = when (val state = this.state) {
+            /* Expected case */
+            is State.Detached<T> -> State.Attached(state.pendingInstruction(state.stack), container)
+
+            /* Rare case, can happen if the same fragment is pushed again */
+            is State.Attached<T> -> state.copy(container = container)
+        }
     }
 
     internal fun detachContainer() {
@@ -177,7 +182,12 @@ class FragmentRouter<T : Route> internal constructor(
         }
 
         log("transition to stack: ${newState.stack.routes.joinToString(", ")}")
-        fragmentStackPatcher(fragmentTransition, newState.container, oldState.stack, prepareFragmentStack(newState))
+        fragmentStackPatcher(
+            fragmentTransition,
+            newState.container,
+            oldState.stack,
+            prepareFragmentStack(newState)
+        )
     }
 
     private fun prepareFragmentStack(state: State.Attached<T>): FragmentRoutingStack<T> {

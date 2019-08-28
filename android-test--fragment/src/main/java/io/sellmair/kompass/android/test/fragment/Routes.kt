@@ -30,6 +30,15 @@ data class RouteEight(override val text: String = "RouteEight_${randomString()}"
 @Parcelize
 data class RouteNine(override val text: String = "RouteNine_${randomString()}") : BaseRoute
 
+@Parcelize
+data class SubRouteHost(override val text: String = "SubRoute_${randomString()}") : BaseRoute
+
+@Parcelize
+data class SubRouteOne(override val text: String = "SubRouteOne_${randomString()}") : BaseRoute
+
+@Parcelize
+data class SubRouteTwo(override val text: String = "SubRouteTwo_${randomString()}") : BaseRoute
+
 
 private fun randomString() = Random.nextBytes(16)
     .map { byte -> byte.toInt() and 0xFF }

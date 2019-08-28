@@ -1,13 +1,14 @@
 package io.sellmair.kompass.android.test.fragment
 
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso
 import io.sellmair.kompass.android.test.FragmentHostActivity
 import io.sellmair.kompass.android.test.flatViewHierarchy
 import org.junit.Assert
 
 
-inline fun <reified T : BaseFragment> FragmentHostActivity.assertShowsFragment() {
+inline fun <reified T : Fragment> FragmentHostActivity.assertShowsFragment() {
     Espresso.onIdle()
     val fragmentTextView = findViewById<TextView?>(R.id.fragmentText)
     checkNotNull(fragmentTextView) { "Required fragment ${T::class.java.simpleName}, but no fragment is present" }
